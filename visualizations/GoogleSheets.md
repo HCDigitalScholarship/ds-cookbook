@@ -78,7 +78,7 @@ and would look like this as a list of lists:
 
 ## Caveat
 
-Essentially with the use of Google APIs, you will have created credentials ( looks an email ) and then gave that email/credential r/w rights on the spreadsheet just as you would give any user access. And its this email/credential that is accessing the sheet every time you run your code. The one caveat is that since you have created the credential, once you graduate :sob:, your Haverford account will be deactivated and with it this credential will be deleted.  
+Essentially with the use of Google APIs, you will have created credentials ( looks like an email ) and then will have given that email/credential r/w rights on the spreadsheet just as you would have given any user access. And it is this email/credential that is accessing the sheet every time you run your code. The one caveat is that since you have created the credential, once you graduate :sob:, your Haverford account will be deactivated and with it this credential will be deleted.  
 
 ## Other capabilities not mentioned
 Below are just some capabilities I found interesting - if you want to do something that is not listed here please check [this great documentation](http://gspread.readthedocs.io/en/latest/) ... there's no point in recreating the wheel !

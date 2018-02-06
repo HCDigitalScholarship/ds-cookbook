@@ -101,4 +101,4 @@ To access only the information in the extract key and display it, you first have
 
 In the first case where the value is -1, the text "No information currently avaliable " is added to the html and displayed. However, if the value is not -1, indicating that there is a wiki page, the text from the wiki page is added to the html and then displayed.
 
-### Helpful source to use if you need more guidance: http://www.9bitstudios.com/2014/03/getting-data-from-the-wikipedia-api-using-jquery/
+##### Helpful source to use if you need more guidance: http://www.9bitstudios.com/2014/03/getting-data-from-the-wikipedia-api-using-jquery/

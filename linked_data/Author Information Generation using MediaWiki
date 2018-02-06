@@ -1,5 +1,3 @@
-This is a tutorial of how to use MediaWiki toAuthor Information Generation using MediaWiki
-
 This is a tutorial of how to use MediaWiki to get specific information of an author using their name.
 
 
@@ -54,12 +52,3 @@ Once the data is assembled. An AJAX request is made to the Media Wiki API. For m
 
 
 
-
-
-
-
-
-
-
-
- get specific information of an author using their name.

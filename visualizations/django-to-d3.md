@@ -1,7 +1,8 @@
 # Working with data Django-to-d3
 This document explains how to pull data from a django model to power a visualization you've created using d3. In short, you will use a python template in the views.py file to place particular django data into the format that d3 needs, then feed the data in this format to your .html file where the d3 visualization lives, waiting to take data.
 
-End goal: give d3 a javascript list of several data points. Each data point should be of the JSON format {"nameOfFirstVariable": pt1value, "nameOfSecondVariable": pt1value, .... }, {"nameOfFirstVariable": pt2value, "nameOfSecondVariable":pt2value ...}, and so forth. We must serialize data from the relevant django model such that we have all information in this <strong> exact </strong> format of curly braces, quotation marks, colons, and commas that d3 requires. 
+End goal: give d3 a javascript list of several data points. Each data point should be of the JSON format {"nameOfFirstVariable": pt1value, "nameOfSecondVariable": pt1value, .... }, {"nameOfFirstVariable": pt2value, "nameOfSecondVariable":pt2value ...}, and so forth. We must serialize data from the relevant django model such that we have all information in this <strong> exact </strong> format of curly braces, quotation marks, colons, and commas that d3 requires.
+
 (Aside: newer versions of django have a built-in JSON serializer but which was ridiculously difficult to install. Stop reading if you can figure that out tho!)
 
 ## Step 1: Write a function in views.py which properly serializes data

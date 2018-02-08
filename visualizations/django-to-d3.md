@@ -9,7 +9,7 @@ In views.py, define a helper function. It might be something like:
 def modelDataToD3():
 ``` 
 or something of the sort.
-In this function, make a python template. <A href https://stackoverflow.com/questions/4288973/whats-the-difference-between-s-and-d-in-python-string-formatting> This stack overflow article </A> may help, but essentially you are creating a string in the proper format of your FIRST data point, but rather than including actual data, use placeholders for values (%d for string, %s for year, etc).
+In this function, make a python template. [This stack overflow article](https://stackoverflow.com/questions/4288973/whats-the-difference-between-s-and-d-in-python-string-formatting) may help, but essentially you are creating a string in the proper format of your FIRST data point, but rather than including actual data, use placeholders for values (%d for string, %s for year, etc).
  
 Declare a variable template and assign it, as below, to the general format that d3 requires. The one from the QMH project, where every data point is a year associated with a count of the number of Baptists, Catholics, etc., looks something like:
 ```

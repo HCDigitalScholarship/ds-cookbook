@@ -18,7 +18,9 @@ Declare a variable template and assign it, as below, to the general format that 
 	{"date": %s, "Baptist": %d, "Catholic": %d, "Dutch Reformer": %d},
 	'''
 ```
-  <strong> Note the level of precision here: variable names in quotes, spaces after each colon, <strong> AND a comma following the close curly brace </strong> to accommodate another data point to follow it. </strong>
+Copy and past this, replacing each of the data field names with those relevant to your project, preserving the double quotation marks. 
+
+Note the level of precision here: variable names in quotes, spaces after each colon, <strong> AND a comma following the close curly brace </strong> to accommodate another data point to follow it. 
   
  One weird thing about d3 is that it will take a "date" as an integer value (hence the %s) but the value of any non-preset, unique variable (such as Baptist, Catholic, and Dutch Reformer) as the string of an integer (so, we might have a data point {"date": 1830, "Baptist": "2", "Catholic": "3", "Dutch Reformer": "200"}, for example, hence the %d). 
  

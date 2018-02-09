@@ -101,7 +101,7 @@ var data = [{{formattedData|safe}}]
 
 Note that formattedData is the name we gave when we called ``` return render(request, #...) ``` in the view for the page in the previous step, just without the single quotes. 
 
-The ```|safe``` bit is what Django calls a filter. It is included immediately after as a way to ensure the data is handed to d3 in the correct format; without it, sometimes d3 is handed some weird unicode-y version of the data (extra ',/() characters, etc.) which is of course NOT the form d3 needs to handle it. 
+The ```|safe``` bit is what Django calls a filter. It is included immediately after as a way to ensure the data is handed to d3 in the correct format; without it, sometimes d3 is handed some weird unicode-y version of the data (extra ',/() characters, etc.) which is of course NOT the form d3 needs to handle it. [Check out this link](https://docs.djangoproject.com/en/1.7/topics/templates/) and scroll to the "Automatic HTML Escaping" section for details. 
 
 In summary, you've taken each data entry from django, fitted it into the applicable JSON format, given the formatted data a name to talk about upon the relevant template's load, then told d3 that the visualization's data = that same name. You should be all done now!
 

@@ -62,7 +62,7 @@ In short, for each element of rawData, shove that data into the template and the
 
 Simply modify this for loop to fit your data, keeping in mind that the 0th item of each sublist in rawData corresponds to the first data field, the 1st to the second, etc. 
 
-## Step 3: Returning the formatted data (and doing it with each template!)
+## Step 3: Returning the formatted data
 Now that we have all of our data in the proper templated format all together in the variable ```output```, the last line of this function should be:
 ```
 return output

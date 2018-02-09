@@ -12,17 +12,18 @@ In views.py, define a helper function. It might be something like:
 ```
 def modelDataToJSON():
 ``` 
-or something of the sort.
 Within this function, make a python template. [This stack overflow article](https://stackoverflow.com/questions/4288973/whats-the-difference-between-s-and-d-in-python-string-formatting) may help, but essentially you are creating a string in the proper format of any single data point, except that rather than including actual data, use placeholders for values (%d for string, %s for integers, etc). In other words, include every variable you want to have d3 ultimately work with in proper JSON format with a placeholder for each variable's value.
  
 To do so, declare a variable template and assign it, as below, to the general format that d3 requires. In the case of the QMH project example, a d3 stacked bar graph shows tallies of hospital patients by year, broken down into their religious affiliations. So, the template for this looks like:
 ```
+def modelDataToJSON():
+
  template = \
 	 ''' \
 	{"date": %s, "Baptist": %d, "Catholic": %d, "Dutch Reformer": %d},
 	'''
 ```
-Copy and past this, replacing each of the data field names with those relevant to your project, preserving the double quotation marks, and changing the letter after each % to match the type of the expected value. <strong> It is important to keep the leading \ and opening/closing ''' (triple-single-quotes) so d3 can read everything properly </strong>.
+Copy and past the variable template declaration, replacing each of the data field names with those relevant to your project, preserving the double quotation marks, and changing the letter after each % to match the type of the expected value. <strong> It is important to keep the leading \ and opening/closing ''' (triple-single-quotes) so d3 can read everything properly </strong>.
 
 Note the level of precision here: variable names in quotes, spaces after each colon, <strong> AND a comma following the close curly brace </strong> to accommodate another data point to follow it. 
   
@@ -57,9 +58,9 @@ for row in rawData:
 	pop = row[3]
 	output += template % (row[0], (row[1]), row[2], row[3], row[4])
 ```
-In short, for each element of rawData, shove that data into the template and then accumulate into the output variable, which we'll return in the next step. One trick to this whole process is to remember the order in which you are pulling and placing each field's values; we know the value corresponding to latitute comes first since we append it to rawData first, etc. Be careful to not mix up data values!
+In short, for each element of rawData, shove that data into the template and then accumulate into the output variable, which we'll return in the next step. One trick to this whole process is to remember the order in which you are pulling and placing each field's values; we know the value corresponding to latitute comes first since we append it to rawData first, etc. Be careful to not mix up data values! That's why variables lat, lon, name, and pop are declared even though we don't end up actually using them :). 
 
-Simply modify this for loop to fit your data, keeping in mind that the 0th item of each sublist in rawData corresponds to the first data field
+Simply modify this for loop to fit your data, keeping in mind that the 0th item of each sublist in rawData corresponds to the first data field, the 1st to the second, etc. 
 
 ## Step 3: Returning the formatted data (and doing it with each template!)
 Now that we have all of our data in the proper templated format all together in the variable ```output```, the last line of this function should be:

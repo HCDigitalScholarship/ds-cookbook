@@ -59,6 +59,8 @@ for row in rawData:
 ```
 In short, for each element of rawData, shove that data into the template and then accumulate into the output variable, which we'll return in the next step. One trick to this whole process is to remember the order in which you are pulling and placing each field's values; we know the value corresponding to latitute comes first since we append it to rawData first, etc. Be careful to not mix up data values!
 
+Simply modify this for loop to fit your data, keeping in mind that the 0th item of each sublist in rawData corresponds to the first data field
+
 ## Step 3: Returning the formatted data (and doing it with each template!)
 Now that we have all of our data in the proper templated format all together in the variable ```output```, the last line of this function should be:
 ```
@@ -96,11 +98,11 @@ follow the below format:
 var data = [{{formattedData|safe}}]
 ```
 
-Note that formattedData is the name we gave when we called ''' return render(request, #...) ''' in the view for the page in the previous step, just without the single quotes. 
+Note that formattedData is the name we gave when we called ``` return render(request, #...) ``` in the view for the page in the previous step, just without the single quotes. 
 
 The ```|safe``` bit is what Django calls a filter. It is included immediately after as a way to ensure the data is handed to d3 in the correct format; without it, sometimes d3 is handed some weird unicode-y version of the data (extra ',/() characters, etc.) which is of course NOT the form d3 needs to handle it. 
 
-You should be all done now!
+In summary, you've taken each data entry from django, fitted it into the applicable JSON format, given the formatted data a name to talk about upon the relevant template's load, then told d3 that the visualization's data = that same name. You should be all done now!
 
 ## Note:
 If you take a look at the ReligionDiversityData_toJSON() and TotalReligionDiversityData_toJSON() functions in the QMH project's views.py, you'll see that this process is not so simple. That's because, unlike with the map data, the data for the religious diversity feature had not been tallied. Basically, after I had the initial loop ```for e in ReligiousDiversityData.objects.all```, I then used some extra accumulators and lists etc. to tally up data by year and religion. This extra wrinkle is tedious but allows for new data to be entered easily; a new discovery of a non-quaker patient need not affect the value of any stored total/tally, since django does all the tallying itself after data entry.

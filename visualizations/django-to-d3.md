@@ -89,9 +89,9 @@ You can call formattedDta and both places you use resultFromFormatting whatever 
 
 
 ## Last Step: Hook up all your work in views.py to the d3 in your template.
-When you create d3 visualizations, you must set the variable data to be the data we've just organized from django. To set 
+When you create d3 visualizations in your .HTML file, you must set the variable data to be the data we've just organized from django.  To set 
 ```
-var data = # the stuff we want from django
+var data = // the stuff we want from django
 ```
 follow the below format:
 

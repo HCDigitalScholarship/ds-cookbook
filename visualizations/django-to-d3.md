@@ -85,7 +85,7 @@ def some_relevant_name(request):
 
 The above code creates a variable with the formatted data, resultFromFormatting, and says that when the NAME_OF_HTML_FILE_WHERE_D3_VIS_EXISTS.html page is loaded, django will know to pass the resultFromFormatting data and will call it formattedData. 
 
-You can call formattedDta and both places you use resultFromFormatting whatever you want, but the curly braces, single quotes, and colon are important! 
+You can call formattedData and both places you use resultFromFormatting whatever you want, but the curly braces, single quotes, and colon are important! 
 
 
 ## Last Step: Hook up all your work in views.py to the d3 in your template.
@@ -102,6 +102,9 @@ var data = [{{formattedData|safe}}]
 Note that formattedData is the name we gave when we called ``` return render(request, #...) ``` in the view for the page in the previous step, just without the single quotes. 
 
 The ```|safe``` bit is what Django calls a filter. It is included immediately after as a way to ensure the data is handed to d3 in the correct format; without it, sometimes d3 is handed some weird  version of the data (extra characters like &lt, &#39, &amp, all over the place!) which is of course NOT the form d3 needs to handle it. [Check out this link](https://docs.djangoproject.com/en/1.7/topics/templates/) and scroll to the "Automatic HTML Escaping" section for details. 
+
+It's also important that we have the list ([ ]) around ```{{formattedData|safe}}```—d3 takes multiple JSON elements as a list. 
+
 
 In summary, you've taken each data entry from django, fitted it into the applicable JSON format, given the formatted data a name to talk about upon the relevant template's load, then told d3 that the visualization's data = that same name. You should be all done now!
 

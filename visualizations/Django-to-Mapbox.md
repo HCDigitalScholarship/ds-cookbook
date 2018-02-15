@@ -116,9 +116,10 @@ Under the declaration for ``` var map = new mapboxgl.Map({ //....}); ``` and wit
             "features" : [{{places|safe}}, 
         }) //If this extra parenthese goes away, the whole map breaks. It looks like it's extra, but it closes the GeoJSON format. 
 ```
-Here, our data is a FeatureCollection where each feature can be found in a list of the templated data we made in views.py 
 
-Pretty much everthing above you should copy and paste into the top of your 'on load' function, just making sure to change the information after ```"features" : ``` to match your work in views.py. Note that in the code above, places is the name we gave when we called ``` return render(request, #...) ``` in the view for the page in the previous step, just without the single quotes. 
+Here, <strong> we name our data django-data (which can change to be whatever you'd like) </strong> and specify that it's a FeatureCollection where each feature can be found in a list of the templated data we made in views.py 
+
+Pretty much everthing above you should copy and paste into the top of your 'on load' function, just making sure to change the information after ```"features" : ``` to match whatever name you used for "the stuff to be returned" in views.py. Note that in the code above, places is the name we gave when we called ``` return render(request, #...) ``` in the view for the page in the previous step, just without the single quotes. 
 
 Also heed the comment about the extra parentheses! At least in Alison's text editor, this close parenthese is highlighted as if it's a problem, but if you delete it, the whole map breaks...
 
@@ -128,7 +129,24 @@ It's also important that we have the list ([ ]) around ```{{places|safe}}```—a
 
 In summary, you've taken each data entry from django, fitted it into the applicable GeoJSON format, given the formatted data a name to talk about upon the relevant template's load, then told Mapbox to populate the map with a FeatureCollection of the information we're calling by that same name. But all of this has been just to establish the django data as a distinct (properly-formatted) data source. next, we have to add it to a layer!
 
-##Add Data to a Layer
+## Add Data to a Layer
+From here on, I'll include the information to turn the data about each point into circles of varying size and color [using mapbox stops](https://www.mapbox.com/help/how-map-design-works/) but some bits of this may be modified and extended as needed (for example, the QMH project also hooks the circle generation up to a date slider, etc.). But no matter what you do, you first have to append data to a layer, as so:
+
+```
+ map.addLayer({
+        'id': 'QMH_Hometowns',
+        'type': 'circle',
+        "source": "django-data",
+         'paint': {
+```
+
+Here, I create a layer with id QMH_Hometowns (IMPORTANT: this must be consistent with any layer ID if you ever work on this project in mapbox studio, but no biggie otherwise), specify that each data point should be represented as a circle, <strong> and that this layer's data source should be what we called django-data above </strong>. 
+
+Within paint, we draw our circles! <strong> The beauty of all of what we've done is that Mapbox lets you paint by data field (i.e. property in django) </strong>
+
+
+
+
 
 
 ## Note:

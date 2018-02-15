@@ -105,7 +105,7 @@ The above code creates a variable with the formatted data, places_list, and says
 You can call these things whatever you want, but the curly braces, single quotes, and colon are important! 
 
 
-## Hook up all your work in views.py to the Mapbox code in your template.
+## Step 4: Hook up all your work in views.py to the Mapbox code in your template.
 When you create a mapbox map in your .HTML file, you must set the map source variable to be the data we've just organized from django.
 
 Under the declaration for ``` var map = new mapboxgl.Map({ //....}); ``` and within (and towards the top of) the ```map.on('load', function(){ ``` Follow the below format:
@@ -129,7 +129,7 @@ It's also important that we have the list ([ ]) around ```{{places|safe}}```—a
 
 In summary, you've taken each data entry from django, fitted it into the applicable GeoJSON format, given the formatted data a name to talk about upon the relevant template's load, then told Mapbox to populate the map with a FeatureCollection of the information we're calling by that same name. But all of this has been just to establish the django data as a distinct (properly-formatted) data source. next, we have to add it to a layer!
 
-## Add Data to a Layer
+## Step 5: Add Data to a Layer
 From here on, I'll include the information to turn the data about each point into circles of varying size and color [using mapbox stops](https://www.mapbox.com/help/how-map-design-works/) but some bits of this may be modified and extended as needed (for example, the QMH project also hooks the circle generation up to a date slider, etc.). But no matter what you do, you first have to append data to a layer, as so:
 
 ```
@@ -144,13 +144,49 @@ Here, I create a layer with id QMH_Hometowns (IMPORTANT: this must be consistent
 
 Within paint, we draw our circles! <strong> The beauty of all of what we've done is that Mapbox lets you paint by data field (i.e. property in django) </strong>
 
+An example is the best way to see this. Here is what this looks like in the QMH Map project (with some of the stops omitted to save space):
+
+```
+//Creates a layer called QMH_Hometowns, populated by circles, whose source is the django-data from above and who is styled as specified below:
+        map.addLayer({
+        'id': 'QMH_Hometowns',
+        'type': 'circle',
+        "source": "django-data",
+        //'source-layer': 'QMH_Hometowns',
+         'paint': {
+              'circle-opacity': 0.6,
+            // Makes size proportional to # of people
+       'circle-radius': {
+                property:"Count",
+                type:'categorical',
+                stops:[
+                    ['0', 0], ['1',8], ['2',9], ['3',10], ['4',11], ['5',12],['6',13], ['7',13], ['8',13], ['9', 14], ['10',14],
+                    ['11',14]
+		    ] 
+		    },
+	'circle-color':{
+                 property:"Year",
+                 type:'categorical',
+                 stops: [
+                    ['1817', '#f7d5a1'],
+                    ['1818', '#f7d5a1'],
+                    ['1819', '#f5cc8e'],
+                    ['1820', '#f5cc8e'],
+                    ['1821', '#f4c47c'],
+                    ['1822', '#f4c47c'],
+                    ['1823', '#f2bb69']
+		    ]
+		       },
+        }); //end of addLayer
+		    
+		    
+```	
+
+Each <strong> stops </strong> field is a list of lists, where each sublist corresponds to \['data value', what-to-assign-to-that-data-value]. So, I set the circle radius to depend on the property Count, where a count of 0 has a radius of zero, a count of 1 has a radius of 8, and so on. Then, I set the circle color to depend on the Year property, where each year is given its own hexcolor. 
+
+After all of this, I have the closing brace and parenthese to end the addLayer function. 
 
 
-
-
-
-## Note:
-If you take a look at the ReligionDiversityData_toJSON() and TotalReligionDiversityData_toJSON() functions in the QMH project's views.py, you'll see that this process is not so simple. That's because, unlike with the map data, the data for the religious diversity feature had not been tallied. Basically, after I had the initial loop ```for e in ReligiousDiversityData.objects.all```, I then used some extra accumulators and lists etc. to tally up data by year and religion. This extra wrinkle is tedious but allows for new data to be entered easily; a new discovery of a non-quaker patient need not affect the value of any stored total/tally, since django does all the tallying itself after data entry.
 
 ## Contributors :tada:
 :octocat: [Alison Rosenman](https://github.com/alisonrosenman) :information_desk_person:

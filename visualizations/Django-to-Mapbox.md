@@ -187,6 +187,10 @@ Each <strong> stops </strong> field is a list of lists, where each sublist corre
 After all of this, I have the closing brace and parenthese to end the addLayer function. 
 
 
+Should be done!
+
+## Note:
+This method assumes that all of your data has been collected and tallied appropriately before you even entered it into Django. If this is not the case (data entries represent individual observations, which you would like to collect in some way and display these aggregations) you can add another step to tally up data in views.py. It really depends on what you're doing, but look to the TotalReligionDiversityData_toJSON() function in the QMH project's views.py to see an example. 
 
 ## Contributors :tada:
 :octocat: [Alison Rosenman](https://github.com/alisonrosenman) :information_desk_person:

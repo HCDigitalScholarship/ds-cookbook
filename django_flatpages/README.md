@@ -8,3 +8,13 @@ In this tutorial (largely based on the Django [documentation](https://docs.djang
 
 **_Settings.py_**
 
+1. Instalation  
+
+    Under **Installed_Apps** add the following:  
+  
+      * 'django.contrib.sites'  
+    
+      * 'django.contrib.flatpages'
+     
+    Set SITE_ID = 1
+

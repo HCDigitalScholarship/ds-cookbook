@@ -1,14 +1,14 @@
 # Working with data Django-to-Mapbox
-This document explains how to pull data from a django model into a Mapbox layer. In short, you will use a python template in the views.py file to create a mapbox FeatureCollection of geoJSON data. 
+This document explains how to pull data from a Django model into a Mapbox layer. In short, you will use a python template in the views.py file to create a mapbox FeatureCollection of geoJSON data. 
 
 End goal: give mapbox a javascript list of several data points in the proper geoJSON format, also in accordance with Mapbox's FeatureCollection data category. The generalized format is:
 ``` 
 "coordinates" : [latitude, longitude]},
 "properties" : { "NameOfProperty1" : "Value1", "NameOfProperty2" : "Value2"} 
 ```
-and so forth. We must serialize data from the relevant django model such that we have all information in this exact format of curly braces, quotation marks, colons, and commas that Mapbox requires.	    
+and so forth. We must serialize data from the relevant Django model such that we have all information in this exact format of curly braces, quotation marks, colons, and commas that Mapbox requires.	    
 
-(Aside: newer versions of django have a built-in geoJSON serializer which was ridiculously/surprisingly difficult to install. Stop reading if you can figure that out tho!)
+(Aside: newer versions of Django have a built-in geoJSON serializer which was ridiculously/surprisingly difficult to install. Stop reading if you can figure that out tho!)
 
 ## Step 1: Write a helper function in views.py to properly serialize data from the model you're working with.
 In views.py, define a helper function. It might be something like:
@@ -49,7 +49,7 @@ Note the level of precision here: variable names in quotes, spaces after each co
 ```
 Copy-paste this code exactly. The funky quotes/backslashes sets up the header of the file properly. Ultimately, output is what this mapData_ToGeoJSON() function will return.
 
-Next, declare an empty list called something like rawData. We'll use this to hold onto all the information we first grab from django before we can format it. Then, grab your data from your django model using a loop! Write a for loop which works ```for``` element ```in``` NAME_OF_DJANGO_MODEL```.objects.all()``` and append, as its own list, to rawData. For example, the QMH map version of this looks like:
+Next, declare an empty list called something like rawData. We'll use this to hold onto all the information we first grab from Django before we can format it. Then, grab your data from your Django model using a loop! Write a for loop which works ```for``` element ```in``` NAME_OF_DJANGO_MODEL```.objects.all()``` and append, as its own list, to rawData. For example, the QMH map version of this looks like:
 ```
 # the head of the geojson file
 	output = \
@@ -61,7 +61,7 @@ rawData = []
 	for e in PlaceToMap.objects.all():
 		rawData.append([e.latitude, e.longitude, e.Name, e.Year, e.Count]) #Note that we're appending a list here. 
 ```
-Here, PlaceToMap is the name of the model, and latitude, longitute, Name, Year, and Count are the names of the data fields. This is the django way to talk about a model's data points and data fields in views.py! Note that this ordering matches our template exactly: geoJSON wants latitude and longitude first (in the "coordinates" fields) then our properties in arbitrary but particular order we specified when we made the template. 
+Here, PlaceToMap is the name of the model, and latitude, longitute, Name, Year, and Count are the names of the data fields. This is the Django way to talk about a model's data points and data fields in views.py! Note that this ordering matches our template exactly: geoJSON wants latitude and longitude first (in the "coordinates" fields) then our properties in arbitrary but particular order we specified when we made the template. 
 
 At this point, rawData is a list of lists, where each sublist is a comma-separated list of data fields for each particular data point. 
 Now, we want to force all of this raw data, one point at a time, through the template we made and accumulate it into a variable to return. 
@@ -100,7 +100,7 @@ def causes(request):
 	return render(request, 'FriendsVIS.html')
 ```
 
-In whichever rendering function is relevant to the data/template you're using, declare some variable to hold the result of the formatting function we just wrote. This function should return a rendering of the proper template, plus some funny django business:
+In whichever rendering function is relevant to the data/template you're using, declare some variable to hold the result of the formatting function we just wrote. This function should return a rendering of the proper template, plus some funny Django business:
 
 ```
 def some_relevant_name(request):
@@ -108,13 +108,13 @@ def some_relevant_name(request):
 	return render(request, 'QMHMap.html', {'places': places_list})
 ```
 
-The above code creates a variable with the formatted data we just made in mapData_toGEOJSON(), places_list, and says that when the QMHMAP.html page is loaded, django will know to pass the places_list data <strong> and will call it places when we want to talk about this data in the .html file. </strong>
+The above code creates a variable with the formatted data we just made in mapData_toGEOJSON(), places_list, and says that when the QMHMAP.html page is loaded, Django will know to pass the places_list data <strong> and will call it places when we want to talk about this data in the .html file. </strong>
 
 You can call these things whatever you want, but the curly braces, single quotes, and colon are important! 
 
 
 ## Step 4: Hook up all your work in views.py to the Mapbox code in your template.
-When you create a mapbox map in your .HTML file, you must set the map source variable to be the data we've just organized from django.
+When you create a mapbox map in your .HTML file, you must set the map source variable to be the data we've just organized from Django.
 
 Under the declaration for ``` var map = new mapboxgl.Map({ //....}); ``` and within (and towards the top of) the ```map.on('load', function(){ ``` Follow the below format:
 ```
@@ -135,7 +135,7 @@ Also heed the comment about the extra parentheses! At least in Alison's text edi
 
 It's also important that we have the list ([ ]) around ```{{places|safe}}```—all of the features must be as a list. 
 
-In summary, you've taken each data entry from django, fitted it into the applicable GeoJSON format, given the formatted data a name to talk about upon the relevant template's load, then told Mapbox to populate the map with a FeatureCollection of the information we're calling by that same name. But all of this has been just to establish the django data as a distinct (properly-formatted) data source. next, we have to add it to a layer!
+In summary, you've taken each data entry from Django, fitted it into the applicable GeoJSON format, given the formatted data a name to talk about upon the relevant template's load, then told Mapbox to populate the map with a FeatureCollection of the information we're calling by that same name. But all of this has been just to establish the Django data as a distinct (properly-formatted) data source. next, we have to add it to a layer!
 
 ## Step 5: Add Visual Data to a Layer
 From here on, I'll include the information to turn the data about each point into circles of varying size and color [using mapbox stops](https://www.mapbox.com/help/how-map-design-works/) but some bits of this may be modified and extended as needed (for example, the QMH project also hooks the circle generation up to a date slider, etc.). But no matter what you do, you first have to append data to a layer, as so:
@@ -150,7 +150,7 @@ From here on, I'll include the information to turn the data about each point int
 
 Here, I create a layer with id QMH_Hometowns (IMPORTANT: this must be consistent with any layer ID if you ever work on this project in mapbox studio, but no biggie otherwise), specify that each data point should be represented as a circle, <strong> and that this layer's data source should be what we called django-data above </strong>. 
 
-Within paint, we draw our circles! <strong> The beauty of all of what we've done is that Mapbox lets you paint by data field (i.e. property in django) </strong>
+Within paint, we draw our circles! <strong> The beauty of all of what we've done is that Mapbox lets you paint by data field (i.e. property in Django) </strong>
 
 An example is the best way to see this. Here is what this looks like in the QMH Map project (with some of the stops omitted to save space):
 
@@ -195,13 +195,13 @@ Each <strong> stops </strong> field is a list of lists, where each sublist corre
 Anyways:
 After all of this, I have the closing brace and parenthese to end the addLayer function. 
 
-You should be all done, and see circles representing your django model!
+You should be all done, and see circles representing your Django model!
 
 ## Note:
 This method assumes that all of your data has been collected and tallied appropriately before you even entered it into Django. If this is not the case (data entries represent individual observations, which you would like to collect in some way and display these aggregations) you can add another step to tally up data in views.py. It really depends on what you're doing, but look to the TotalReligionDiversityData_toJSON() function in the QMH project's views.py to see an example. 
 
 ## Helpful Mapbox Links:
-Mapbox is often a bit tricky to learn, especially when you're trying to populate a map with a django model's worth of data (and without using mapbox studio to do so)! Here are some additional links I found to be helpful:
+Mapbox is often a bit tricky to learn, especially when you're trying to populate a map with a Django model's worth of data (and without using mapbox studio to do so)! Here are some additional links I found to be helpful:
 
 * Perhaps this link, but really [all of the links on the lefthand sidebar of this page](https://www.mapbox.com/mapbox-gl-js/example/add-image-generated/) which is weirdly different than the Mapbox JS developer's guide...
 
@@ -209,7 +209,7 @@ Mapbox is often a bit tricky to learn, especially when you're trying to populate
 
 * [Adding a geoJSON line,](https://www.mapbox.com/mapbox-gl-js/example/geojson-line/) particularly easy if you have all of the line segments' coordinates handy. 
 
-* [Information on how to add tooltips](https://www.mapbox.com/mapbox-gl-js/example/popup-on-hover/) . This on-hover style is good for lots of data points. Additionally, each tooltip's text body can pull data about that point from django rather than having to store all of that information in the HTML file. The QMH project does this at the very end of the map code. 
+* [Information on how to add tooltips](https://www.mapbox.com/mapbox-gl-js/example/popup-on-hover/) . This on-hover style is good for lots of data points. Additionally, each tooltip's text body can pull data about that point from Django rather than having to store all of that information in the HTML file. The QMH project does this at the very end of the map code. 
 
 * [A time slider demonstration](https://www.mapbox.com/mapbox-gl-js/example/timeline-animation/) which was both the inspiration for the time slider on the QMH map and the template for the nice overlayed legend formatting. 
 

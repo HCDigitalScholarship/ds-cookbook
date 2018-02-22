@@ -32,7 +32,7 @@ template = \
 	'''
 ```
 Copy and past the variable template declaration, replacing each of the data field names ("Name", "Year", and "Count" in this example) with those which match the data fields of the Django model you're working with, preserving the double quotation marks, and changing the letter after each % to match the type of the expected value. To clarify, "Name", "Year", and "Count" are both the names of attributes for each data point in Django and the names of the properties I used in geoJSON, which I found helped keep things straight! 
-<strong> It is important to keep the leading \ and opening/closing ''' (triple-single-quotes) so Mapbox can read everything properly </strong>.
+<strong> It is important to keep the leading \ and opening/closing ''' (triple-single-quotes) so Mapbox can read everything properly.</strong>
 
 Note the level of precision here: variable names in quotes, spaces after each colon, <strong> AND a comma following the close curly brace </strong> to anticipate that another data point will follow it. 
   
@@ -127,7 +127,7 @@ Under the declaration for ``` var map = new mapboxgl.Map({ //....}); ``` and wit
 
 Here, <strong> we name our data django-data (which can change to be whatever you'd like) </strong> and specify that it's a FeatureCollection where each feature is the stuff from places, which we just named our templated variable from views.py. 
 
-The ```|safe``` bit is what Django calls a filter. It is included immediately after as a way to ensure the data is handed to d3 in the correct format; without it, sometimes d3 is handed some weird  version of the data (extra characters like &lt, &#39, &amp, all over the place!) which is of course NOT the form d3 needs to handle it. [Check out this link](https://docs.djangoproject.com/en/1.7/topics/templates/) and scroll to the "Automatic HTML Escaping" section for details. 
+The ```|safe``` bit is what Django calls a filter. It is included immediately after as a way to ensure the data is handed to d3 in the correct format; without it, sometimes d3 is handed some weird  version of the data (extra characters like &lt, &#39, &amp, all over the place!) which is of course NOT the form d3 needs to handle it. [Check out this link](https://docs.djangoproject.com/en/1.7/topics/templates/) and scroll to the "Automatic HTML Escaping" section for details if you are interested. 
 
 Pretty much everthing above you should copy and paste into the top of your 'on load' function, just making sure to change the information after ```"features" : ``` to match whatever name you used for "the stuff to be returned" in views.py. Note that in the code above, places is the name we gave when we called ``` return render(request, #...) ``` in the view for the page in the previous step, just without the single quotes. 
 
@@ -190,7 +190,7 @@ An example is the best way to see this. Here is what this looks like in the QMH 
 		    
 ```	
 
-Each <strong> stops </strong> field is a list of lists, where each sublist corresponds to ['data value', what-to-assign-to-that-data-value]. So, I set the circle radius to depend on the <strong>property<strong> Count, where a count of 0 has a radius of zero, a count of 1 has a radius of 8, and so on. Then, I set the circle color to depend on the Year <strong>property<strong>, where each year is given its own hexcolor [made with this handy site](https://coolors.co/484538-cad49d-43aa8b-d4eac8-c0d8e0) (but also [check out this link for super handy color-picking for super advanced webdev](https://color.hailpixel.com) and mouse around for hue, scroll for saturation). 
+Each <strong> stops </strong> field is a list of lists, where each sublist corresponds to ['data value', what-to-assign-to-that-data-value]. So, I set the circle radius to depend on the <strong>property</strong> Count, where a count of 0 has a radius of zero, a count of 1 has a radius of 8, and so on. Then, I set the circle color to depend on the Year <strong>property</strong>, where each year is given its own hexcolor [made with this handy site](https://coolors.co/484538-cad49d-43aa8b-d4eac8-c0d8e0) (but also [check out this link for super handy color-picking for super advanced webdev](https://color.hailpixel.com) and mouse around for hue, scroll for saturation). 
 
 Anyways:
 After all of this, I have the closing brace and parenthese to end the addLayer function. 

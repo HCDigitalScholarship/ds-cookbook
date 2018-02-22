@@ -1,7 +1,7 @@
 # Working with data Django-to-Mapbox
-This document explains how to pull data from a django model into a Mapbox layer. In short, you will use a python template in the views.py file to create a mapbox FeatureCollection of geo-JSON data. 
+This document explains how to pull data from a django model into a Mapbox layer. In short, you will use a python template in the views.py file to create a mapbox FeatureCollection of geoJSON data. 
 
-End goal: give mapbox a javascript list of several data points in the proper geoJSON format, also in accordance with Mapbox's FeatureCollection data category:
+End goal: give mapbox a javascript list of several data points in the proper geoJSON format, also in accordance with Mapbox's FeatureCollection data category. The generalized format is:
 ``` 
 "coordinates" : [latitude, longitude]},
 "properties" : { "NameOfProperty1" : "Value1", "NameOfProperty2" : "Value2"} 
@@ -15,9 +15,9 @@ In views.py, define a helper function. It might be something like:
 ```
 def mapData_ToGeoJSON():
 ``` 
-Within this function, make a python template. [This stack overflow article](https://stackoverflow.com/questions/4288973/whats-the-difference-between-s-and-d-in-python-string-formatting) may help, but essentially you are creating a string in the proper format of any single data point, except that rather than including actual data, use placeholders for values (%d for string, %s for integers, etc). In other words, include every variable you want to have d3 ultimately work with in proper JSON format with a placeholder for each variable's value.
+Within this function, make a python template. [This stack overflow article](https://stackoverflow.com/questions/4288973/whats-the-difference-between-s-and-d-in-python-string-formatting) may help, but essentially you are creating a string in the proper format of any single data point, except that rather than including actual data, use placeholders for values (%d for string, %s for integers, etc). In other words, include every variable you want to have mapbox ultimately work with in proper geoJSON format with a placeholder for each variable's value.
  
-To do so, declare a variable template and assign it, as below, to the general format that d3 requires. In the case of the QMH project example, a d3 stacked bar graph shows tallies of hospital patients by year, broken down into their religious affiliations. So, the template for this looks like:
+To do so, declare a variable template and assign it, as below, to the geoJSON that mapbox requires. Below is a template from the QMH Map projec, which relied on a place Name, Year, and Count in addition to a place latitude/longitutde coordinate. It looked like:
 ```
 def mapData_ToGeoJSON():
 
@@ -31,12 +31,13 @@ template = \
 	    },
 	'''
 ```
-Copy and past the variable template declaration, replacing each of the data field names ("Name", "Year", and "Count" in this example) with those which match the data fields of the Django model you're working with, preserving the double quotation marks, and changing the letter after each % to match the type of the expected value. <strong> It is important to keep the leading \ and opening/closing ''' (triple-single-quotes) so Mapbox can read everything properly </strong>.
+Copy and past the variable template declaration, replacing each of the data field names ("Name", "Year", and "Count" in this example) with those which match the data fields of the Django model you're working with, preserving the double quotation marks, and changing the letter after each % to match the type of the expected value. To clarify, "Name", "Year", and "Count" are both the names of attributes for each data point in Django and the names of the properties I used in geoJSON, which I found helped keep things straight! 
+<strong> It is important to keep the leading \ and opening/closing ''' (triple-single-quotes) so Mapbox can read everything properly </strong>.
 
-Note the level of precision here: variable names in quotes, spaces after each colon, <strong> AND a comma following the close curly brace </strong> to accommodate another data point to follow it. 
+Note the level of precision here: variable names in quotes, spaces after each colon, <strong> AND a comma following the close curly brace </strong> to anticipate that another data point will follow it. 
   
  ## Step 2: Accumulate all data, properly-formatted. Loop through data in the model, fitting it into the template each time.
- Now, we want to effectively grab all of our data from Django, force it through the template one data point at a time, and collect up all of the properly-formatted data into a big list. 
+ Now, we want to effectively grab all of our data from Django, force it through our tailored template one data point at a time, and collect up all of the properly-formatted data into a big list. 
  
  First, declare the variable output as:
  ```
@@ -50,24 +51,31 @@ Copy-paste this code exactly. The funky quotes/backslashes sets up the header of
 
 Next, declare an empty list called something like rawData. We'll use this to hold onto all the information we first grab from django before we can format it. Then, grab your data from your django model using a loop! Write a for loop which works ```for``` element ```in``` NAME_OF_DJANGO_MODEL```.objects.all()``` and append, as its own list, to rawData. For example, the QMH map version of this looks like:
 ```
+# the head of the geojson file
+	output = \
+	    ''' \
+	
+	    '''
+	    
 rawData = []
 	for e in PlaceToMap.objects.all():
-		rawData.append([e.latitude, e.longitude, e.Name, e.Year, e.Count])
+		rawData.append([e.latitude, e.longitude, e.Name, e.Year, e.Count]) #Note that we're appending a list here. 
 ```
-Here, PlaceToMap is the name of the model, and latitude, longitute, Name, Year, and Count are the names of the data fields. This is the django way to talk about a model's data points and data fields in views.py!
+Here, PlaceToMap is the name of the model, and latitude, longitute, Name, Year, and Count are the names of the data fields. This is the django way to talk about a model's data points and data fields in views.py! Note that this ordering matches our template exactly: geoJSON wants latitude and longitude first (in the "coordinates" fields) then our properties in arbitrary but particular order we specified when we made the template. 
 
 At this point, rawData is a list of lists, where each sublist is a comma-separated list of data fields for each particular data point. 
 Now, we want to force all of this raw data, one point at a time, through the template we made and accumulate it into a variable to return. 
-The code for this step from the maps example looks like:
+The code for this step from the QMH example looks like:
 ```
 for row in rawData:
 	lat = row[0]
 	lon = row[1]
 	name = row[2]
-	pop = row[3]
+	year = row[3]
+	count = row[4]
 	output += template % (row[0], (row[1]), row[2], row[3], row[4])
 ```
-In short, for each element of rawData, shove that data into the template and then accumulate into the output variable, which we'll return in the next step. One trick to this whole process is to remember the order in which you are pulling and placing each field's values; we know the value corresponding to latitute comes first since we append it to rawData first, etc. Be careful to not mix up data values! That's why variables lat, lon, name, and pop are declared even though we don't end up actually using them :). 
+In short, for each element of rawData, shove that data into the template and then accumulate into the output variable, which we'll return in the next step. One trick to this whole process is to remember the order in which you are pulling and placing each field's values; we know the value corresponding to latitute comes first since we append it to rawData first, etc. Be careful to not mix up data values! That's why variables lat, lon, name, year, and count are declared even though we don't end up actually using them :). 
 
 Simply modify this for loop to fit your data, keeping in mind that the 0th item of each sublist in rawData corresponds to the first data field, the 1st to the second, etc. 
 
@@ -84,9 +92,9 @@ output += \
 After we put all of the templated data into output, this adds the close braces and brackets we need to complete the picky geoJSON format.
 
 
-Now, all that's left is that we have to put this output in the right place to hand to the template where our d3 visualization is waiting for a data source.
+Now, all that's left is to put this output in the right place to hand to the template where the javascript code for our map is waiting for a data source.
 
-Somewhere else in views.py, you should have a function which renders each template. An example: The ```causes``` function below, for example, simply enables the FriendsVIS.html template to be loaded when users request the page marked "causes". There should be several similar functions just like this in views.py, so all your templates can be loaded! 
+Somewhere else in views.py, you should have a function which renders each template. An example: The ```causes``` function below, for example, simply enables the FriendsVIS.html template to be loaded when users request the page marked "causes". There should be a bunch of similar functions just like this in views.py, so all your templates can be loaded! 
 ```
 def causes(request):
 	return render(request, 'FriendsVIS.html')
@@ -100,7 +108,7 @@ def some_relevant_name(request):
 	return render(request, 'QMHMap.html', {'places': places_list})
 ```
 
-The above code creates a variable with the formatted data, places_list, and says that when the QMHMAP.html page is loaded, django will know to pass the places_list data and will call it places. 
+The above code creates a variable with the formatted data we just made in mapData_toGEOJSON(), places_list, and says that when the QMHMAP.html page is loaded, django will know to pass the places_list data <strong> and will call it places when we want to talk about this data in the .html file. </strong>
 
 You can call these things whatever you want, but the curly braces, single quotes, and colon are important! 
 
@@ -117,19 +125,19 @@ Under the declaration for ``` var map = new mapboxgl.Map({ //....}); ``` and wit
         }) //If this extra parenthese goes away, the whole map breaks. It looks like it's extra, but it closes the GeoJSON format. 
 ```
 
-Here, <strong> we name our data django-data (which can change to be whatever you'd like) </strong> and specify that it's a FeatureCollection where each feature can be found in a list of the templated data we made in views.py 
+Here, <strong> we name our data django-data (which can change to be whatever you'd like) </strong> and specify that it's a FeatureCollection where each feature is the stuff from places, which we just named our templated variable from views.py. 
+
+The ```|safe``` bit is what Django calls a filter. It is included immediately after as a way to ensure the data is handed to d3 in the correct format; without it, sometimes d3 is handed some weird  version of the data (extra characters like &lt, &#39, &amp, all over the place!) which is of course NOT the form d3 needs to handle it. [Check out this link](https://docs.djangoproject.com/en/1.7/topics/templates/) and scroll to the "Automatic HTML Escaping" section for details. 
 
 Pretty much everthing above you should copy and paste into the top of your 'on load' function, just making sure to change the information after ```"features" : ``` to match whatever name you used for "the stuff to be returned" in views.py. Note that in the code above, places is the name we gave when we called ``` return render(request, #...) ``` in the view for the page in the previous step, just without the single quotes. 
 
 Also heed the comment about the extra parentheses! At least in Alison's text editor, this close parenthese is highlighted as if it's a problem, but if you delete it, the whole map breaks...
 
-The ```|safe``` bit is what Django calls a filter. It is included immediately after as a way to ensure the data is handed to d3 in the correct format; without it, sometimes d3 is handed some weird  version of the data (extra characters like &lt, &#39, &amp, all over the place!) which is of course NOT the form d3 needs to handle it. [Check out this link](https://docs.djangoproject.com/en/1.7/topics/templates/) and scroll to the "Automatic HTML Escaping" section for details. 
-
 It's also important that we have the list ([ ]) around ```{{places|safe}}```—all of the features must be as a list. 
 
 In summary, you've taken each data entry from django, fitted it into the applicable GeoJSON format, given the formatted data a name to talk about upon the relevant template's load, then told Mapbox to populate the map with a FeatureCollection of the information we're calling by that same name. But all of this has been just to establish the django data as a distinct (properly-formatted) data source. next, we have to add it to a layer!
 
-## Step 5: Add Data to a Layer
+## Step 5: Add Visual Data to a Layer
 From here on, I'll include the information to turn the data about each point into circles of varying size and color [using mapbox stops](https://www.mapbox.com/help/how-map-design-works/) but some bits of this may be modified and extended as needed (for example, the QMH project also hooks the circle generation up to a date slider, etc.). But no matter what you do, you first have to append data to a layer, as so:
 
 ```
@@ -182,12 +190,12 @@ An example is the best way to see this. Here is what this looks like in the QMH 
 		    
 ```	
 
-Each <strong> stops </strong> field is a list of lists, where each sublist corresponds to \['data value', what-to-assign-to-that-data-value]. So, I set the circle radius to depend on the property Count, where a count of 0 has a radius of zero, a count of 1 has a radius of 8, and so on. Then, I set the circle color to depend on the Year property, where each year is given its own hexcolor. 
+Each <strong> stops </strong> field is a list of lists, where each sublist corresponds to ['data value', what-to-assign-to-that-data-value]. So, I set the circle radius to depend on the <strong>property<strong> Count, where a count of 0 has a radius of zero, a count of 1 has a radius of 8, and so on. Then, I set the circle color to depend on the Year <strong>property<strong>, where each year is given its own hexcolor [made with this handy site](https://coolors.co/484538-cad49d-43aa8b-d4eac8-c0d8e0) (but also [check out this link for super handy color-picking for super advanced webdev](https://color.hailpixel.com) and mouse around for hue, scroll for saturation). 
 
+Anyways:
 After all of this, I have the closing brace and parenthese to end the addLayer function. 
 
-
-Should be done!
+You should be all done, and see circles representing your django model!
 
 ## Note:
 This method assumes that all of your data has been collected and tallied appropriately before you even entered it into Django. If this is not the case (data entries represent individual observations, which you would like to collect in some way and display these aggregations) you can add another step to tally up data in views.py. It really depends on what you're doing, but look to the TotalReligionDiversityData_toJSON() function in the QMH project's views.py to see an example. 

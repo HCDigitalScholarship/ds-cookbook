@@ -203,14 +203,15 @@ This method assumes that all of your data has been collected and tallied appropr
 ## Helpful Mapbox Links:
 Mapbox is often a bit tricky to learn, especially when you're trying to populate a map with a django model's worth of data (and without using mapbox studio to do so)! Here are some additional links I found to be helpful:
 
-Perhaps this link, but really [all of the links on the lefthand sidebar of this page](https://www.mapbox.com/mapbox-gl-js/example/add-image-generated/) which is weirdly different than the Mapbox JS developer's guide...
+* Perhaps this link, but really [all of the links on the lefthand sidebar of this page](https://www.mapbox.com/mapbox-gl-js/example/add-image-generated/) which is weirdly different than the Mapbox JS developer's guide...
 
-[This demo on using buttons to change map language](https://www.mapbox.com/mapbox-gl-js/example/language-switch/) which is more helpful to see how buttons can work than for actually changing language). 
+* [This demo on using buttons to change map language](https://www.mapbox.com/mapbox-gl-js/example/language-switch/) (which is more helpful to see how buttons can work than for actually changing language). 
 
-[Adding a geoJSON line,](https://www.mapbox.com/mapbox-gl-js/example/geojson-line/) particularly easy if you have all of the line segments' coordinates handy. 
-[Information on how to add tooltips](https://www.mapbox.com/mapbox-gl-js/example/popup-on-hover/) . This on-hover style is good for lots of data points. Additionally, each tooltip's text body can pull data about that point from django rather than having to store all of that information in the HTML file. The QMH project does this at the very end of the map code. 
+* [Adding a geoJSON line,](https://www.mapbox.com/mapbox-gl-js/example/geojson-line/) particularly easy if you have all of the line segments' coordinates handy. 
 
-[A time slider demonstration](https://www.mapbox.com/mapbox-gl-js/example/timeline-animation/) which was both the inspiration for the time slider on the QMH map and the template for the nice overlayed legend formatting. 
+* [Information on how to add tooltips](https://www.mapbox.com/mapbox-gl-js/example/popup-on-hover/) . This on-hover style is good for lots of data points. Additionally, each tooltip's text body can pull data about that point from django rather than having to store all of that information in the HTML file. The QMH project does this at the very end of the map code. 
+
+* [A time slider demonstration](https://www.mapbox.com/mapbox-gl-js/example/timeline-animation/) which was both the inspiration for the time slider on the QMH map and the template for the nice overlayed legend formatting. 
 
 ## Contributors :tada:
 :octocat: [Alison Rosenman](https://github.com/alisonrosenman) :information_desk_person:

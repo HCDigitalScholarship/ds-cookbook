@@ -34,3 +34,32 @@ In this tutorial (largely based on the Django [documentation](https://docs.djang
         * if your page previously had a url, comment it out 
         
 **_Run command: 'manage.py migrate'_**
+
+
+## Ckeditor
+
+**_Settings.py_**
+
+1. Under **Installed_Apps**, add the following:  
+
+   * 'ckeditor'
+   
+## Creating a 'Flatpages' page
+
+1. Url
+
+   * /medical/ 
+  
+2. Sites
+
+   * 138.197.80.38
+  
+   * example.com 
+  
+     **Both should be highlighted**
+     
+3. Advanced Options
+
+  * Template name
+  
+     * static_page.html 

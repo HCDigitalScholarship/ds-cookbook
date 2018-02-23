@@ -17,7 +17,7 @@ In this tutorial (largely based on the Django [documentation](https://docs.djang
      
     Set SITE_ID = 1
   
-2. Under **Middleware_classes**, add the following:
+2. Under **Middleware_classes**, add the following to the bottom of the list:
     
     ```
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware'
@@ -89,7 +89,8 @@ Changes made in admin
      
 3. Advanced Options
 
-  * Template name
+    * Template name
+  
   
      ```
      static_page.html

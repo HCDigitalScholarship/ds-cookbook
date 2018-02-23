@@ -10,25 +10,32 @@ In this tutorial (largely based on the Django [documentation](https://docs.djang
 
 1. Under **Installed_Apps**, add the following:  
   
-      * 'django.contrib.sites'  
-    
-      * 'django.contrib.flatpages'
+      ```
+      'django.contrib.sites'  
+      'django.contrib.flatpages'
+      ```
      
     Set SITE_ID = 1
   
 2. Under **Middleware_classes**, add the following:
     
-    * 'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware' 
+    ```
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware'
+    ```
 
 **_Urls.py_**
 
 1. Add the following:
 
-    * 'from django.contrib.flatpages import views as flat_views'
+    ```
+    from django.contrib.flatpages import views as flat_views
+    ```
    
  2. Under **urlpatterns**, add the following:
  
-    * 'url(r'^medical/$', flat_views.flatpage, {'url': '/medical/'}, name = 'medical'),'
+    ```
+    url(r'^medical/$', flat_views.flatpage, {'url': '/medical/'}, name = 'medical'),
+    ```
    
         * replace 'medical' with the name of your page
         * if your page previously had a url, comment it out 
@@ -41,7 +48,9 @@ In this tutorial (largely based on the Django [documentation](https://docs.djang
 
 1. Under **Installed_Apps**, add the following:  
 
-   * 'ckeditor'
+   ```
+   'ckeditor'
+   ```
    
 ## Creating a 'Flatpages' template
 
@@ -62,13 +71,16 @@ Changes made in admin
 
 1. Url
 
-   * /medical/ 
+   ```
+   /medical/
+   ```
   
 2. Sites
 
-   * 138.197.80.38
-  
-   * example.com 
+   ```
+   138.197.80.38
+   example.com
+   ```
   
      **Both should be highlighted**
      
@@ -76,4 +88,6 @@ Changes made in admin
 
   * Template name
   
-     * static_page.html 
+     ```
+     static_page.html
+     ```

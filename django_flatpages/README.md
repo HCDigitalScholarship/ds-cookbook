@@ -31,4 +31,6 @@ In this tutorial (largely based on the Django [documentation](https://docs.djang
     * 'url(r'^medical/$', flat_views.flatpage, {'url': '/medical/'}, name = 'medical'),'
    
         * replace 'medical' with the name of your page
-        * if 'medical' previously had a url, comment it out 
+        * if your page previously had a url, comment it out 
+        
+**_Run command: 'manage.py migrate'_**

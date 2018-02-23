@@ -35,7 +35,6 @@ In this tutorial (largely based on the Django [documentation](https://docs.djang
         
 **_Run command: 'manage.py migrate'_**
 
-
 ## Ckeditor
 
 **_Settings.py_**
@@ -44,7 +43,22 @@ In this tutorial (largely based on the Django [documentation](https://docs.djang
 
    * 'ckeditor'
    
+## Creating a 'Flatpages' template
+
+```
+<!DOCTYPE html>
+<html>
+<head>
+<title>{{ flatpage.title }}</title>
+</head>
+<body>
+{{ flatpage.content }}
+</body>
+</html>
+```
+
 ## Creating a 'Flatpages' page
+Changes made in admin
 
 1. Url
 

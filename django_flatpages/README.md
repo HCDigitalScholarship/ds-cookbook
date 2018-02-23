@@ -11,7 +11,7 @@ In this tutorial (largely based on the Django [documentation](https://docs.djang
 1. Under **Installed_Apps**, add the following:  
   
       ```
-      'django.contrib.sites'  
+      'django.contrib.sites',  
       'django.contrib.flatpages'
       ```
      
@@ -37,11 +37,12 @@ In this tutorial (largely based on the Django [documentation](https://docs.djang
     url(r'^medical/$', flat_views.flatpage, {'url': '/medical/'}, name = 'medical'),
     ```
    
-        * replace 'medical' with the name of your page
-        * if your page previously had a url, comment it out 
+       * replace 'medical' with the name of your page
+       * if your page previously had a url, comment it out 
         
 **_Run command: 'manage.py migrate'_**
 
+---
 ## Ckeditor
 
 **_Settings.py_**
@@ -51,7 +52,8 @@ In this tutorial (largely based on the Django [documentation](https://docs.djang
    ```
    'ckeditor'
    ```
-   
+
+---
 ## Creating a 'Flatpages' template
 
 ```
@@ -66,6 +68,7 @@ In this tutorial (largely based on the Django [documentation](https://docs.djang
 </html>
 ```
 
+---
 ## Creating a 'Flatpages' page
 Changes made in admin
 
@@ -82,7 +85,7 @@ Changes made in admin
    example.com
    ```
   
-     **Both should be highlighted**
+   **_Both should be highlighted_**
      
 3. Advanced Options
 

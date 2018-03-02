@@ -152,5 +152,5 @@ To create a new page, click 'Add' and insert the following:
      ```
      * replace 'static_page' with the name of the 'flatpage' template that you created 
      
- After installing Ckeditor, a toolbar should appear when editing your 'flatpage' page.
- This toolbar includes the basic editing features. Here is a source that can assist you with editing these features : (https://docs.ckeditor.com/ckeditor4/latest/guide/dev_toolbar.html)
+After installing Ckeditor, a toolbar should appear when editing your 'flatpage' page. This toolbar includes the basic editing features. 
+Here is a source that can assist you with editing these features: https://docs.ckeditor.com/ckeditor4/latest/guide/dev_toolbar.html

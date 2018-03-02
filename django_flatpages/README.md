@@ -6,7 +6,7 @@ In this tutorial (largely based on the Django [documentation](https://docs.djang
 
 ## Flatpages
 
-**_Settings.py_**
+**_settings.py_**
 
 1. Under **Installed_Apps**, add the following:  
   
@@ -23,7 +23,7 @@ In this tutorial (largely based on the Django [documentation](https://docs.djang
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware'
     ```
 
-**_Urls.py_**
+**_urls.py_**
 
 1. Add the following:
 
@@ -42,17 +42,57 @@ In this tutorial (largely based on the Django [documentation](https://docs.djang
         
 **_Run command: 'manage.py migrate'_**
 
+**_admin.py_**
+
+1. Add the following after the last import:
+
+```
+from django.contrib.flatpages.models import FlatPage
+
+#Note: we are renaming the original Admin and Form as we import them!
+from django.contrib.flatpages.admin import FlatPageAdmin as FlatPageAdminOld
+from django.contrib.flatpages.admin import FlatpageForm as FlatpageFormOld
+
+from django import forms
+from ckeditor.widgets import CKEditorWidget
+
+class FlatpageForm(FlatpageFormOld):
+  content = forms.CharField(widget=CKEditorWidget())
+  class Meta:
+    model = FlatPage # this is not automatically inherited from FlatpageFormOld
+    fields = '_ _ all_ _'
+    
+class FlatPageAdmin(FlatPageAdminOld):
+  form = FlatpageForm
+  
+#We have to unregister the normal admin, and then reregister ours
+admin.site.unregister(FlatPage)
+admin.site.register(FlatPage, FlatPageAdmin)
+```
+
 ---
 ## Ckeditor
 
-**_Settings.py_**
+**_settings.py_**
 
-1. Under **Installed_Apps**, add the following:  
+1. Pip install:
+
+  ```
+  django-ckeditor
+  ```
+   *  **This needs to be done in the virtual environment!**
+
+2. Under **Installed_Apps**, add the following:  
 
    ```
    'ckeditor'
    ```
+**_admin.py_**
 
+* note the line under **admin.py** in the installation of **flatpages**:
+  ```
+  content = forms.CharField(widget=CKEditorWidget())
+  ```
 ---
 ## Creating a 'Flatpages' template
 

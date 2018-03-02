@@ -127,7 +127,7 @@ Changes made in admin
    ```
    /medical/
    ```
-  * replace 'medical' with the url name you added under urlpatterns
+    * replace 'medical' with the url name you added under urlpatterns
   
 2. Sites
 
@@ -141,7 +141,7 @@ Changes made in admin
      
 3. Advanced Options
 
-    * Template name
+  * Template name
   
   
      ```

@@ -54,7 +54,6 @@ from django.contrib.flatpages.admin import FlatPageAdmin as FlatPageAdminOld
 from django.contrib.flatpages.admin import FlatpageForm as FlatpageFormOld
 
 from django import forms
-from ckeditor.widgets import CKEditorWidget
 
 class FlatpageForm(FlatpageFormOld):
   content = forms.CharField(widget=CKEditorWidget())
@@ -68,6 +67,10 @@ class FlatPageAdmin(FlatPageAdminOld):
 #We have to unregister the normal admin, and then reregister ours
 admin.site.unregister(FlatPage)
 admin.site.register(FlatPage, FlatPageAdmin)
+```
+* If you do not plan on installing **Ckeditor**, remove the following line:
+```
+content = forms.CharField(widget=CKEditorWidget())
 ```
 
 ---
@@ -89,11 +92,14 @@ Pip install:
    ```
 **_admin.py_**
 
-* note the lines under **admin.py** in the installation of **flatpages**:
+1. Under the last **Flatpage** import, add the following:
   
   ```
   from ckeditor.widgets import CKEditorWidget
   ```
+
+2. Note the line under **admin.py** in the installation of **flatpages** (do not add anything new):
+  
   ```
   content = forms.CharField(widget=CKEditorWidget())
   ```

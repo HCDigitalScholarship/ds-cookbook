@@ -1,6 +1,6 @@
 # Django Flatpages and Ckeditor
 
-In this tutorial (largely based on the Django [documentation](https://docs.djangoproject.com/en/2.0/ref/contrib/flatpages/) regarding the Flatpages app), I will go through how to install Flatpages and the Ckeditor by discussing the files that need to be edited.
+In this tutorial (largely based on the Django [documentation](https://docs.djangoproject.com/en/2.0/ref/contrib/flatpages/) regarding the Flatpages app), I will go through how to install Flatpages and the Ckeditor by noting the files that need to be edited and what additions need to be made.
 
 ---
 
@@ -73,16 +73,16 @@ admin.site.register(FlatPage, FlatPageAdmin)
 ---
 ## Ckeditor
 
-**_settings.py_**
-
-1. Pip install:
+Pip install:
 
   ```
   django-ckeditor
   ```
    *  **This needs to be done in the virtual environment!**
+   
+**_settings.py_**
 
-2. Under **Installed_Apps**, add the following:  
+1. Under **Installed_Apps**, add the following:  
 
    ```
    'ckeditor'

@@ -40,7 +40,7 @@ In this tutorial (largely based on the Django [documentation](https://docs.djang
        * replace 'medical' with the name of your page
        * if your page previously had a url, comment it out 
         
-**_Run command: 'manage.py migrate'_**
+* **_Run command: 'manage.py migrate'_**
 
 **_admin.py_**
 
@@ -49,7 +49,7 @@ In this tutorial (largely based on the Django [documentation](https://docs.djang
 ```
 from django.contrib.flatpages.models import FlatPage
 
-#Note: we are renaming the original Admin and Form as we import them!
+#Note: We are renaming the original Admin and Form as we import them!
 from django.contrib.flatpages.admin import FlatPageAdmin as FlatPageAdminOld
 from django.contrib.flatpages.admin import FlatpageForm as FlatpageFormOld
 
@@ -89,7 +89,11 @@ Pip install:
    ```
 **_admin.py_**
 
-* note the line under **admin.py** in the installation of **flatpages**:
+* note the lines under **admin.py** in the installation of **flatpages**:
+  
+  ```
+  from ckeditor.widgets import CKEditorWidget
+  ```
   ```
   content = forms.CharField(widget=CKEditorWidget())
   ```

@@ -120,7 +120,10 @@ Pip install:
 
 ---
 ## Creating a 'Flatpages' page
-Changes made in admin
+Changes made in admin:
+
+After installing Flatpages, you should see a **Flat pages** section in admin.
+To create a new page, click 'Add' and insert the following:
 
 1. Url
 
@@ -147,4 +150,7 @@ Changes made in admin
      ```
      static_page.html
      ```
-     * replace 'static_page' with the name of the flatpages template that you created 
+     * replace 'static_page' with the name of the 'flatpage' template that you created 
+     
+ After installing Ckeditor, a toolbar should appear when editing your 'flatpage' page.
+ This toolbar includes the basic editing features. Here is a source that can assist you with editing these features : (https://docs.ckeditor.com/ckeditor4/latest/guide/dev_toolbar.html)

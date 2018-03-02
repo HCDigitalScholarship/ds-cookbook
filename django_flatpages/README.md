@@ -127,6 +127,7 @@ Changes made in admin
    ```
    /medical/
    ```
+  * replace 'medical' with the url name you added under urlpatterns
   
 2. Sites
 
@@ -136,6 +137,7 @@ Changes made in admin
    ```
   
    **_Both should be highlighted_**
+   * replace '138.197.80.38' with your site id
      
 3. Advanced Options
 
@@ -145,3 +147,4 @@ Changes made in admin
      ```
      static_page.html
      ```
+     * replace 'static_page' with the name of the flatpages template that you created 

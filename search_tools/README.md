@@ -266,7 +266,9 @@ NEXT STEP MAKE QUERY PART
 	print statement
     context = {'results' : statement_list, 'keywords' : keywords, 'keywords_and_counts' : keywords_and_counts, 'search' : search_string, 'full_info' : request.GET["full_info"], 'num_results' : len(statement_list)}
     return context
-
+```
+IF WE HAD A RESULTS PAGE, we could actually use this part to test it. We should change filtering.py or maybe the view so it just calls this bit. It is good to test as we make progress!
+```
 
 def make_query_part(search_string, field):
     print field

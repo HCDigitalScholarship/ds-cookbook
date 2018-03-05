@@ -5,7 +5,7 @@ I recommend taking a look at those links for more details, or if you run into an
 
 ## Making the search bars (JavaScript and HTML)
 Before we can query our data, we need the user to tell us what they want! I built my search bars in plain-old HTML and jQuery.
-The first thing we do is build a form. We don't actually have and searchbars yet though! We will add those in dynamically with javascript later.
+The first thing we do is build a form. We don't actually have any search bars yet though! We will add those in dynamically with javascript later.
 
 ```
 <form id="searchers_form"  action="mysite:searchview" method="GET">
@@ -33,10 +33,12 @@ You also might need to load in jQuery, if you haven't already.
     <script src="{% static 'gtr_site/jquery-ui.js' %}"></script>
 
 ```
+Loading jQuery multiple times can mess things up, so this might be a sticking point.
+
 
 Now we are setup to write our search bar adding script!
 
-The first thing we do is reset our searchbar counter to 1 on page loads. IMO, when a user reloads the page, they should refresh their search bars. If you want different functionality, this is something you would have to change.
+The first thing we do is reset our searchbar counter to 1 on page loads. In my opinion, when a user reloads the page, the search bars should reset. If you want different functionality, this is something you would have to change.
 ```
 <script>
       // reset counter to 1
@@ -49,7 +51,7 @@ Now we define long variables that are featured in each of the search bars: thing
 ```
       // These long lines are just html we will be using and reusing
       var select_fields = "<select class='form-control field_option'> <option>Any field</option> <option>Title</option>  <option>Keyword</option></select>";
-       var delete_button = "<button class='delete_searcher' type='button'><span class='glyphicon glyphicon-remove delete_searcher'></span><button>";
+      var delete_button = "<button class='delete_searcher' type='button'><span class='glyphicon glyphicon-remove delete_searcher'></span><button>";
 ```
 
 Now we make the logical drop down that lets users switch which operator they picked. I made this a function because it makes it easier to correctly start with the one they oiginally picked showing. Or maybe it is a function for some other reason, I honestly do not remember.
@@ -82,7 +84,10 @@ _Uh, this next part doesn't do anything?_ I think I was in the process of doing 
           }     
         });
 ```
-Now we write things to add searchers... TO BE CONTINUED
+
+Now we define what happens when you click the `AND`, `OR` and `NOT` buttons we made early. They add searchers!
+
+Some things to note: I make it so you can't have more than 11 search bars. There isn't really a reason for that, it just seems like it should stop at some point. Also in each of these processes, we increment the hidden `searcher_counter`, append our a div shell for our new searcher to our list of searchers, the searcher labeled by our incremented `searcher_counter`. Finally, we fill in the empty div shell with the actual search bar, drop down, and delete button. We do this for each option you can click! 
 ```
       // what happens when you click AND
       $("#AND_search").click(function(event) {
@@ -116,17 +121,23 @@ Now we write things to add searchers... TO BE CONTINUED
           $("#searcher" + id_num).append("<span>" + createLogicDropdown("NOT") + "<br/><div class='input-group stylish-input-group'><input type='text' class='form-control search_text' name='NOT_search' placeholder='Search...'><span class='input-group-addon'>" + delete_button + "</span></div> in " + select_fields + "</div>");
         }
       });
+```
 
+We also need to handle what happens when a user presses the delete button. This is actually a little awkward to do because the thing we are deleting doesn't exist when the page loads. We need to use event delegation, which is something you can google to learn more about or look [here](https://learn.jquery.com/events/event-delegation/) to get started.
+```
       // what happens when you click Delete
       // Need to use event delegation because these deletes don't 
       // exist on the initial page load
       $("#searchers").on("click", ".delete_searcher", function(event) {
           event.preventDefault();
-          console.log("DELETE");
           $(event.target).parent().parent().parent().parent().remove();
           $("#searcher_counter").val(+$("#searcher_counter").val() - 1);
        });
+```
 
+Finally, we handle what happens when the user presses submit. We grab all the values that are in the form, and generate a big string that we can pass around between functions and handle nicely in python. This is the `full_info` thing we made earlier.
+As I mention in the comments to this code, I kind of think this is a bad way of doing things. It depends on the structure of the page? Wouldn't it be nice to just be able to grab them by a certain ID or class? I couldn't get that to work, but you could try!
+```
       // on submit we generate full_info
       $("#searchers_form").submit(function(event) {
         // uncomment to prevent page submit
@@ -134,11 +145,7 @@ Now we write things to add searchers... TO BE CONTINUED
         var the_request = "";
         $("#searchers").children().each(function() {
           // THIS IS A BAD WAY OF DOING IT THAT DEPENDS ON THE STRUCTURE OF THE PAGE
-          console.log($(this).children().children().children(".search_text").val());
-          console.log($(this).children().children(".logic_option").val());
-          console.log($(this).children().children(".field_option").val());
-          console.log($(this).children());
-                    var text  = $(this).children().children().children(".search_text").val();
+          var text  = $(this).children().children().children(".search_text").val();
           var logic = $(this).children().children(".logic_option").val();
           var field = $(this).children().children(".field_option").val();
           the_request += text + "^" + logic + "^" + field+"^";
@@ -148,5 +155,7 @@ Now we write things to add searchers... TO BE CONTINUED
       });
     </script>
 ```
+And we are done with the first part of it! Woo!
 
-```
+## The views page and associated functions (Python)
+

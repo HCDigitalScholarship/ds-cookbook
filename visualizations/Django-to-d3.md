@@ -110,7 +110,7 @@ In summary, you've taken each data entry from Django, fitted it into the applica
 
 ##Helpful Links:
 
-* [This link](https://stackoverflow.com/questions/20437116/third-variable-in-d3-anonymous-function) is really helpful once you have all of your data in order and are working with d3—until you take CS245, the anonymous functions can seem kind of tricky!
+* [This stack overflow link](https://stackoverflow.com/questions/20437116/third-variable-in-d3-anonymous-function) and [this demo/tutorial](https://www.dashingd3js.com/lessons/javascript-anonymous-functions-immediately-invoked-function-expression) are really helpful once you have all of your data in order and are working with d3—until you take CS245, the anonymous functions can seem kind of tricky!
 
 ## Note:
 If you take a look at the ReligionDiversityData_toJSON() and TotalReligionDiversityData_toJSON() functions in the QMH project's views.py, you'll see that this process is not so simple. That's because, unlike with the map data, the data for the religious diversity feature had not been tallied. Basically, after I had the initial loop ```for e in ReligiousDiversityData.objects.all```, I then used some extra accumulators and lists etc. to tally up data by year and religion. This extra wrinkle is tedious but allows for new data to be entered easily; a new discovery of a non-quaker patient need not affect the value of any stored total/tally, since Django does all the tallying itself after data entry.

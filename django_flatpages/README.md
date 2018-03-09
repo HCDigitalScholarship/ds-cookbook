@@ -94,14 +94,14 @@ Pip install:
    ```
 2. At the bottom of settings, add the following:
 
-  ```
-  CKEDITOR_CONFIGS = {
-    "default": {
-        "removePlugins": "stylesheetparser",
-        'allowedContent' : True,
-     }
-   }
-  ```
+   ```
+   CKEDITOR_CONFIGS = {
+     "default": {
+         "removePlugins": "stylesheetparser",
+         'allowedContent' : True,
+      }
+    }
+   ```
   This step is necessary to prevent Ckeditor from erasing your added html.
   
 **_admin.py_**

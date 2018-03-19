@@ -177,8 +177,17 @@ Unfortunately, the views part is so easy because we use a function that does not
 
 ### results page
 Again, I'd probably call this something like results_page.html, but in GTRP it is called search.html and with the file path`templates/search/search.html`. I might even change the filename in GTRP, it is never too late!
-# TODO Change filename
+# TODO Change filename done, but delete the old one
 ```
+{% block extra_static %}
+<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"/>
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="{% static 'gtr_site/css/iThing.css' %}" type="text/css" />
+<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="{% static 'gtr_site/js/search_results.js' %}"></script>
+{% endblock %}
+
+{% block content %}
 <div class= "col-md-9 top-buffer" id="search_table">
   <table id="mainTable" class="table table-bordered">
     <thead>
@@ -205,15 +214,14 @@ And the table body code:
         <td><a href="{{ result.get_absolute_url }}">{{ result.title }}</a></td>
         <td><a href="author/{{ result.author }}">{{ result.author }}</a></td>
         <td>{{ result.issue_date}}</td>
-        <td>{{ result.keyword_str }}</td> <!-- What's this? I think it is something that someone else was doing and didn't finish, but has no consequences for existing unfinished -->
+        <td>{{ result.keyword_str }}</td> <!-- What's this? I don't really know, it might be a feature of datatables? When I delete it, things went bad, including the ability to sort ascending/descending on columns -->
       </tr>
     {% endfor %}
     </tbody>
   </table>
   </div>
+  {% endblock %}
 ```
-# TODO Delete that last td
-
 
 Again, you will need to change this a little so it matches what you want to display, which is really an important thing to think about! Now we can move on the the actual searching functions.
 

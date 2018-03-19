@@ -171,11 +171,12 @@ Remember when we left the action of our form blank? Go back and fill that in, ha
 ```
 url(r'^search_results/$', views.search, name='search'),
 ```
+Note that `'search/search.html'` is the template that is our results page. It might be good to start calling it `'search/results_page.html'` or something else that makes you even more happy.
 
-Unfortunately, the views part is so easy because we use a function that does not yet exists. This part is easy because we saved the work for later! Will get to it in just a sec, but first let's make a basic results page.
+Unfortunately, the views part is so easy because we use a function that does not yet exists. We effectively are saving the work for later! Will get to it in just a sec, but first let's make that basic results page.
 
 ### results page
-I'd probably call this something like results_page.html, but in GTRP it is called search.html and with the file path`templates/search/search.html`. I might even change the filename in GTRP, it is never too late!
+Again, I'd probably call this something like results_page.html, but in GTRP it is called search.html and with the file path`templates/search/search.html`. I might even change the filename in GTRP, it is never too late!
 # TODO Change filename
 ```
 <div class= "col-md-9 top-buffer" id="search_table">
@@ -228,8 +229,16 @@ import generate_keywords_from_statement_list
 ```
 We almost always start by importing things, and here we import something we still need to write. We can look at that after we sort out advanced_search.
 
-Now we get into the meat of the `advanced_search` function. The first thing we do is split our `full_info` (remember that thing we made with javascript in the first part?) up into nice python data structures. Our finished product is a list of dictionaries, each of which has three entries: `search_string` which is the string we want to search on, `logic` which is the logical operator that was selected and `field` which natually is the field that was chosen. 
+Now we get into the meat of the `advanced_search` function. Remember the `full_info` string we made with javascript in the first part? The first thing we do is split `full_info` up into nice python data structures. Our finished product is a list of dictionaries, each of which has three entries: `search_string` which is the string we want to search on, `logic` which is the logical operator that was selected and `field` which natually is the field that was chosen. In python style that's:
 
+`[{search_string : 'the_first_searched_string', logic : '', field : 'Any Field'}, 
+  {search_string : 'the_second_searched_string', logic : 'OR', field : 'Keyword'},
+  .
+  .
+  .
+  {search_string : 'the_last_searched_string', logic : 'AND', field : 'Any Field'}]`
+  
+Notice the first entry does not have a logical operator. That's okay, I actually meant to do that. And now, here is how we make the data structure:
 ```
 def advanced_search(request):
 
@@ -256,46 +265,9 @@ def advanced_search(request):
             ticker = 0 # set to zero since we are going inc after
         ticker += 1
 ```
-The next thing we do is actually make the query, which is a Django Q object. We string together the bits of queries with `&` and `|` which are the logical operators for Django Q's. There is also `~` which is the not operator. We also use a function we need to write. Go ahead a make this one just a bit further down the page.
+The next thing we do is actually make the query, which is a Django Q object. We string together the query pieces with `&` and `|` which are the logical operators for Django Q's. There is also `~` which is the `NOT` operator. To get the 'query pieces' or `query_parts`'s as I call them in the code, we need a new function. Go ahead and make the new function, `make_query_part` a little bit down your page. 
 
-NEXT STEP MAKE QUERY PART
 ```
-    query = []
-    for request_part in formatted_request_list:
-            search_string = request_part["search_string"]
-            logic         = request_part["logic"]
-            field         = request_part["field"]
-            query_part = make_query_part(search_string, field)
-            if query and query_part:
-               if   logic == "AND":
-                   query = query & query_part
-               elif logic == "OR":
-                   query = query | query_part
-               elif logic == "NOT":
-                   query = query & ~query_part 
-            elif query_part:
-               query = query_part
-            else:
-               return False
-    statement_list = Statement.objects.all()
-    print "Here is your query", query
-    statement_list = statement_list.filter(query).distinct()
-    print "generating statement_list took", time.time() - start, "seconds"
-
-    # now generate the list of keywords
-    # This is a little slow
-    start = time.time()
-    keywords_and_counts = generate_keywords_from_statement_list.generate_top_n_keywords(statement_list, 20)
-    keywords = [key_count[0] for key_count in keywords_and_counts]
-    print "generating keywords took", time.time() - start, "seconds"
-    for statement in statement_list:
-	print statement
-    context = {'results' : statement_list, 'keywords' : keywords, 'keywords_and_counts' : keywords_and_counts, 'search' : search_string, 'full_info' : request.GET["full_info"], 'num_results' : len(statement_list)}
-    return context
-```
-IF WE HAD A RESULTS PAGE, we could actually use this part to test it. We should change filtering.py or maybe the view so it just calls this bit. It is good to test as we make progress!
-```
-
 def make_query_part(search_string, field):
     print field
     if field == "Any field":
@@ -334,6 +306,77 @@ def make_query_part(search_string, field):
         query_part = None
     return query_part
 
+```
+I think this function is generally pretty clear if you have a grip on navigating Django foreign key/many-to-many fields. If you don't, I'll briefly talk about it! Each of these Q() objects is going to be searching for statements. So the first word, say `released_by`, is a field of the statment model that we want to be able to search on. The `__org_name` follows backwards along a foreign key relation since organizations are their own model and looks at the field `org_name` in that organization model. Then we use a special Django Q() thing `__icontains` which tells the Q() to match a statement if the field contains whatever is in `search_string`. So in summary, `Q(released_by__org_name__icontains=search_string)` means 'match statements that for the field `released_by` have `search_string` contained in the `org_name` field of organization. You *absolutely* will need to change this function to match your data, but it will likely will be very much in the same style. First you have the `Any Field` option. This query is just all the other field options OR'd together. Then, we just have a bunch of elseif's to match the field options we had in our drop dowm. For GTRP, we had to do some fancy-footwork for the `Keyword in Context` field, something you might not have to do, but I left it in to remind you that you can! 
+
+Now that we have query_parts, we can combine them. Let's pop back into the main body of `advanced_search.py`, we are going to make a query!
+
+```
+def advanced_search(request):
+    .
+    .
+    .
+    for item in request_list:
+        if ticker == 1:
+            three_pair["search_string"] = item
+        elif ticker == 2:
+            three_pair["logic"] = item
+        elif ticker == 3:
+            three_pair["field"] = item
+            formatted_request_list.append(three_pair)
+            three_pair = {}
+            ticker = 0 # set to zero since we are going inc after
+        ticker += 1
+	
+    ### HERE IS THE NEW STUFF WHERE WE BUILD A QUERY ###
+
+    query = []
+    for request_part in formatted_request_list:
+            search_string = request_part["search_string"]
+            logic         = request_part["logic"]
+            field         = request_part["field"]
+            query_part = make_query_part(search_string, field)
+            if query and query_part:
+               if   logic == "AND":
+                   query = query & query_part
+               elif logic == "OR":
+                   query = query | query_part
+               elif logic == "NOT":
+                   query = query & ~query_part 
+            elif query_part:
+               query = query_part
+            else:
+               return False
+    print "Here is your query", query
+```
+Woo, we made a query! 
+
+Next we just run it, which is easy money!
+```
+    statement_list = Statement.objects.all()
+    statement_list = statement_list.filter(query).distinct()
+    print "generating statement_list took", time.time() - start, "seconds"
+```
+After that, at least in GTRP, we do something real slow. We want to find how often a keyword occurs across all the statements. 
+```
+    # now generate the list of keywords
+    # This is a little slow
+    start = time.time()
+    keywords_and_counts = generate_keywords_from_statement_list.generate_top_n_keywords(statement_list, 20)
+    keywords = [key_count[0] for key_count in keywords_and_counts]
+    print "generating keywords took", time.time() - start, "seconds"
+    for statement in statement_list:
+	print statement
+	
+    context = {'results' : statement_list, 'keywords' : keywords, 'keywords_and_counts' : keywords_and_counts, 'search' : search_string, 'full_info' : request.GET["full_info"], 'num_results' : len(statement_list)}
+    return context
+```
+And that's the end of it! Well not really, `generate_keywords_from_statement_list` is a file we have to write! BUT if you comment that stuff out, and the stuff in context that relates to it, and also change the `search` view so it just calls this, we should be able to test what we have thus far! Try it and see if something goes wrong, I am regrettably not following along on my own machine.
+
+However, it turns out we don't really use the function we just wrote :(
+
+We do something _super_ similar though. Instead executing the query, we just make it, so that we can give that to filtering and then make an even bigger query! Here is what that looks like for me, I made a separate function and just deleted the last couple steps of the old one, adding in a `return query` line.
+```
 # used for filtering
 def advanced_search_make_query(request):
     print request
@@ -376,8 +419,8 @@ return query
 ```
 
 
-
-
+# TODO add the generate keywords function
+# TODO Working on the filtering.py part now.
 
  take a look at filtering.py:
 ```

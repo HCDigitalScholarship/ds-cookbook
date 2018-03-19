@@ -172,43 +172,69 @@ Remember when we left the action of our form blank? Go back and fill that in, ha
 url(r'^search_results/$', views.search, name='search'),
 ```
 
-Unfortunately, the views part is so easy because we use a function that does not yet exists. This part is easy because we saved the work for later! Let's do it now and making the filtering functions. 
+Unfortunately, the views part is so easy because we use a function that does not yet exists. This part is easy because we saved the work for later! Will get to it in just a sec, but first let's make a basic results page.
+
+### results page
+I'd probably call this something like results_page.html, but in GTRP it is called search.html and with the file path`templates/search/search.html`. I might even change the filename in GTRP, it is never too late!
+# TODO Change filename
+```
+<div class= "col-md-9 top-buffer" id="search_table">
+  <table id="mainTable" class="table table-bordered">
+    <thead>
+      <tr>
+        <!-- this is where the table headers go-->
+        <th>Title</th>
+        <th>Author</th>
+        <th>Issue Date</th>
+      </tr>
+    </thead>
+```
+Now we are going to be making the body of the table. As we iterate through the results our search function is going to be giving us, each result is an instance of the object/model we wanted to search on. In the case of GTRP, the results are statements. The Statment model has fields like `title`, `author`, and `issue_date`. `get_absolute_url` is a method the statement class/model has. All the statements have affiliated statment pages that contain all the metadata for that statement. `get_absolute_url` makes an actual link the that page. If you need something like this, in GTRP, it looks like this: 
+```
+    def get_absolute_url(self):
+        return reverse('gtr_site:statement', args=[self.statement_id])
+```
+And the table body code:
+```
+    <tbody>
+    <!-- now we iterate through the results -->
+    {% for result in results %}
+      <tr>
+        <!-- this is how each row is filled with data -->
+        <td><a href="{{ result.get_absolute_url }}">{{ result.title }}</a></td>
+        <td><a href="author/{{ result.author }}">{{ result.author }}</a></td>
+        <td>{{ result.issue_date}}</td>
+        <td>{{ result.keyword_str }}</td> <!-- What's this? I think it is something that someone else was doing and didn't finish, but has no consequences for existing unfinished -->
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+```
+# TODO Delete that last td
+
+
+Again, you will need to change this a little so it matches what you want to display, which is really an important thing to think about! Now we can move on the the actual searching functions.
 
 ### filtering.py and advanced_search.py
 
-Make a new python file, I called it `filtering.py`. We will be basically the same stuff when we are filtering and when we are just doing this initial search, so the view just calls filtering, then filtering calls advanced search.
+If you remember from before, our view function called something from `filtering.py`. So, let's make a new python file, and call it `filtering.py`. We will be basically the same stuff when we are filtering and when we are just doing this initial search, so the view just calls filtering, then filtering calls something in `advanced_search.py`. In fact, we probably want to look at `advanced_search.py` first, so let's do it!
 
-Let's take a look at filtering.py:
-```
-from models import *
-from django.db.models import Q
-import time
-import generate_keywords_from_statement_list
-import advanced_search
-import datetime
-import json
-```
-
-As a standard first step, we import some things. Both `generate_keywords_from_statement_list` and `advanced_search` are functions we are going to write.
-
-Let's actually take a look at the `advanced_search` part of it, which is much more relevant to what we have done thus far. Go ahead and make a file called `advanced_search.py`.
-
-What does advanced search look like. Good question!
 ```
 from models import *
 from django.db.models import Q
 import time
 import generate_keywords_from_statement_list
 ```
-Again, we import something we need to write. We can look at that after we sort out advanced_search.
+We almost always start by importing things, and here we import something we still need to write. We can look at that after we sort out advanced_search.
 
-The next thing we do is split our full_info up into nice python data structures. Our finished product is a list of dictionaries, each of which has three entries: `search_string` which is the string we want to search on, `logic` which is the logical operator that was selected and `field` which natually is the field that was chosen. 
+Now we get into the meat of the `advanced_search` function. The first thing we do is split our `full_info` (remember that thing we made with javascript in the first part?) up into nice python data structures. Our finished product is a list of dictionaries, each of which has three entries: `search_string` which is the string we want to search on, `logic` which is the logical operator that was selected and `field` which natually is the field that was chosen. 
 
 ```
 def advanced_search(request):
 
     # right now it looks like [Iraq^^Any Field^Iran^OR^Keyword^]
-    # so we split on ^ and delete the last one (there is always a tailing empty list
+    # so we split on ^ and delete the last one (there is always a tailing empty list)
     request_list = request.GET["full_info"].split("^")[:-1]
     print "full info in advanced_search", request.GET["full_info"]
     # request list needs to be split into threes
@@ -351,6 +377,26 @@ return query
 
 
 
+
+
+ take a look at filtering.py:
+```
+from models import *
+from django.db.models import Q
+import time
+import generate_keywords_from_statement_list
+import advanced_search
+import datetime
+import json
+```
+
+As a standard first step, we import some things. Both `generate_keywords_from_statement_list` and `advanced_search` are functions we are going to write.
+
+Let's actually take a look at the `advanced_search` part of it, which is much more relevant to what we have done thus far. Go ahead and make a file called `advanced_search.py`.
+
+
+
+### split
 
 
 Next we get into the filtering part of it. This is how we will refine our search.

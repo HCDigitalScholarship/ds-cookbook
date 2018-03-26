@@ -46,6 +46,7 @@ Note: we are using postfix app for setting up the email server.
 	telnet localhost 25
 	```
 	a. Once connected, enter the following.
+		
 		```
 		mail from: whatever@whatever.com
 		rcpt to: your_real_email_addr@blah.com

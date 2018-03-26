@@ -7,16 +7,15 @@ Setting up Django registration for email verification:
 * i.e. “django-registration==2.3”
 3. Update the required setting in the setting.py and add the required templates for registration according to the django registration HMAC activation workflow documentation 
 	a. In setting.py include the following
-'from django.conf.urls import include, url
+'from django.conf.urls import include, url'
 
-urlpatterns = [
+'urlpatterns = [
     # Other URL patterns ...
     url(r'^accounts/', include('registration.backends.hmac.urls')),
     # More URL patterns ...
-]
-......
-ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.'
-
+]'
+'......'
+'ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.'
 	b.Have the required templates for registration added under the directory /templates/registration
 		i.  registration/registration_form.html
 		ii. registration/registration_complete.html
@@ -55,9 +54,9 @@ Configuring Django project to send email via postfix
     EMAIL_USE_TLS = False
     DEFAULT_FROM_EMAIL = 'Server <server@whatever.com>''
 2. Test if you have successfully configured the django project with the following way:
-     './manage.py shell #open up a django shell
-     >>> from django.core.mail import send_mail
-     >>> send_mail('Subject here', 'Here is the message.', 'from@example.com',['to@example.com'], fail_silently=False)'
+     './manage.py shell #open up a django shell'
+     '>>> from django.core.mail import send_mail'
+     '>>> send_mail('Subject here', 'Here is the message.', 'from@example.com',['to@example.com'], fail_silently=False)'
 3. Check your email’s spam box to see if you have received the test email. If you have received it, Congratulation! You have successfully set up an email verification for the django project!
 
 I will do more research on how not to let the email verification end up in the user’s spam box...

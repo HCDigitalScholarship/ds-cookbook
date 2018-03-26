@@ -34,18 +34,18 @@ Note: we are using postfix app for setting up the email server.
 
 ## Setting up Postfix email server:
 1. Install postfix in the development droplet.
-a. Read the article [Configure Postfix to Send Mail Using Gmail and Google Apps on Debian or Ubuntu”](https://linode.com/docs/email/postfix/configure-postfix-to-send-mail-using-gmail-and-google-apps-on-debian-or-ubuntu/).
-```
-sudo apt-get install postfix
-```
-b. Follow the direction of the postfix installation in the above article.
+	a. Read the article [Configure Postfix to Send Mail Using Gmail and Google Apps on Debian or Ubuntu”](https://linode.com/docs/email/postfix/configure-postfix-to-send-mail-using-gmail-and-google-apps-on-debian-or-ubuntu/).
+	```
+	sudo apt-get install postfix
+	```
+	
+	b. Follow the direction of the postfix installation in the above article.
 
 2. Test the postfix email server with the following order:
-```
-telnet localhost 25
-```
-a. Once connected, enter the following.
-
+	```
+	telnet localhost 25
+	```
+	a. Once connected, enter the following.
 		```
 		mail from: whatever@whatever.com
 		rcpt to: your_real_email_addr@blah.com
@@ -54,17 +54,15 @@ a. Once connected, enter the following.
 		. (put an extra period on the last line and then press enter again)
 		```
 
-b. If everything works out, you will see something like the following.
-
+	b. If everything works out, you will see something like the following.
 		```
 		250 2.0.0 Ok: queued as CC732427AE
 		```
+	c. Then you check your test recipient email’s spam box to see if you have successfully installed the postfix.
 
-c. Then you check your test recipient email’s spam box to see if you have successfully installed the postfix.
+	d. If you have received the test email, that means the postfix is installed successfully. Note that for right now the email that is sent through postfix email server will always end up in the recipient’s spam box. In fact, if the recipient email is haverford email, you won’t even receive the test email. We will try to resolve that later.
 
-d. If you have received the test email, that means the postfix is installed successfully. Note that for right now the email that is sent through postfix email server will always end up in the recipient’s spam box. In fact, if the recipient email is haverford email, you won’t even receive the test email. We will try to resolve that later.
-
-e.You can proceed to configure the django project
+	e.You can proceed to configure the django project
 
 ## Configuring Django project to send email via postfix
 1. Add the following codes to the django project’s settings.py:

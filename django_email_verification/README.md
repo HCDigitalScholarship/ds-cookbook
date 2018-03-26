@@ -8,18 +8,18 @@ Note: we are using postfix app for setting up the email server.
 	* i.e. “django-registration==2.3”
 3. Update the required setting in the setting.py and add the required templates for registration according to the django registration HMAC activation workflow documentation 
 	a. In setting.py include the following
-```
-from django.conf.urls import include, url
+	```
+	from django.conf.urls import include, url
 
-urlpatterns = [
-    # Other URL patterns ...
-    url(r'^accounts/', include('registration.backends.hmac.urls')),
-    # More URL patterns ...
-]
-......
-ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.
-```
-b.Have the required templates for registration added under the directory /templates/registration
+	urlpatterns = [
+	    # Other URL patterns ...
+	    url(r'^accounts/', include('registration.backends.hmac.urls')),
+	    # More URL patterns ...
+	]
+	......
+	ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.
+	```
+	b.Have the required templates for registration added under the directory /templates/registration
 		- registration/registration_form.html
 		- registration/registration_complete.html
 		- registration/activate.html

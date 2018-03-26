@@ -23,6 +23,7 @@ Note: we are using postfix app for setting up the email server.
 		```
 		
 	b. Have the required templates for registration added under the directory /templates/registration.
+		
 		* registration/registration_form.html
 		* registration/registration_complete.html
 		* registration/activate.html
@@ -44,20 +45,26 @@ b. Follow the direction of the postfix installation in the above article.
 telnet localhost 25
 ```
 a. Once connected, enter the following.
-     		```
+
+		```
 		mail from: whatever@whatever.com
 		rcpt to: your_real_email_addr@blah.com
 		data (press enter)
 		type whatever content you feel like to type
 		. (put an extra period on the last line and then press enter again)
 		```
+
 b. If everything works out, you will see something like the following.
+
 		```
 		250 2.0.0 Ok: queued as CC732427AE
 		```
+
 c. Then you check your test recipient email’s spam box to see if you have successfully installed the postfix.
+
 d. If you have received the test email, that means the postfix is installed successfully. Note that for right now the email that is sent through postfix email server will always end up in the recipient’s spam box. In fact, if the recipient email is haverford email, you won’t even receive the test email. We will try to resolve that later.
-f.You can proceed to configure the django project
+
+e.You can proceed to configure the django project
 
 ## Configuring Django project to send email via postfix
 1. Add the following codes to the django project’s settings.py:

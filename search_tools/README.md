@@ -8,14 +8,14 @@ Before we can query our data, we need the user to tell us what they want! I buil
 The first thing we do is build a form. We don't actually have any search bars yet though! We will add those in dynamically with javascript later.
 
 ```
-<form id="searchers_form"  action="mysite:searchview" method="GET">
+<form id="searchers_form"  action="mysite:search" method="GET">
     <div class="form-group" id="searchers">
         <div id="searcher1"></div>
     </div>
     <input id="full_info" type="hidden" value='' name="full_info">
 </form>
 ```
-`full_info` will be a string that keeps track of the complete user query. We can pass this around easily and build it up if the user later wants to refine their results. You want the action to point the 'search' function in your views. If you are following this, that does not exist yet. Don't worry, you can leave it blank for now!
+`full_info` will be a string that keeps track of the complete user query. We can pass this around easily and build it up if the user later wants to refine their results. You want the action to point the 'search' function in your views. If you are following this, that does not exist yet. You can assume we will call it `search`, or you can leave it blank for now and I'll remind you later!
 
 The next thing we do is add the buttons.
 ```
@@ -173,11 +173,16 @@ url(r'^search_results/$', views.search, name='search'),
 ```
 Note that `'search/search.html'` is the template that is our results page. It might be good to start calling it `'search/results_page.html'` or something else that makes you even more happy.
 
-Unfortunately, the views part is so easy because we use a function that does not yet exists. We effectively are saving the work for later! Will get to it in just a sec, but first let's make that basic results page.
+Bad news! The views part is so easy because we use a function that does not yet exists. We effectively are saving the work for later! Will get to it in just a sec, but first let's make that basic results page.
 
 ### results page
 Again, I'd probably call this something like results_page.html, but in GTRP it is called search.html and with the file path`templates/search/search.html`. I might even change the filename in GTRP, it is never too late!
-# TODO Change filename done, but delete the old one
+
+UPDATE: I did change it to `results_page`. So now it is at `templates/search/results_page.html`
+
+
+We start by making the head of the document. Since we are using dataTables for this, we need to include that in the head of our html, which we do in the template format by adding it to the `extra_static` block. We also set up the head of the table.
+
 ```
 {% block extra_static %}
 <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"/>
@@ -199,12 +204,15 @@ Again, I'd probably call this something like results_page.html, but in GTRP it i
       </tr>
     </thead>
 ```
-Now we are going to be making the body of the table. As we iterate through the results our search function is going to be giving us, each result is an instance of the object/model we wanted to search on. In the case of GTRP, the results are statements. The Statment model has fields like `title`, `author`, and `issue_date`. `get_absolute_url` is a method the statement class/model has. All the statements have affiliated statment pages that contain all the metadata for that statement. `get_absolute_url` makes an actual link the that page. If you need something like this, in GTRP, it looks like this: 
+
+Now we are going to be making the body of the table. As we iterate through the results our search function is going to be giving us, each result is an instance of the object/model we wanted to search on. In the case of GTRP, the results are statements. The Statment model has fields like `title`, `author`, and `issue_date`. `get_absolute_url` is a method the statement class/model has. All the statements have affiliated statement pages that contain all the metadata for that statement. `get_absolute_url` makes an actual link the that page. If you need something like this, in GTRP, it looks like this: 
 ```
     def get_absolute_url(self):
         return reverse('gtr_site:statement', args=[self.statement_id])
 ```
-And the table body code:
+But you don't neccessarily need that.
+
+Now, the table body code:
 ```
     <tbody>
     <!-- now we iterate through the results -->
@@ -223,11 +231,11 @@ And the table body code:
   {% endblock %}
 ```
 
-Again, you will need to change this a little so it matches what you want to display, which is really an important thing to think about! Now we can move on the the actual searching functions.
+Again, you will need to change this a little so it matches what you want to display, which is a big thing to think about! Now we can move on the the actual searching functions.
 
 ### filtering.py and advanced_search.py
 
-If you remember from before, our view function called something from `filtering.py`. So, let's make a new python file, and call it `filtering.py`. We will be basically the same stuff when we are filtering and when we are just doing this initial search, so the view just calls filtering, then filtering calls something in `advanced_search.py`. In fact, we probably want to look at `advanced_search.py` first, so let's do it!
+If you remember from before, our view function called something from `filtering.py`. We will be doing basically the same stuff when we are filtering and when we are just doing an initial search, so the view just calls filtering, then filtering calls something in `advanced_search.py` and then some other stuff if additional filtering is involved. In fact, we probably want to look at `advanced_search.py` first, so let's do it!
 
 ```
 from models import *
@@ -315,7 +323,11 @@ def make_query_part(search_string, field):
     return query_part
 
 ```
-I think this function is generally pretty clear if you have a grip on navigating Django foreign key/many-to-many fields. If you don't, I'll briefly talk about it! Each of these Q() objects is going to be searching for statements. So the first word, say `released_by`, is a field of the statment model that we want to be able to search on. The `__org_name` follows backwards along a foreign key relation since organizations are their own model and looks at the field `org_name` in that organization model. Then we use a special Django Q() thing `__icontains` which tells the Q() to match a statement if the field contains whatever is in `search_string`. So in summary, `Q(released_by__org_name__icontains=search_string)` means 'match statements that for the field `released_by` have `search_string` contained in the `org_name` field of organization. You *absolutely* will need to change this function to match your data, but it will likely will be very much in the same style. First you have the `Any Field` option. This query is just all the other field options OR'd together. Then, we just have a bunch of elseif's to match the field options we had in our drop dowm. For GTRP, we had to do some fancy-footwork for the `Keyword in Context` field, something you might not have to do, but I left it in to remind you that you can! 
+Basically, we create a Q() object for the selected field, filtering with the given `search_string`. I think this function is generally pretty clear if you have a grip on navigating Django foreign key/many-to-many fields. If you don't, I'll briefly talk about it!
+
+Each of these Q() objects is going to be searching for statements. So the first word, say `released_by`, is a field of the statement model that we want to be able to search on. The `__org_name` follows backwards along a foreign key relation since organizations are their own model and looks at the field `org_name` in that organization model. Then we use a special Django Q() thing `__icontains` which tells the Q() to match a statement if the field contains whatever is in `search_string`. So in summary, `Q(released_by__org_name__icontains=search_string)` means 'match statements that for the field `released_by` have `search_string` contained in the `org_name` field of organization.
+
+You *absolutely* will need to change this function to match your data, but it will likely will be very much in the same style. First you have the `Any Field` option. This query is just all the other field options OR'd together. Then, we just have a bunch of elseif's to match the field options we had in our drop dowm. For GTRP, we had to do some fancy-footwork for the `Keyword in Context` field, something you might not have to do, but I left it in to remind you that you can! 
 
 Now that we have query_parts, we can combine them. Let's pop back into the main body of `advanced_search.py`, we are going to make a query!
 
@@ -357,33 +369,21 @@ def advanced_search(request):
                return False
     print "Here is your query", query
 ```
-Woo, we made a query! 
+Woo, we made a query! We iterate through all our dictionaries, making query parts and then adding them on to the rest of our query with the appropriate logic.
 
-Next we just run it, which is easy money!
+Next we just run the query, and return the appropriate context, which is easy money!
 ```
     statement_list = Statement.objects.all()
-    statement_list = statement_list.filter(query).distinct()
-    print "generating statement_list took", time.time() - start, "seconds"
-```
-After that, at least in GTRP, we do something real slow. We want to find how often a keyword occurs across all the statements. 
-```
-    # now generate the list of keywords
-    # This is a little slow
-    start = time.time()
-    keywords_and_counts = generate_keywords_from_statement_list.generate_top_n_keywords(statement_list, 20)
-    keywords = [key_count[0] for key_count in keywords_and_counts]
-    print "generating keywords took", time.time() - start, "seconds"
-    for statement in statement_list:
-	print statement
-	
-    context = {'results' : statement_list, 'keywords' : keywords, 'keywords_and_counts' : keywords_and_counts, 'search' : search_string, 'full_info' : request.GET["full_info"], 'num_results' : len(statement_list)}
+    statement_list = statement_list.filter(query).distinct()	
+    context = {'results' : statement_list, 'keywords' : keywords, 'search' : search_string, 'full_info' : request.GET["full_info"], 'num_results' : len(statement_list)}
     return context
 ```
-And that's the end of it! Well not really, `generate_keywords_from_statement_list` is a file we have to write! BUT if you comment that stuff out, and the stuff in context that relates to it, and also change the `search` view so it just calls this, we should be able to test what we have thus far! Try it and see if something goes wrong, I am regrettably not following along on my own machine.
+And that's the end of it! If you temporarily change the `search` view so it calls this instead of `filtering`, we should be able to test what we have thus far! Try it and see if something goes wrong, I am regrettably not following along on my own machine.
 
-However, it turns out we don't really use the function we just wrote :(
+While it is really nice that we are able to test our code, it turns out we don't really use the function we just wrote :(
 
 We do something _super_ similar though. Instead executing the query, we just make it, so that we can give that to filtering and then make an even bigger query! Here is what that looks like for me, I made a separate function and just deleted the last couple steps of the old one, adding in a `return query` line.
+
 ```
 # used for filtering
 def advanced_search_make_query(request):
@@ -426,10 +426,8 @@ def advanced_search_make_query(request):
 return query
 ```
 
-
-# TODO add the generate keywords function
 # TODO Working on the filtering.py part now.
-
+#### filtering.py
  take a look at filtering.py:
 ```
 from models import *

@@ -237,6 +237,8 @@ Again, you will need to change this a little so it matches what you want to disp
 
 If you remember from before, our view function called something from `filtering.py`. We will be doing basically the same stuff when we are filtering and when we are just doing an initial search, so the view just calls filtering, then filtering calls something in `advanced_search.py` and then some other stuff if additional filtering is involved. In fact, we probably want to look at `advanced_search.py` first, so let's do it!
 
+#### advanced_search.py
+
 ```
 from models import *
 from django.db.models import Q
@@ -375,12 +377,12 @@ Next we just run the query, and return the appropriate context, which is easy mo
 ```
     statement_list = Statement.objects.all()
     statement_list = statement_list.filter(query).distinct()	
-    context = {'results' : statement_list, 'keywords' : keywords, 'search' : search_string, 'full_info' : request.GET["full_info"], 'num_results' : len(statement_list)}
+    context = {'results' : statement_list, 'search' : search_string, 'full_info' : request.GET["full_info"], 'num_results' : len(statement_list)}
     return context
 ```
-And that's the end of it! If you temporarily change the `search` view so it calls this instead of `filtering`, we should be able to test what we have thus far! Try it and see if something goes wrong, I am regrettably not following along on my own machine.
+And that's the end of it! If you temporarily change the `search` view so it calls this instead of `filtering`, we should be able to test what we have thus far! Try it and see if something goes wrong, I am regrettably not following along on my own machine. 
 
-While it is really nice that we are able to test our code, it turns out we don't really use the function we just wrote :(
+If you are happy with this level of functionality, you can probably stop here! The next thing we are going to be doing is adding additional filtering capabilities, so that we can refine the results of our query. If you want to continue and do that, it turns out we don't really use the function we just wrote :(
 
 We do something _super_ similar though. Instead executing the query, we just make it, so that we can give that to filtering and then make an even bigger query! Here is what that looks like for me, I made a separate function and just deleted the last couple steps of the old one, adding in a `return query` line.
 
@@ -426,9 +428,9 @@ def advanced_search_make_query(request):
 return query
 ```
 
-# TODO Working on the filtering.py part now.
 #### filtering.py
- take a look at filtering.py:
+Go ahead and make a new file, call it `filtering.py`. As a standard first step, we import some things. `generate_keywords_from_statement_list` is a function we are going to write, but don't worry about it yet.
+ 
 ```
 from models import *
 from django.db.models import Q
@@ -439,16 +441,7 @@ import datetime
 import json
 ```
 
-As a standard first step, we import some things. Both `generate_keywords_from_statement_list` and `advanced_search` are functions we are going to write.
-
-Let's actually take a look at the `advanced_search` part of it, which is much more relevant to what we have done thus far. Go ahead and make a file called `advanced_search.py`.
-
-
-
-### split
-
-
-Next we get into the filtering part of it. This is how we will refine our search.
+Here we are looking at the request and seeing what all is included and excluded. We put `a_keyword = 'key_ON'` if we want to include `a_keyword` e.g. `'Iraq = 'key_ON`. Similarly, we put `a_keyword = 'key_OFF'` if we want to exclude a keyword. This information will be coming to us hot from the `results_page` template.
 
 ```
 def filter_by_keyword(request):
@@ -462,7 +455,8 @@ def filter_by_keyword(request):
         elif key_ON_OFF == 'key_OFF':
             exclude.append(key)
 ```
-Here we are looking at the request and seeing what all is included and excluded.
+Next we generate the base query using the `advanced_search` function we wrote!
+
 ```
     # base query without any filtering (including or excluding)
     # we will build it up with relevant filtering
@@ -472,7 +466,9 @@ Here we are looking at the request and seeing what all is included and excluded.
     # query = request.POST.get('search', False)
 
     print "Query: ", query
-
+```
+Next, we call the query we have so far, then further refine that list of statements based on the items in include and exclude. We run the filtering for each item in the list, because it didn't work when I tried to build up another query. Looking back, maybe if we _don't_ call the initial query and build more on that it would work. But, it doesn't actually take that long to query, so I don't think it is worth me testing out.
+```
     start - time.time()
     statement_list = Statement.objects.all()
     statement_list = statement_list.filter(query).distinct()
@@ -497,6 +493,70 @@ Here we are looking at the request and seeing what all is included and excluded.
         query = query & ~exclude_query
         statement_list = statement_list.filter(~exclude_query).distinct()
     print "Time for all excluding", time.time() - start
+```    
+In gtrp, we also wanted to get a count of the number of statements the keyword appears in. This is what `generate_keywords_from_statement_list` does. You'll probably need a list of things to filter on too, but I would highly recommend setting up the data in a different way. I'm not sure if I am doing something stupid, or if the models were set up poorly, but this takes a computationally long time to do.
+    
+You can make a separate file called `generate_keywords_from_statement_list`. The code for this pretty close to stands on its own. In `generate_keywords_dictionary`, `get_keywords_unique` is a method in the statement model that gives us all the keyowrds for that statement. We iterate through that set, adding to a count if the keyword is in keywords_dict, or adding it to the dictionary if it isn't already there. The other functions just build on that function and make it convinient to call.
+    
+```
+"""
+Functions currently used in filtering.py pertaining to getting the right keywords for display.
+"""
+from models import *
+import time
+
+def generate_keywords_dictionary(statement_list):
+    """
+       given a list of statement (like the one returned when you query the DB)
+       find all the keywords linked to those statements and the number of time the are linked
+       return a dictionary where keys are keywords and values are that number:  {Iraq : 300}
+    """
+
+    start = time.time()
+    keywords_dict = {}
+    for statement in statement_list:
+        statement_keywords = statement.get_keywords_unique()
+	for keyword in statement_keywords:
+	    if keyword in keywords_dict:
+	        keywords_dict[keyword]+=1
+	    else:
+		keywords_dict[keyword] = 1
+    print "generating keywords took", time.time() - start, "seconds"
+    return keywords_dict
+
+
+def get_top_keywords(keywords_dict, top_n):
+    """
+    Used to get the top results to display for keyword filtering
+    Given a dictionary of keywords as keys and the number of times that keyword is linked to a statement in the search results: {Iraq : 300}
+    Returns the top n results as as list of pairs, ordered by appearances: [(Iraq, 300), (Iran, 200)]
+    """
+    return sorted(keywords_dict.items(), key=lambda student: student[1], reverse=True)[:top_n]
+
+
+    
+def generate_top_n_keywords(statement_list, top_n):
+    """
+     Generates and gets top n keywords.
+    """
+    return get_top_keywords(generate_keywords_dictionary(statement_list), top_n)
+
+def generate_just_keywords(statement_list):
+    """
+       You might need this and I already wrote it!
+       but nothing uses it as of right now...
+       Returns a set of keywords
+    """
+    start = time.time()
+    keywords = set()
+    keyword_sets = [set(statement.get_keywords()) for statement in qs_list]
+    keywords = keywords.union(*keyword_sets)
+    print "generating keywords took", time.time() - start, "seconds"
+return keywords
+```
+Now we go back to where we were in `filtering.py` and use our shiny new function.
+    
+    ```
     include_keywords_and_counts = generate_keywords_from_statement_list.generate_top_n_keywords(statement_list, 50)
     print include_keywords_and_counts
     # Add the excluded keywords back to the list, and truncate it to 20 entries.
@@ -505,11 +565,17 @@ Here we are looking at the request and seeing what all is included and excluded.
         exclude_keywords_and_counts.insert(0, [exc, 'x'])
     exclude_keywords_and_counts = exclude_keywords_and_counts[:20]
     keywords = [key_count[0] for key_count in include_keywords_and_counts]
+    ```
+We also do some filtering by date in gtrp, but I haven't written about that. You can check it out in the code, or just not do it. Regardless, this next line related to that.
+    ```
     if 'filter_by_date' in request.GET:
         if request.GET['filter_by_date']=='date_ON':
             date_query, date_list = filter_by_date(request)
             statement_list =  statement_list.filter(date_query)
+    ```
+Now we want to save some things so our results can carry over. We might not need to do this anymore, we really changed the way we were filtering. We started filtering with javascript on the client side, and I didn't really do that. I can tell you we now dump all the data into a json object a hand that over to the client, then it filters really quickly!
 
+```
     # now we store what we have included and excluded
     # passing it in the context
     # so the checked buttons and the shown statement carry over to the next filtering sesh
@@ -539,7 +605,10 @@ Here we are looking at the request and seeing what all is included and excluded.
         context['date_list'] = date_list
     return context
 
+```
 
+Here are some more functions to deal with fitlering by date and serializing our objects to json. 
+```
 def filter_by_date(request):
     print request.GET
     date_list = []
@@ -581,4 +650,4 @@ def statement_to_dictionary(statement):
     author = statement.author.person_name
 return {'title': statement.title, 'author': author, 'keywords': keywords}
 ```
-
+# TODO we just need to add the filter buttons to the results_page. It should be kind of easy

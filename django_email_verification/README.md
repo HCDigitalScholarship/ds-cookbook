@@ -7,7 +7,7 @@ Note: we are using postfix app for setting up the email server.
 2. In the requirement.txt, include the installation of django-registration package or pip install django-registration in the virtual env.
 	* i.e. “django-registration==2.3”
 3. Update the required setting in the setting.py and add the required templates for registration according to the django registration HMAC activation workflow documentation 
-	a. In setting.py include the following
+a. In setting.py include the following
 		
 		```
 		from django.conf.urls import include, url
@@ -21,23 +21,23 @@ Note: we are using postfix app for setting up the email server.
 		ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.
 		```
 		
-	b. Have the required templates for registration added under the directory /templates/registration
-	   * registration/registration_form.html
-	   * registration/registration_complete.html
-	   * registration/activate.html
-	   * registration/activation_complete.html
-	   * registration/activation_email_subject.txt
-	   * registration/activation_email.txt
-	   * You can consult this [github repo](https://github.com/macdhuibh/django-registration-templates/tree/master/registration) that gives an example about how to write those templates: This github repo offers very good examples.
+b. Have the required templates for registration added under the directory /templates/registration
+* registration/registration_form.html
+* registration/registration_complete.html
+* registration/activate.html
+* registration/activation_complete.html
+* registration/activation_email_subject.txt
+* registration/activation_email.txt
+* You can consult this [github repo](https://github.com/macdhuibh/django-registration-templates/tree/master/registration) that gives an example about how to write those templates: This github repo offers very good examples.
 
 ## Setting up Postfix email server:
 1. Install postfix in the development droplet
-	a. Read the article “Configure Postfix to Send Mail Using Gmail and Google Apps on Debian or Ubuntu” <https://linode.com/docs/email/postfix/configure-postfix-to-send-mail-using-gmail-and-google-apps-on-debian-or-ubuntu/>
-	b. sudo apt-get install postfix
-	c. Follow the direction of the postfix installation in the above article.
+a. Read the article “Configure Postfix to Send Mail Using Gmail and Google Apps on Debian or Ubuntu” <https://linode.com/docs/email/postfix/configure-postfix-to-send-mail-using-gmail-and-google-apps-on-debian-or-ubuntu/>
+b. sudo apt-get install postfix
+c. Follow the direction of the postfix installation in the above article.
 2. Test the postfix email server with the following order:
-   a. telnet localhost 25
-   b. Once connected, enter the following:
+a. telnet localhost 25
+b. Once connected, enter the following:
      		```
 		mail from: whatever@whatever.com
 		rcpt to: your_real_email_addr@blah.com
@@ -45,13 +45,13 @@ Note: we are using postfix app for setting up the email server.
 		type whatever content you feel like to type
 		. (put an extra period on the last line and then press enter again)
 		```
-   c. If everything works out, you will see something like the following:
+c. If everything works out, you will see something like the following:
 		```
 		250 2.0.0 Ok: queued as CC732427AE
 		```
-   d. Then you check your test recipient email’s spam box to see if you have successfully installed the postfix
-   e. If you have received the test email, that means the postfix is installed successfully. Note that for right now the email that is sent through postfix email server will always end up in the recipient’s spam box. In fact, if the recipient email is haverford email, you won’t even receive the test email. We will try to resolve that later.
-   f.You can proceed to configure the django project
+d. Then you check your test recipient email’s spam box to see if you have successfully installed the postfix
+e. If you have received the test email, that means the postfix is installed successfully. Note that for right now the email that is sent through postfix email server will always end up in the recipient’s spam box. In fact, if the recipient email is haverford email, you won’t even receive the test email. We will try to resolve that later.
+f.You can proceed to configure the django project
 
 ## Configuring Django project to send email via postfix
 1. Add the following codes to the django project’s settings.py:

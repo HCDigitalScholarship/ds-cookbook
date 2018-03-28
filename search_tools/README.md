@@ -3,6 +3,9 @@ In this tutorial, I'll cover how to make an advanced search tool like the one us
 All of the querying is handled with [standard Django querying and filtering](https://docs.djangoproject.com/en/2.0/topics/db/queries/) in addition with [Django Q()'s](https://docs.djangoproject.com/en/2.0/topics/db/queries/#complex-lookups-with-q-objects).
 I recommend taking a look at those links for more details, or if you run into any problems.
 
+## What are you looking for?
+Don't just start copy and pasting stuff from this willy-nilly, you should first think about how searching is contributing to the project and how you want to be able to search for things. 
+
 ## Making the search bars (JavaScript and HTML)
 Before we can query our data, we need the user to tell us what they want! I built my search bars in plain-old HTML and jQuery. For me, this is just on the index page, but you might want it somewhere else.
 The first thing we do is build a form. We don't actually have any search bars yet though! We will add those in dynamically with javascript later.
@@ -72,17 +75,6 @@ We finally get to make our first search bar! How exciting! Since this one is the
 ```
       // make first search bar. This one can't be deleted
       $("#searcher1").append("<span><div class='input-group stylish-input-group'><input type='text' class='form-control search_text' name='search' placeholder='Search...'><span class='input-group-addon'><button type='submit'><span class='glyphicon glyphicon-search'></span></button></span></div> in " + select_fields + "</span>");
-```
-
-_Uh, this next part doesn't do anything?_ I think I was in the process of doing something else. If you are an eager reader and are eagerly reading this, go ahead and skip this next code block.
-```
-        $("#filter_form").submit(function( event) {
-          for(i=1; i <= $("#searcher_counter").val(); i++) {
-            var dateValues = $("#searcher"+i).dateRangeSlider("values");
-            //$("#dateLow"+i).val(dateValues.min.toString());
-            //$("#dateHigh"+i).val(dateValues.max.toString());
-          }     
-        });
 ```
 
 Now we define what happens when you click the `AND`, `OR` and `NOT` buttons we made early. They add searchers!
@@ -761,3 +753,5 @@ var allKeywords = {{ all_keywords }};
 ```
 
 Now you should have nice pushy buttons on your results page!
+Hopefully everything is working nicely, but I think that is unlikely. Try to find problems and make improvements! Remember that you can always look back at the actual gtrp if you think something is missing.
+

@@ -650,4 +650,114 @@ def statement_to_dictionary(statement):
     author = statement.author.person_name
 return {'title': statement.title, 'author': author, 'keywords': keywords}
 ```
-# TODO we just need to add the filter buttons to the results_page. It should be kind of easy
+#### A final update to results page
+We have just this last thing to do. I'm sure you will have to debug too!. We now filter based in additional keyword constraints, but the user doesn't have a good way of exploring and selecting the keyword they want to filter with. Basically, we are going to add a bunch of checkboxes. Going back to `templates/search/results_page.html`, add in on the top:
+```
+<div class="row">
+  <div class="col-md-3 top-buffer" id="search_filter">
+    <h3>Your query returned {{ num_results }} results</h3>
+    <h3>Filter Keywords</h3>
+    <h4>Include</h4>
+      <ul class="list-group" id="include-buttons">
+      {% for keyword in keywords %}
+        <li class="list-group-item justify-content-between">
+          <input type="checkbox" name="{{ keyword }}" value="key_ON" class="filter_check form-check-input include-checkbox">
+          {{ keyword }}
+          <span class="badge badge-default badge-pill">-1</span>
+        </li>
+      {% endfor %}
+      </ul>
+      <h4>Exclude</h4>
+      <ul class="list-group" id="exclude-buttons">
+      {% for keyword in keywords %}
+        <li class="list-group-item justify-content-between">
+          <input type="checkbox" name="{{ keyword }}" value="key_OFF" class="filter_check form-check-input exclude-checkbox">
+            {{ keyword }}
+            <span class="badge badge-default badge-pill">{{ -1 }}</span>
+        </li>
+      {% endfor %}
+      </ul>
+</div>
+```
+
+Also, add this at the end, before the end of the content block
+```
+<script>
+{% autoescape off %}
+var jsonResults = {{ json_results }};
+var allKeywords = {{ all_keywords }};
+{% endautoescape %}
+</script>
+```
+
+So, all together you should have:
+```
+{% block extra_static %}
+<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"/>
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="{% static 'gtr_site/css/iThing.css' %}" type="text/css" />
+<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="{% static 'gtr_site/js/search_results.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-3 top-buffer" id="search_filter">
+    <h3>Your query returned {{ num_results }} results</h3>
+    <h3>Filter Keywords</h3>
+    <h4>Include</h4>
+      <ul class="list-group" id="include-buttons">
+      {% for keyword in keywords %}
+        <li class="list-group-item justify-content-between">
+          <input type="checkbox" name="{{ keyword }}" value="key_ON" class="filter_check form-check-input include-checkbox">
+          {{ keyword }}
+          <span class="badge badge-default badge-pill">-1</span>
+        </li>
+      {% endfor %}
+      </ul>
+      <h4>Exclude</h4>
+      <ul class="list-group" id="exclude-buttons">
+      {% for keyword in keywords %}
+        <li class="list-group-item justify-content-between">
+          <input type="checkbox" name="{{ keyword }}" value="key_OFF" class="filter_check form-check-input exclude-checkbox">
+            {{ keyword }}
+            <span class="badge badge-default badge-pill">{{ -1 }}</span>
+        </li>
+      {% endfor %}
+      </ul>
+ </div>
+ <div class= "col-md-9 top-buffer" id="search_table">
+  <table id="mainTable" class="table table-bordered">
+    <thead>
+      <tr>
+        <!-- this is where the table headers go-->
+        <th>Title</th>
+        <th>Author</th>
+        <th>Issue Date</th>
+      </tr>
+    </thead>
+    <tbody>
+    <!-- now we iterate through the results -->
+    {% for result in results %}
+      <tr>
+        <!-- this is how each row is filled with data -->
+        <td><a href="{{ result.get_absolute_url }}">{{ result.title }}</a></td>
+        <td><a href="author/{{ result.author }}">{{ result.author }}</a></td>
+        <td>{{ result.issue_date}}</td>
+        <td>{{ result.keyword_str }}</td> <!-- What's this? I don't really know, it might be a feature of datatables? When I delete it, things went bad, including the ability to sort ascending/descending on columns -->
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</div> <!-- end of row div -->
+<script>
+{% autoescape off %}
+var jsonResults = {{ json_results }};
+var allKeywords = {{ all_keywords }};
+{% endautoescape %}
+</script>
+  {% endblock %}
+```
+
+Now you should have nice pushy buttons on your results page!

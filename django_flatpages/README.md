@@ -141,7 +141,7 @@ Pip install:
     ```
     'ckeditor_uploader'
     ```
- 3. After Installed_APPs, add the following:
+ 3. After Installed_Apps, add the following:
  
     ```
     CKEDITOR_UPLOAD_PATH = "uploads/"
@@ -159,6 +159,13 @@ Pip install:
  
     ```
     content = forms.CharField(widget=CkeditorUploadingWidget())
+    ```
+ **_urls.py_**
+ 
+ 1. Under **urlpatterns =**, add the following:
+ 
+    ```
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     ```
  
 ---

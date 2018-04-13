@@ -2,7 +2,7 @@
 
 In this tutorial (largely based on the Django [documentation](https://docs.djangoproject.com/en/2.0/ref/contrib/flatpages/) regarding the Flatpages app), I will go through how to install Flatpages and Ckeditor by noting the files to be edited and what additions need to be made. 
 
-Flatpages are used to offer a standard template that can be applied to all static pages. The standard template can include headers, footers, sidebars, etc. Additionally, the user can edit each page to include its unique content through admin. This allows users without html, css, or java knowledge to add and edit pages for the site. Ckeditor offers tools for the user to make edits to the contents of each page. The following tutorial describes how the basic Ckeditor configuration is installed, but the user can make alterations to this configuration based on what editing tools they find useful to their site.    
+Flatpages are used to offer a standard template that can be applied to all static pages. The standard template can include headers, footers, sidebars, etc. Additionally, the user can edit each page to include its unique content through admin. This allows users without html, css, or java knowledge to add and edit pages for the site. Ckeditor offers tools for the user to make edits to the contents of each page. The following tutorial describes how the basic Ckeditor configuration is installed, as well as offers instructions for installing the 'file upload' Ckeditor feature. The user can make additional alterations to this configuration dependent on the editing tools they find useful to the creation of their site.   
 
 ---
 
@@ -118,7 +118,7 @@ Pip install:
   content = forms.CharField(widget=CKEditorWidget())
   ```
  ---
- ## Installing Ckeditor file upload (largely based on the Django [documentation](https://django-ckeditor.readthedocs.io/en/latest/#required-for-using-widget-with-file-upload), under 'required for using widget with file upload'):
+ ## Installing Ckeditor file upload (largely based on the Django [documentation](https://django-ckeditor.readthedocs.io/en/latest/#required-for-using-widget-with-file-upload), under the header 'required for using widget with file upload'):
  
  Pip install:
  

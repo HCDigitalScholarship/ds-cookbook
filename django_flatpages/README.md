@@ -117,6 +117,50 @@ Pip install:
   ```
   content = forms.CharField(widget=CKEditorWidget())
   ```
+ ---
+ ## Installing Ckeditor file upload:
+ 
+ Pip install:
+ 
+ ```
+ pillow
+ ```
+  *  **This needs to be done in the virtual environment!**
+ 
+ **_settings.py_**
+ 
+ 1. After STATIC_ROOT, add the following:
+ 
+    ```
+    MEDIA_ROOT= os.path.join(BASE_DIR, 'media/')
+    
+    MEDIA_URL = '/media/'
+    ```
+ 2. Under **Installed_Apps**, add the following:
+ 
+    ```
+    'ckeditor_uploader'
+    ```
+ 3. After Installed_APPs, add the following:
+ 
+    ```
+    CKEDITOR_UPLOAD_PATH = "uploads/"
+    
+    CKEDITOR_IMAGE_BACKEND = "pillow"
+    ```
+ **_admin.py_**
+ 
+ 1. After 'from ckeditor.widgets import CKEditorWidget', add the following:
+ 
+    ```
+    from ckeditor_uploader.widgets import CKEditorUploadingWidget
+    ```
+ 2. Under **class FlatpageForm(FlatpageFormOld):**, make the following changes: 
+ 
+    ```
+    content = forms.CharField(widget=CkeditorUploadingWidget())
+    ```
+ 
 ---
 ## Creating a 'Flatpages' template
 

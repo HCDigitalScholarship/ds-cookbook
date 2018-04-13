@@ -118,7 +118,7 @@ Pip install:
   content = forms.CharField(widget=CKEditorWidget())
   ```
  ---
- ## Installing Ckeditor file upload:
+ ## Installing Ckeditor file upload (largely based on the Django [documentation](https://django-ckeditor.readthedocs.io/en/latest/#required-for-using-widget-with-file-upload), under 'required for using widget with file upload'):
  
  Pip install:
  

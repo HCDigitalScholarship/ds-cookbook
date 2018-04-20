@@ -1,8 +1,8 @@
 # Django Flatpages and Ckeditor
 
-In this tutorial (largely based on the Django [documentation](https://docs.djangoproject.com/en/2.0/ref/contrib/flatpages/) regarding the Flatpages app), I will go through how to install Flatpages and Ckeditor by noting the files to be edited and what additions need to be made. 
+In this tutorial (largely based on the Django [documentation](https://docs.djangoproject.com/en/2.0/ref/contrib/flatpages/) regarding the Flatpages app), I will explain how to install Flatpages and Ckeditor by noting the files to be edited and what additions need to be made. 
 
-Flatpages are used to offer a standard template that can be applied to all static pages. The standard template can include headers, footers, sidebars, etc. Additionally, the user can edit each page to include its unique content through admin. This allows users without html, css, or java knowledge to add and edit pages for the site. Ckeditor offers tools for the user to make edits to the contents of each page. The following tutorial describes how the basic Ckeditor configuration is installed, as well as offers instructions for installing the 'file upload' Ckeditor feature. The user can make additional alterations to this configuration dependent on the editing tools they find useful to the creation of their site.   
+Flatpages are used to create a standard template that can be applied to all static pages in a project. The standard template can include headers, footers, sidebars, etc. Additionally, the user can edit each individual flatpage to include its unique content. This allows users without html, css, or java knowledge to add and edit pages for their site. Ckeditor offers tools for the user to make edits to the contents of each page. The following tutorial describes how the basic Ckeditor configuration is installed, as well as offers instructions for installing the 'file upload' Ckeditor feature. The user can make additional alterations to this configuration to access editing tools that they find beneficial to the creation of their site.   
 
 ---
 

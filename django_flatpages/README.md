@@ -119,7 +119,7 @@ Pip install:
   ```
  ---
  ## Installing Ckeditor file upload
-     largely based on the Django [documentation](https://django-ckeditor.readthedocs.io/en/latest/#required-for-using-widget-with-file-upload) under the header: 'required for using widget with file upload'
+   largely based on the Django [documentation](https://django-ckeditor.readthedocs.io/en/latest/#required-for-using-widget-with-file-upload) under the header: 'required for using widget with file upload'
  
  Pip install:
  

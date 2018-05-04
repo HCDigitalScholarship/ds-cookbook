@@ -104,7 +104,7 @@ Pip install:
    ```
   This step is necessary to prevent Ckeditor from erasing your added html.
   
- 3. You should also make a small change to the ckeditor settings.  By default, CKeditor removes all html tags on load and leaves only the text.  This can be a problem if your flat page has images or links or any html other than <p> tags.  Find config.js in the ckeditor/ckeditor directory.  Add this line `config.allowedContent = true;` so that the config file is similar to the one below: 
+Alternatively, if you're not using the Django plugin, you can change config.js.  Add this line `config.allowedContent = true;` so that the config file is similar to the one below: 
  ```
  CKEDITOR.editorConfig = function( config ) {
         // Define changes to default configuration here. For example:

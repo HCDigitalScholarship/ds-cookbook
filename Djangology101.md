@@ -1,11 +1,16 @@
 Notes from the Summer 2018 workshop on Django 
 
 ***
-create virtualenv
-`conda create python=3 env_name`  
-`virtualenv --p python3 env_name`  
+Create a virtual enviornment 
+Anaconda `conda create python=3 env_name`  
+Virtualenv `virtualenv --p python3 env_name`  
+# Switch out of virtualenv
+`source deactivate`  
+`deactivate`  
 
 ***
+Create a new Django project
+in the virtual environment `pip install django`  
 `django-admin startproject project_name`  
 `manage.py migrate`  
 `manage.py createsuperuser`  

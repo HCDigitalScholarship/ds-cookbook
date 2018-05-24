@@ -41,3 +41,19 @@ Tuesday
 		
 		importing data into Django 
 		Ckeditor
+***
+Debuggin problems with nginx &uWsgi settings:
+In your uwsgi ini file, check the...
+1) project directory /srv/test  
+2) environment /srv/test_env  
+3) 
+from settings.py  
+WSGI_APPLICATION = 'FIRST.wsgi.application'  
+4) check that 
+uwsgi ini file  
+`socket = /run/uwsgi/app/sourcebook/FIRST.socket`    
+is the same as nginx sites-available  
+`uwsgi_pass unix:/run/uwsgi/app/sourcebook/FIRST.socket`  
+
+tail -f /var/log/uwsgi/app/app_name  
+tail -f /var/log/nginx/error.log  

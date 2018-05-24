@@ -3,7 +3,7 @@ Notes from the Summer 2018 workshop on Django
 ***
 Create a virtual enviornment 
 Anaconda `conda create python=3 env_name`  
-Virtualenv `virtualenv --p python3 env_name`  
+Virtualenv `virtualenv -p python3 new_app`  
 # Switch out of virtualenv
 `source deactivate`  
 `deactivate`  

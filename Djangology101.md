@@ -2,24 +2,27 @@
 
 ***
 ### Create a virtual enviornment 
-Anaconda `conda create python=3 env_name`    
+[Anaconda](https://conda.io/docs/index.html) `conda create python=3 env_name`    
 Virtualenv `virtualenv -p python3 new_app`    
 Switch out of virtualenv
-`source deactivate`  
-`deactivate`  
+`source deactivate` (anaconda) or `deactivate` (virtualenv)    
 
 ***
-Create a new Django project
-in the virtual environment `pip install django`  
-`django-admin startproject project_name`  
-`manage.py migrate`  
-`manage.py createsuperuser`  
-`manage.py startapp`  
-edit settings.py  
-edit urls.py  
-edit views.py  
-edit template/index.html  
-manage.py runserver  
+### Create a new Django project
+In the virtual environment `pip install django`.  If you need a specific version `pip install django==2.0.1`  
+
+-  Create a new Django project with `django-admin startproject project_name`.  This will create a new subfolder for the project.
+
+- `manage.py migrate`  
+- `manage.py createsuperuser`  
+- `manage.py startapp`  
+- edit settings.py  
+- edit urls.py  
+- edit views.py  
+- edit template/index.html  
+- manage.py runserver  
+
+
 ***		
 		
 #Resources  

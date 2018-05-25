@@ -64,9 +64,30 @@ The item view.  This will return a specific item.
 ```python
 def items(request, item):
     item = item.objects.filter(name_icontains=item)
-    return render(request, 'items.html', { 'item':items })
+    return render(request, 'item.html', { 'item':items })
 ```
-- edit template/index.html  
+- Note that we'll need the html files `items.html` and `item.html`.  In the application directory create a new directory called templates (`$ mkdir templates`).  Use a text editor to create and edit three files.     
+*base.html*
+```html
+{% load staticfiles %}
+<!DOCTYPE HTML>
+<html>
+{% block head %}
+{% endblock%}
+{% block content %}{% endblock %}
+{% block footer %}{% endblock %}
+</body>
+</html>
+```
+
+*index.html* 
+```html
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+{% endblock  %}
+```
+
 - manage.py runserver  
 
 

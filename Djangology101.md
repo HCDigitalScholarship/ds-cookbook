@@ -21,7 +21,7 @@ In the virtual environment `pip install django`.  If you need a specific version
 
 - Before you can log in to the admin page, you'll need to create a user by typing `$ python manage.py createsuperuser`.    
 - To add you new app to the project, edit `settings.py`.  Use a text editor to add `'app_name',` to the INSTALLED_APPS section.  
-```
+```python
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -32,8 +32,40 @@ INSTALLED_APPS = (
     'app_name',
 )
 ```
-- edit urls.py  
-- edit views.py  
+- Next you need to create a url path.  Edit `urls.py` so that a request for your url is directed to a view.  
+```python
+# When nothing but the domain or ip address is entered.
+path('', views.index, name='index'),
+# When we receive a url with items/ at the end.
+path('items/', views.items, name='items'),
+# When we recive items followed by the name of an item.
+path('items/<item>', views.item, name='item'),
+```
+For projects running earlier versions of Django (<2.0)  
+```python
+# When nothing but the domain or ip address is entered.
+url(r'^$', views.index, name = 'index'),
+# When we receive a url with items/ at the end.
+url(r'^items/$', views.items, name = "items"),
+```  
+- Next you'll need to create the views.  Let's use the example of index, item and items above. In the application directory edit `views.py`:  
+To create the index view. 
+```python
+def index(request):
+    return render(request, 'index.html')
+```
+The items view.  This will return all the items in the database. 
+```python
+def items(request):
+    items = item.objects.all()
+    return render(request, 'items.html', { 'items':items })
+```
+The item view.  This will return a specific item. 
+```python
+def items(request, item):
+    item = item.objects.filter(name_icontains=item)
+    return render(request, 'items.html', { 'item':items })
+```
 - edit template/index.html  
 - manage.py runserver  
 

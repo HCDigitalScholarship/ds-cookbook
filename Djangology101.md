@@ -11,8 +11,12 @@ Switch out of virtualenv
 ### Create a new Django project
 In the virtual environment `pip install django`.  If you need a specific version `pip install django==2.0.1`  
 
--  Create a new Django project with `django-admin startproject project_name`.  This will create a new subfolder for the project.
-![image](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/google_vision/why-django-for-web-development-8-638.jpg)
+-  Create a new Django project with `django-admin startproject project_name`.  This will create a folder for the project with `manage.py`.  I'll refer to this going forward as the `project directory`.  You'll find `settings.py` and `urls.py` in a subdirectory of the project directory.    
+-  Next create your first Django application.  Go to the project directory and type `manage.py startapp app_name`.    
+
+![image](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/google_vision/why-django-for-web-development-8-638.jpg)  
+
+
 - `manage.py migrate`  
 - `manage.py createsuperuser`  
 - `manage.py startapp`  

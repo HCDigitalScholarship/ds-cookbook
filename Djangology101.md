@@ -21,7 +21,8 @@ In the virtual environment `pip install django`.  If you need a specific version
 
 - Before you can log in to the admin page, you'll need to create a user by typing `$ python manage.py createsuperuser`.    
 - To add you new app to the project, edit `settings.py`.  Use a text editor to add `'app_name',` to the INSTALLED_APPS section.  
-`INSTALLED_APPS = (
+```
+INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -29,7 +30,8 @@ In the virtual environment `pip install django`.  If you need a specific version
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app_name',
-)`  
+)
+```
 - edit urls.py  
 - edit views.py  
 - edit template/index.html  

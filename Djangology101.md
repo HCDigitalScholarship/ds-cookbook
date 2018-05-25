@@ -12,7 +12,7 @@ Switch out of virtualenv
 In the virtual environment `pip install django`.  If you need a specific version `pip install django==2.0.1`  
 
 -  Create a new Django project with `django-admin startproject project_name`.  This will create a new subfolder for the project.
-![image]: https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/google_vision/why-django-for-web-development-8-638.jpg
+![image](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/google_vision/why-django-for-web-development-8-638.jpg)
 - `manage.py migrate`  
 - `manage.py createsuperuser`  
 - `manage.py startapp`  

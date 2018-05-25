@@ -17,10 +17,19 @@ In the virtual environment `pip install django`.  If you need a specific version
 ![image](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/google_vision/why-django-for-web-development-8-638.jpg)  
 
 
-- `manage.py migrate`  
-- `manage.py createsuperuser`  
-- `manage.py startapp`  
-- edit settings.py  
+- The migrate command will update the database based on the code in your `models.py` and other files.  To make the db reflect your current code, type `$ python manage.py migrate`.  This will update the db with the tables needed to create users and user groups.  
+
+- Before you can log in to the admin page, you'll need to create a user by typing `$ python manage.py createsuperuser`.    
+- To add you new app to the project, edit `settings.py`.  Use a text editor to add `'app_name',` to the INSTALLED_APPS section.  
+```INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'app_name',
+)```  
 - edit urls.py  
 - edit views.py  
 - edit template/index.html  

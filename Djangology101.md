@@ -33,21 +33,15 @@ INSTALLED_APPS = (
 )
 ```
 - Next you need to create a url path.  Edit `urls.py` so that a request for your url is directed to a view.  
-```python
-# When nothing but the domain or ip address is entered.
-path('', views.index, name='index'),
-# When we receive a url with items/ at the end.
-path('items/', views.items, name='items'),
-# When we recive items followed by the name of an item.
-path('items/<item>', views.item, name='item'),
-```
-For projects running earlier versions of Django (<2.0)  
-```python
-# When nothing but the domain or ip address is entered.
-url(r'^$', views.index, name = 'index'),
-# When we receive a url with items/ at the end.
-url(r'^items/$', views.items, name = "items"),
-```  
+
+- When nothing but the domain or ip address is entered.  
+`path('', views.index, name='index'),`  
+- When we receive a url with items/ at the end.  
+`path('items/', views.items, name='items'),`  
+- When we recive items followed by the name of an item.  
+`path('items/<item_name>', views.item, name='item'),`  
+
+***
 - Next you'll need to create the views.  Let's use the example of index, item and items above. In the application directory edit `views.py`:  
 To create the index view. 
 ```python
@@ -62,32 +56,54 @@ def items(request):
 ```
 The item view.  This will return a specific item. 
 ```python
-def items(request, item):
-    item = item.objects.filter(name_icontains=item)
-    return render(request, 'item.html', { 'item':items })
+def items(request, item_name):
+    items = item.objects.filter(name__icontains==item_name)
+    return render(request, 'items.html', { 'items':items })
 ```
-- Note that we'll need the html files `items.html` and `item.html`.  In the application directory create a new directory called templates (`$ mkdir templates`).  Use a text editor to create and edit three files.     
+- Note that we'll need to make the html file `items.html`.  In the application directory create a new directory called templates (`$ mkdir templates`).  Use a text editor to create and edit two files.  The first is `base.html`, which can be used to add a header, import javascript and css.  It's a container for the dependencies that all our pages will need.  It's a good way to keep the design of the project consistent across pages.  Later we can add navbar, footer and other reusable blocks of html.      
 *base.html*
 ```html
 {% load staticfiles %}
 <!DOCTYPE HTML>
 <html>
-{% block head %}
-{% endblock%}
 {% block content %}{% endblock %}
-{% block footer %}{% endblock %}
-</body>
 </html>
 ```
 
-*index.html* 
+*items.html* 
 ```html
 {% extends "base.html" %}
-{% load staticfiles %}
 {% block content %}
+
+{% for item in items %}
+{{ item }}
+{% endfor %}
+
 {% endblock  %}
 ```
 
+These files are a mix of raw html with the [Django template language](https://docs.djangoproject.com/en/2.0/ref/templates/language/).  The most common tags used in our projects are:  
+- `{% static %}` which loads files from the static directory of the project.  For example `<img src="{% static 'image.jpg' %}">` Note that you need to have `{% load static %}` in your base or elsewhere in the template or you'll get an error. 
+-`{% url %}` which uses the paths defined in `urls.py`.  For example `<a href="{% url 'items' %}"></a>` will enter the path to the url with `name='items'`.    
+
+		{% url ...  {% url 'some-url-name' arg1=v1 arg2=v2 %}
+			{% url 'some-url-name' arg arg2 as the_url %}
+			<a href="{{ the_url }}">I'm linking to {{ the_url }}</a>
+		
+		Media	
+		{% load static %}
+		<body data-media-url="{% get_media_prefix %}">
+		
+			
+		{{ value|slugify }}
+		
+		{% trans ...  {% trans "Fecha de desaparición" %}
+
+		{% extends ...
+		{% include ...
+		{% for  {% endfor %}
+		{% if...  {% endif %}
+		{{ value|slugify }}
 - manage.py runserver  
 
 

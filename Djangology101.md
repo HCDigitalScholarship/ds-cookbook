@@ -60,7 +60,7 @@ def items(request, item_name):
     items = item.objects.filter(name__icontains==item_name)
     return render(request, 'items.html', { 'items':items })
 ```
-- Note that we'll need to make the html file `items.html`.  In the application directory create a new directory called templates (`$ mkdir templates`).  Use a text editor to create and edit two files.  The first is `base.html`, which can be used to add a header, import javascript and css.  It's a container for the dependencies that all our pages will need.  It's a good way to keep the design of the project consistent across pages.  Later we can add navbar, footer and other reusable blocks of html.      
+- Note that we'll need to make the html file `items.html`.  In the application directory create a new directory called templates (`$ mkdir templates`).  Use a text editor to create and edit three html files.  The first is `base.html`, which can be used to add a header, import javascript and css.  It's a container for the dependencies that all our pages will need.  It's a good way to keep the design of the project consistent across pages.  Later we can add navbar, footer and other reusable blocks of html.      
 *base.html*
 ```html
 {% load staticfiles %}
@@ -69,22 +69,34 @@ def items(request, item_name):
 {% block content %}{% endblock %}
 </html>
 ```
-
+This next template will govern what's displayed whenever we want to view the items in our collection.  
 *items.html* 
 ```html
 {% extends "base.html" %}
 {% block content %}
+
+<p>This text will appear in the browser!</b>
 
 {% for item in items %}
 {{ item }}
 {% endfor %}
 
 {% endblock  %}
+```  
+Finally, let's make an index.html for the front page of the site.  
+```html
+*items.html* 
+```html
+{% extends "base.html" %}
+{% block content %}
+<h1>Welcome to a Haverford Digital Scholarship Project </h1>
+<img src="https://www.kiplinger.com/kipimages/pages/13180.jpg">
+<a href="{% url 'items'%}">Click here to see the items in our collection</a>
+{% endblock  %}
 ```
-
 These files are a mix of raw html with the [Django template language](https://docs.djangoproject.com/en/2.0/ref/templates/language/).  The most common tags used in our projects are:  
 - `{% static %}` which loads files from the static directory of the project.  For example `<img src="{% static 'image.jpg' %}">` Note that you need to have `{% load static %}` in your base or elsewhere in the template or you'll get an error. 
--`{% url %}` which uses the paths defined in `urls.py`.  For example `<a href="{% url 'items' %}"></a>` will enter the path to the url with `name='items'`.    
+- `{% url %}` which uses the paths defined in `urls.py`.  For example `<a href="{% url 'items' %}"></a>` will enter the path to the url with `name='items'`.    
 
 		{% url ...  {% url 'some-url-name' arg1=v1 arg2=v2 %}
 			{% url 'some-url-name' arg arg2 as the_url %}

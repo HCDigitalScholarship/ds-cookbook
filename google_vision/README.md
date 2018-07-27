@@ -1,7 +1,5 @@
 # Google APIs for Vision, Translation and Geocoding 
-[Colab notebook](https://drive.google.com/file/d/1CO9k589Mbwqz3sBMBSutoSXIarYH4NCP/view?usp=sharing)
-[This repository has helpful example code.](https://github.com/GoogleCloudPlatform/python-docs-samples)
-
+---
 Haverford College Digital Scholarship has an account with Google Cloud.  If you would like to manage this account and the API keys, go to [console.cloud.google.com](console.cloud.google.com).  The only currenly active project is DS-GAM. 
 
 With the DS API key, you can access any of the enabled APIs, including
@@ -10,7 +8,12 @@ With the DS API key, you can access any of the enabled APIs, including
 - [AutoML Vision](https://cloud.google.com/vision/automl/docs/) (for custom categories)
 - [Google Natural Language API](https://cloud.google.com/natural-language/overview/docs/)
 - [Google Cloud Speech API](https://cloud.google.com/speech-to-text/docs/)
-
+- [Google Geocode API](https://github.com/googlemaps/google-maps-services-python)
+---
+## Google example code
+[Colab notebook](https://drive.google.com/file/d/1CO9k589Mbwqz3sBMBSutoSXIarYH4NCP/view?usp=sharing)
+[This repository has helpful example code.](https://github.com/GoogleCloudPlatform/python-docs-samples)
+---
 ## Here is a sample function for extracting text from jpg files.  
 ```python
 def vision_ocr(path, filename, language):

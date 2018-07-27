@@ -51,8 +51,11 @@ def vision_ocr(path, filename, language):
                         except:
                             text = ''
                             text = text.encode('utf-8')
-                        return text```
+                        return text
+ ```
+ 
  Please note that the files need to be less than 4mb.  If your files are too large, here is an effective solution.
+ 
  
  ```python
  #https://stackoverflow.com/questions/13407717/python-image-library-pil-how-to-compress-image-into-desired-file-size

@@ -11,7 +11,7 @@ With the DS API key, you can access any of the enabled APIs, including
 - [Google Geocode API](https://github.com/googlemaps/google-maps-services-python)
 ---
 ## Google example code
-[Colab notebook](https://drive.google.com/file/d/1CO9k589Mbwqz3sBMBSutoSXIarYH4NCP/view?usp=sharing)
+[Colab notebook](https://drive.google.com/file/d/1CO9k589Mbwqz3sBMBSutoSXIarYH4NCP/view?usp=sharing)<br>
 [This repository has helpful example code.](https://github.com/GoogleCloudPlatform/python-docs-samples)
 ---
 ## Here is a sample function for extracting text from jpg files.  
@@ -59,7 +59,7 @@ def vision_ocr(path, filename, language):
                         return text
  ```
  
- Please note that the files need to be less than 4mb.  If your files are too large, here is an effective solution.
+ Please note that the files need to be less than 4mb.  If your files are too large, here is an effective change_size_if_needed() function.
  
  
  ```python

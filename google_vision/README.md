@@ -1,6 +1,6 @@
 # Google APIs for Vision, Translation and Geocoding 
 ---
-Haverford College Digital Scholarship has an account with Google Cloud.  If you would like to manage this account and the API keys, go to [console.cloud.google.com](console.cloud.google.com).  The only currenly active project is DS-GAM. 
+Haverford College Digital Scholarship has an account with Google Cloud.  If you need an API key, just ask Andy or Mike.  If your accound in a part of our organization and you would like to manage this account and the API keys, go to [console.cloud.google.com](console.cloud.google.com).  The only currenly active project is DS-GAM. 
 
 With the DS API key, you can access any of the enabled APIs, including
 - [Google Translate API](https://cloud.google.com/translate/docs/)

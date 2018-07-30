@@ -72,4 +72,64 @@ rows = cur.fetchall()
  ```
  You can read more on how pandas works: https://pandas.pydata.org/
  
+ ### Creating the plot and figure
+ Here are some links to the Bokeh documentation and gallery for inspiration on what plots are useful to your project:
  
+ https://bokeh.pydata.org/en/latest/docs/gallery.html
+ https://bokeh.pydata.org/en/latest/docs/user_guide/interaction.html
+ https://bokeh.pydata.org/en/latest/docs/user_guide/interaction/widgets.html
+ 
+ Widgets allow you to update or show more information on the plot and change the plot by using a callback to change the data presented to the plot. 
+ https://github.com/bokeh/bokeh/blob/master/examples/app/sliders.py
+ With another example:
+ ```
+ df = pd.read_csv('Copy_of_SUPER_SPREADSHEET_2.csv')
+for key,value in df.items():
+	df[key] = list(value.fillna(0))
+source = ColumnDataSource(data=df)
+#print(source.data)
+
+p = figure(tools=[hover, "pan,box_zoom,reset,save"])
+#df['AgeAdmitted'] = list(df['AgeAdmitted'].fillna(0))
+#df['DaysinAsylum'] = list(df['DaysinAsylum'].fillna(0))
+p.circle(x='AgeAdmitted', y='DaysinAsylum', source=source, size=20, color="navy", alpha=0.5)
+slider = Slider(start=df['YearAdmitted'].iloc[df['YearAdmitted'].nonzero()[-1]].min(), end=df['YearAdmitted'].max(), value=df['YearAdmitted'].min(), step=1, title="Year")
+sliderrange = RangeSlider(start=0, end=10, value=(1,9), step=.1, title="Stuff")
+print("value of sliderrange ", sliderrange.value, " ", sliderrange.value[0], " ", sliderrange.value[1])
+def callback(attr, old, new):
+	N = slider.value
+	print(N)
+	source1 = df[df['YearAdmitted'] >= N]
+	#print(source1)
+	'''
+	for key,value in source1.items():
+		print("in loop")
+		df[key] = list(pd.Series(value).fillna(0))
+	'''
+	print("outside loop")
+	source.data = ColumnDataSource(data=source1).data
+	print(source.data)
+	#source.data = new1.data
+print(slider.on_change('value', callback))
+slider.on_change('value', callback)
+```
+With source holding the data you want to use which will then be used in the plot and later in the widget such as a slider to change the plot and data. The callback function is a function that changes the data depending what the user puts in the widget. Then with variable slider being the widget Slider in the plot, the slider.on_change('value', callback) calls the callback function with the value in the slider and changes the data depending on the slider.
+
+### Connecting the plot to the server
+
+At the end of the python file you want the plot to be seen when you start the server so you add:
+```
+curdoc().add_root(<things you want to be seen>)
+```
+In the add_root you can make the plot and widgets been seen in a column() or row(). Adding to the example above you can do:
+```
+curdoc().add_root(column(slider, p, sliderrange))
+```
+## Connecting the website server and bokeh server
+In order to see the plot and allow the widgets to change the plot, you will need to start a bokeh server by running this command in terminal:
+```
+bokeh serve <name of bokeh python file>
+```
+However in order to see the plot, you will need to start the server everytime manually which is tedious, thus you will need to configure ngnix and systemd to allow the Bokeh server to be run at all times. 
+### Make a Bash file
+You will need to make a bash file so when you configure systemd it will automatically run the bash file and start the bokeh server. A bash file is a set of terminal commands so when the bash file is run all the commands are executed at once. 

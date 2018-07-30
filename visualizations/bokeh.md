@@ -132,4 +132,85 @@ bokeh serve <name of bokeh python file>
 ```
 However in order to see the plot, you will need to start the server everytime manually which is tedious, thus you will need to configure ngnix and systemd to allow the Bokeh server to be run at all times. 
 ### Make a Bash file
-You will need to make a bash file so when you configure systemd it will automatically run the bash file and start the bokeh server. A bash file is a set of terminal commands so when the bash file is run all the commands are executed at once. 
+You will need to make a bash file so when you configure systemd it will automatically run the bash file and start the bokeh server. A bash file is a set of terminal commands so when the bash file is run all the commands are executed at once. In the bash file you will need to put commands that first activate the virtualenv with bokeh installed and the bokeh serve command to start the bokeh server. You can put the bash file anywhere as long as you know the path to it. Example (naming it bokeh.sh):
+```
+#!/usr/bin/env bash
+source <path/to/virtualenv>/bin/activate
+bokeh serve --show <path to bokeh python file> <path to second bokeh file if applicable> <etc> --port 5006 --prefix /bokeh --allow-websocket-origin=<IP address of the main server>
+```
+In the bokeh serve command you can have multiple bokeh files in one command to run at the same time. You will need to choose a different port number from the main server port number so the ports don't clash and ngnix doesn't crash.
+### Configure the ngnix file
+Once you have the bash file you will need to change the ngnix file so both of the servers can run at the same time and make sure they don't take up the same port. You will need to do a reverse proxy because "it is a type of proxy server that retrieves resources on behalf of a client from one or more servers. These resources are then returned to the client, appearing as if they originated from the proxy server itself."(https://en.wikipedia.org/wiki/Reverse_proxy). An example of a reverse proxy is in /etc/ngnix/sites-available/<ngnix file>:
+
+```
+location /bokeh { //whenever you go to <address or IP of site>/bokeh it will redirect to this proxy pass where the bokeh server will be living
+        proxy_pass http://127.0.0.1:5006;   //When starting the bokeh server it will be running at this address; make sure the port number here and port number in the bash file match
+        access_log  /var/log/bokeh/bokeh.access.log;
+        error_log   /var/log/bokeh/bokeh.error.log debug;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_http_version 1.1;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $host:$server_port;
+        proxy_buffering off;
+    }
+ ```
+### Configure systemd and create a service
+Just like ngnix and uwsgi are services that you can start, restart and stop, we will need to make bokeh a service that will then start the bokeh server. 
+
+First, we need to create a systemd startup script eg. ```bokeh.service``` and place it into ```/lib/systemd/system``` directory. In the script you would write:
+```
+Unit]
+Description=Start bokeh sever
+
+[Service]
+ExecStart=/bin/bash /usr/local/bin/bokeh.sh 
+
+[Install]
+WantedBy=default.target
+```
+The line <string>ExecStart=/bin/bash /usr/local/bin/bokeh.sh</strong> is starting the bash file and executing it. 
+
+-After: Instructs systemd on when the script should be run. In our case the script will run after mysql database has started. Other example could be network.target etc.
+-ExecStart: This field provides a full path the actual script to be execute
+-WantedBy: Into what boot target the systemd unit should be installed
+(https://linuxconfig.org/how-to-automatically-execute-shell-script-at-startup-boot-on-systemd-linux)
+
+The above is an absolute minimum that the systemd service unit should contain in order to execute your script at the boot time. 
+
+Next, we need to make the script executable:
+```
+chmod 744 path/to/bash/file
+```
+Install systemd service unit and enable it do it will be executed at the boot time, writing these commands in the terminal:
+
+```
+chmod 664 /lib/systemd/system/bokeh.sh
+
+systemctl daemon-reload
+
+systemctl enable bokeh.service
+
+```
+
+If you want to rest your script before you reboot run:
+
+```
+systemctl start bokeh.service
+
+```
+Everything is ready to reboot the Linux system by typing this on the command line:
+
+```
+sudo reboot
+
+```
+
+Once the system is rebooted and you log back in check the status of the bokeh service by running this on your terminal:
+
+```
+service bokeh status
+```
+If you see it's red and failed then go back and make sure you completed all the steps and reboot the system again. If it's green and saying active (running) then the bokeh server has successfully been configured into the host server and you can see your plots by going to <host address>/bokeh/<name of the bokeh file> (example http://165.82.124.34/bokeh/philanthropist)
+	
+If you change one of the 

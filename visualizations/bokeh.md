@@ -50,4 +50,26 @@ rows = cur.fetchall()
 
 ### Using csv
 
+ In order to use a csv file you will need to install pandas with:
+ ```
+ pip install pandas
+ ```
+ In your python file import pandas:
+ ```
+ import pandas as pd
+ ```
+ Then to use the csv:
+ ```
+ df = pd.read_csv('<csv file>')
+ ```
+ You can then use df to extract data you can do
+ ```
+ df['<column from the csv>']
+ ```
+ You can also change the query to include only specific data from a clumn sush as:
+ ```
+ df = df[df['<column from the csv'>] == '<specific data name from column>']]
+ ```
+ You can read more on how pandas works: https://pandas.pydata.org/
+ 
  

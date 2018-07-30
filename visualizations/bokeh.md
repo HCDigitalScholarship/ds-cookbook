@@ -213,4 +213,8 @@ service bokeh status
 ```
 If you see it's red and failed then go back and make sure you completed all the steps and reboot the system again. If it's green and saying active (running) then the bokeh server has successfully been configured into the host server and you can see your plots by going to <host address>/bokeh/<name of the bokeh file> (example http://165.82.124.34/bokeh/philanthropist)
 	
-If you change one of the 
+If you change one of the bokeh files and want to see the new changes you will need to restart bokeh by doing
+```
+service bokeh restart
+```
+And if you create a new visulization you will need to go back to the bash file and include the file in it and then restart bokeh. 

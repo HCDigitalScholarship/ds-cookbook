@@ -4,7 +4,7 @@ This tutorial tries to explain how to create StoryMap from XML files using data 
 
 We create the Storymaps for QI project through a custom python manage.py command in `/management/commands/<command_name>.py,` store the data for Storymap as JSON object under /static/json, and get the Storymap JSON objects through Javascript on an HTML template. 
 The command is finally excuted by calling `python manage.py <command_name> <aruguments>`.
-The StoryMapJS JSON object should be a dictionary in the final.The structures of the JSON objects are defined on [StoryMapJS](https://storymap.knightlab.com/advanced/)
+The StoryMapJS JSON object will be a dictionary.The structures of the JSON objects are defined on [StoryMapJS](https://storymap.knightlab.com/advanced/)
 
 ## Before you start:
 In my project:

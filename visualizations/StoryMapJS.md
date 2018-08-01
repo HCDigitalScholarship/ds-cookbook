@@ -13,9 +13,34 @@ In my project:
 * In your models, you need to have a ***Place*** class, and it includes two attributes: latitude and longitude
 
 ## Now let's begin the work.
-* **I think I am only able to make slides** 
+#### First, set up the `urls.py` and `views.py`for your StoryMaps
+1. In `urls.py`:
+```
+urlpatterns = [path('travelRoutes/', include('QI.inner')
+]
+```
+2. In `views.py`:
+```
+def storymap(request, xml_id):
+    return render(request, 'story_maps/' + xml_id + '.html')
+``` 
+3. Create an `inner.py`: this allows you include the xml_ids of your StoryMaps, and it will be helpful when you have multiple StoryMaps.
+```
+from django.conf.urls import url
+from QI import views
+import xml.etree.ElementTree as etree
 
-First, under your managemnt/commands directory, create a new python file, e.g. `generate.py`.
+
+urlpatterns = []
+filename = 'static/xml/xml_file_names.xml'
+tree = etree.parse(filename)
+root = tree.getroot()
+for child in root:
+    xml_id = child.text
+    urlpatterns.append(url(r'^' +xml_id+ '/$', views.storymap, {'xml_id': xml_id}))
+ ```
+
+#### Second, under your managemnt/commands directory, create a new python file, e.g. `generate.py`.
 1. Include these following lines in the beginning:
 ```
 from django.core.management.base import BaseCommand, CommandError
@@ -252,7 +277,23 @@ iii). Put the `objects` list into the required data format
 		html_file.write(html_str)
 		html_file.close()
 ```
-13. If you want a page as a menu which  lists all the StorMaps you have created, create another html templates `list_of_storymaps.html`
+13. Adds to list of xml ids to be made into urls
+```
+			file_names = 'static/xml/xml_file_names.xml'
+			tree = etree.parse(file_names)
+			root = tree.getroot()
+			list_of_files=[]
+			for child in root:
+				list_of_files.append(child.text)
+
+			new_file = False
+			if xml_file not in list_of_files:
+				x = etree.SubElement(root,'file')
+				x.text = xml_file
+				tree.write('static/xml/xml_file_names.xml')
+				new_file = True  #to check if this storymap has already existed
+```
+14.(Optional) If you want a page as a menu which  lists all the StorMaps you have created, create another html templates `list_of_storymaps.html`, 
 ```
 		newfile=""
 		with open('templates/list_of_storymaps.html', 'r+') as f:
@@ -277,5 +318,7 @@ iii). Put the `objects` list into the required data format
 		with open('templates/list_of_storymaps.html','w') as f:
 		     f.write(newfile)
 ```
-14 In your project directory:
+If you do **step14**, you also need to set up `urls.py` and `views.py` for it
+
+15  In your project directory:
 `python manage.py generate XML_file`

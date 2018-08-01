@@ -145,7 +145,96 @@ Collect the static files into **STATIC_ROOT**:
 $ python manage.py collectstatic
 ```
 
-**NOTES**: If you are using mapwidgets in your **regular django views**, you need to add {{ form.media }} template variable to \<head\> or the end of \<body\> section of your templates:
+### b. Work with maps widgets
+Django-map-widgets has four kinds of widgets:
+* [Google map point field widget](http://django-map-widgets.readthedocs.io/en/latest/widgets/point_field_map_widgets.html)
+* [Google map widget for Django admin inline](http://django-map-widgets.readthedocs.io/en/latest/widgets/point_field_inline_map_widgets.html)
+* [Google map static widget](http://django-map-widgets.readthedocs.io/en/latest/widgets/google_static_map_widget.html#)
+* [Google map static overlay widgets](http://django-map-widgets.readthedocs.io/en/latest/widgets/google_static_overlay_map_widget.html)
+
+Here we will introduce the most commonly-used widget in our projects, **Google map point field widget**:
+![ Google map point field widget ](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/images/Google%20map%20point%20field%20widget.png)
+
+This widget has a Google Place Autocomplete widget as a default and a built-in geocoding support. Google geocoding will automatically fill the autocomplete input when you add a marker manually.
+
+To use this widget, add a **MAP_WIDGETS** config in `settings.py`:
+```
+settings.py
+
+MAP_WIDGETS = {
+    "GooglePointFieldWidget": (
+        ("zoom", 15),
+        ("mapCenterLocationName", "newyork"), 
+        ("GooglePlaceAutocompleteOptions", {'componentRestrictions': {'country': 'us'}}),
+        ("markerFitZoom", 12),
+    ),
+    "GOOGLE_MAP_API_KEY": "<google-api-key>"
+}
+```
+
+For `"mapCenterLocationName"`, you may give geographic coordinates instead of a specific location name:
+```
+settings.py
+
+MAP_WIDGETS = {
+    "GooglePointFieldWidget": (
+        ("zoom", 15),
+        ("mapCenterLocation", [57.7177013, -16.6300491]),
+    ),
+    "GOOGLE_MAP_API_KEY": "<google-map-api-key>"
+}
+```
+
+**NOTES**: You may also give specific settings for each widget in `admin.py`, but **GOOGLE-MAP-API-KEY** must be set in `settings.py` for customized settings usage:
+```
+admin.py
+
+from django.contrib.gis import admin
+from mapwidgets.widgets import GooglePointFieldWidget
+
+CUSTOM_MAP_SETTINGS = {
+    "GooglePointFieldWidget": (
+        ("zoom", 15),
+        ("mapCenterLocation", [60.7177013, -22.6300491]),
+    ),
+}
+
+class CompanyAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        models.PointField: {"widget": GooglePointFieldWidget(settings=CUSTOM_MAP_SETTINGS)}
+    }
+```
+
+After you set the widget, you should add this widget to your pointfield, in `admin.py` if you want to have the map on **Django admin**:
+```
+admin.py
+
+from django.contrib.gis import admin
+from mapwidgets.widgets import GooglePointFieldWidget
+
+class CompanyAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        models.PointField: {"widget": GooglePointFieldWidget}
+    }
+```
+
+Or if you are using mapwidgets in your **regular django views**, create a `forms.py` and add this:
+```
+from django.contrib.gis import forms
+from mapwidgets.widgets import GooglePointFieldWidget
+
+class CompanyForm(forms.ModelForm):
+    class Meta:
+        model = Company
+        fields = ("geographic_location",) # GeoDjango-specific fields
+        widgets = {
+            'geigraphic_location': GooglePointFieldWidget,
+            # more here if you have more than one GeoDjango-specific field
+        }
+```
+Remember to pass your form to a template in `views.py` and set an url for this view in `urls.py`.
+
+In addition, you need to add {{ form.media }} to \<head\> or the end of \<body\> section of your corresponding templates:
 ```
 template.html
 
@@ -156,20 +245,12 @@ template.html
   {{ form.media }}
 </head>
 <body>
-...
+  ...
+  {{ form }}
 </body>
 </html>
 ```
+**NOTES**: if you are using mapwidgets on the **Django admin**, you do **NOT** need to add {{ form.media }} any template files. The media variable is already in the default admin templates.
 
-But if you are using mapwidgets on the **Django admin**, you do **NOT** need to add {{ form.media }} any template files. The media variable is already added in the default admin templates.
+For more information, please go and check its [documentation](http://django-map-widgets.readthedocs.io/en/latest/index.html).
 
-### b. Work with maps widgets
-Django-map-widgets has four kinds of widgets:
-* [Google map point field widget](http://django-map-widgets.readthedocs.io/en/latest/widgets/point_field_map_widgets.html)
-* [Google map widget for Django admin inline](http://django-map-widgets.readthedocs.io/en/latest/widgets/point_field_inline_map_widgets.html)
-* [Google map static widget](http://django-map-widgets.readthedocs.io/en/latest/widgets/google_static_map_widget.html#)
-* [Google map static overlay widgets](http://django-map-widgets.readthedocs.io/en/latest/widgets/google_static_overlay_map_widget.html)
-
-Here we will introduce the most commonly-used widget in our projects, **Google map point field widget**:
-
-![ Google map point field widget ](/images/Google map point field widget.png)

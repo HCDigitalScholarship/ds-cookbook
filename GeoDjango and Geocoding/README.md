@@ -9,6 +9,7 @@ Keywords:
 * Start a GeoDjango project
 * Install Django map widget
 * Work with googlemaps geocoding
+***
 
 ## 1. Start a GeoDjango project
 ### a. Create a spatial database
@@ -112,4 +113,63 @@ If the output looks correct, run **migrate** to create this table in the databas
 $ python manage.py migrate
 ```
 
-Now you are ready to continue building your application! Remember that almost every thing you usually import from `django.contrib`, like **admin**, should import from `django.contrib.gis`.
+Now you have built a base for your GeoDjango appplication, and you may continue to build other features! Remember that almost every thing you usually import from `django.contrib`, like **admin**, should import from `django.contrib.gis`.
+
+For more information, please refer to this [Django documentation](https://docs.djangoproject.com/en/2.0/ref/contrib/gis/tutorial/#introduction)
+
+## 2. Install Django map widgets
+Django-map-widgets does a great help to support the map services (ex. google maps) for your GeoDjango fields. It allows you to easily and properly use all GeoDjango widgets. 
+
+### a. Get started
+Install from PiPy
+```
+$ pip install django-map-widgets
+```
+
+Add `map_widgets` to **INSTALLED_APPS** in `settings.py`:
+```
+settings.py 
+
+INSTALLED_APPS = [
+     ...
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+
+    'mapwidgets',
+]
+```
+
+Collect the static files into **STATIC_ROOT**:
+```
+$ python manage.py collectstatic
+```
+
+**NOTES**: If you are using mapwidgets in your **regular django views**, you need to add {{ form.media }} template variable to \<head\> or the end of \<body\> section of your templates:
+```
+template.html
+
+<!DOCTYPE html>
+<html>
+<head>
+  ...
+  {{ form.media }}
+</head>
+<body>
+...
+</body>
+</html>
+```
+
+But if you are using mapwidgets on the **Django admin**, you do **NOT** need to add {{ form.media }} any template files. The media variable is already added in the default admin templates.
+
+### b. Work with maps widgets
+Django-map-widgets has four kinds of widgets:
+* [Google map point field widget](http://django-map-widgets.readthedocs.io/en/latest/widgets/point_field_map_widgets.html)
+* [Google map widget for Django admin inline](http://django-map-widgets.readthedocs.io/en/latest/widgets/point_field_inline_map_widgets.html)
+* [Google map static widget](http://django-map-widgets.readthedocs.io/en/latest/widgets/google_static_map_widget.html#)
+* [Google map static overlay widgets](http://django-map-widgets.readthedocs.io/en/latest/widgets/google_static_overlay_map_widget.html)
+
+Here we will introduce the most commonly-used widget in our projects, **Google map point field widget**:
+
+![ Google map point field widget ](/images/Google map point field widget.png)

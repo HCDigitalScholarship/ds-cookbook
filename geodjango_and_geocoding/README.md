@@ -8,7 +8,7 @@ In this tutorial, we'll teach you how to create a GeoDjango project, and explain
 Keywords:
 * Start a GeoDjango project
 * Install Django map widget
-* Work with googlemaps geocoding
+* Work with Geocoding API
 ***
 
 ## 1. Start a GeoDjango project
@@ -253,4 +253,130 @@ template.html
 **NOTES**: if you are using mapwidgets on the **Django admin**, you do **NOT** need to add {{ form.media }} any template files. The media variable is already in the default admin templates.
 
 For more information, please go and check its [documentation](http://django-map-widgets.readthedocs.io/en/latest/index.html).
+
+## 3. Working with Geocoding API
+According to the definition given by Google Maps:
+> Geocoding is the process of converting addresses (like a street address) into geographic coordinates (like latitude and longitude), which you can use to place markers on a map, or position the map.
+
+When you only have address while your point fields or other GeoDjango-specific fields require geographic coordinates, you will need geocoding to help you get the coordinates.
+
+### a. Installation
+You need to install a Python client library for Google Maps API Web Services to your Django application:
+```
+$ pip install -U googlemaps
+```
+
+### b. Send the address to googlemaps
+The codes for geocoding is very neat, all you need is an address in a string and, for sure, your **google-api-key**:
+```
+>>> import googlemaps
+>>> address = '370 Lancaster Avenue, Haverford, PA, 19041, USA'
+>>> gmaps = googlemaps.Client(key='<google-api-key>')
+>>> geocode_result = gmaps.geocode(address)
+>>> print (geocode_result)
+```
+The way of writing your address may be somewhat flexible, although technically it should be equivalent to the **postal address**. Here are some ways of writing addresses we have tried, which are fine with geocoding:
+```
+>>> 'Haverford College' # A direct and specific location name
+>>> 'haverford collect' # NO caps
+>>> 'Haverford College, Haverford, PA, 19041' # A somewhat detailed address
+>>> '370 Lancaster Ave, Haverford, PA, 19041' # Shortcuts
+>>> '370 Lancaster Avenue Haverford PA 19041' # NO comma
+>>> '370 Lancaster Avenue, Haverford, PA, 19041, USA' # A full postal address
+```
+
+What does the **geocode_result** look like? Usually Google Maps will return something like this in JSON:
+```
+{
+ "address_components" : [
+    {
+       "long_name" : "277",
+       "short_name" : "277",
+       "types" : [ "street_number" ]
+    },
+    {
+       "long_name" : "Bedford Avenue",
+       "short_name" : "Bedford Ave",
+       "types" : [ "route" ]
+    },
+    {
+       "long_name" : "Williamsburg",
+       "short_name" : "Williamsburg",
+       "types" : [ "neighborhood", "political" ]
+    },
+    {
+       "long_name" : "Brooklyn",
+       "short_name" : "Brooklyn",
+       "types" : [ "political", "sublocality", "sublocality_level_1" ]
+    },
+    {
+       "long_name" : "Kings County",
+       "short_name" : "Kings County",
+       "types" : [ "administrative_area_level_2", "political" ]
+    },
+    {
+       "long_name" : "New York",
+       "short_name" : "NY",
+       "types" : [ "administrative_area_level_1", "political" ]
+    },
+    {
+       "long_name" : "United States",
+       "short_name" : "US",
+       "types" : [ "country", "political" ]
+    },
+    {
+       "long_name" : "11211",
+       "short_name" : "11211",
+       "types" : [ "postal_code" ]
+    }
+ ],
+ "formatted_address" : "277 Bedford Ave, Brooklyn, NY 11211, USA",
+ "geometry" : {
+    "location" : {
+       "lat" : 40.7142205, # Need this
+       "lng" : -73.9612903 # Need this
+    },
+    "location_type" : "ROOFTOP",
+    "viewport" : {
+       "northeast" : {
+          "lat" : 40.71556948029149,
+          "lng" : -73.95994131970849
+       },
+       "southwest" : {
+          "lat" : 40.7128715197085,
+          "lng" : -73.9626392802915
+       }
+    }
+ },
+ "place_id" : "ChIJd8BlQ2BZwokRAFUEcm_qrcA",
+ "types" : [ "street_address" ]
+}
+```
+It returns more than one pair of geographic coordinates. And what you need to do is to extract the values of "lag" and "lng" of "location" from this long dictionary:
+```
+>>> lat = geocode_result[0]["geometry"]["location"]["lat"] # having index at the beginning is to get the dictionary from the JSON file
+>>> lng = geocode_result[0]["geometry"]["location"]["lng"]
+```
+The final step is to update migrate the coordinates to your PointField (in our example, it is **geographic_location**):
+```
+>>> geographic_location = Point(x=lng, y=lat, srid=4326) # srid represents WGS84, the default spatial reference system for geometry fields
+```
+
+All codes in one file (by using the sample model **Company**, hopefully you still remember it):
+```
+import googlemaps
+
+def geocoding_for_pointfield():
+    for instance in Company.objects.all():
+        full_address =  instance.address + ", " + instance.address2 + ", " + instance.city + ", " + instance.state + ", " + instance.zipcode + ", " + instance.country
+        gmaps = googlemaps.Client(key='<google-api-key>')
+        geocode_result = gmaps.geocode(full_address)
+        if len(geocode_result) != 0: # for the cases when the addresses are empty
+            lat = geocode_result[0]["geometry"]["location"]["lat"]
+            lng = geocode_result[0]["geometry"]["location"]["lng"]
+            instance.geographic_location = Point(x=lng, y=lat, srid=4326)
+```
+You got it! For more detailed information, please check [their website](https://developers.google.com/maps/documentation/geocoding/intro). 
+
+You are welcome to edit and update this tutorial! Nice job and good luck!
 

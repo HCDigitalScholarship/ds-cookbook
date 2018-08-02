@@ -42,12 +42,18 @@ This will only apply the template you defined to elements with `<persName>` tag 
 #### `<xsl:value-of select="xx"/>`
 `<xsl:value-of select="xx"/>` extracts the value of a selected node. <br/>
 For example, you have ` <persName key="jparr1">John Parrish</persName>` in an XML document,
-transform.xslt :
 ```
-<xsl:text> Name: </xsl:text>`<xsl:value-of select="persName" />`<br/>`<xsl:text> <br/> </xsl:text>`<br/>`<xsl:text> Person ID : </xsl:text>`<br/>`<xsl:value-of select="@key" />`| `Name: John Parrish`<br/>`Person ID: jparr1` 
-
-
-
+<xsl:text> Name: </xsl:text>
+<xsl:value-of select="persName" />
+<xsl:text> <br/> </xsl:text>
+<xsl:text> Person ID : </xsl:text>
+<xsl:value-of select="@key" />
+```
+HTML ouput
+```
+Name: John Parrish
+Person ID: jparr1
+```
 #### `<xsl:attribute name="xx">`
 ```
  <xsl:attribute name="href">

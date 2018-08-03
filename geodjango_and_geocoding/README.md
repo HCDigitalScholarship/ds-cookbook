@@ -1,4 +1,4 @@
-# GeoDjango and Geocoding
+# GeoDjango and Geocoding (NEW)
 Want to create a world-class geographic Web application through Django? **GeoDjango**, built on Python and Django, is a great 
 toolkit to help you handle with spatial database and build a GIS Web application. When you have address information (like
 a home address) and want to show them on a map, **Geocoding API** from google maps helps you convert the descriptive addresses 

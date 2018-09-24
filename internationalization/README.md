@@ -1,3 +1,5 @@
+# How to add translations to a django site 
+*note you need to have tagged all items you wanted translated with the tag {% trans "whatever you wanted translated" %}*
 1. First enter the server using your username@ipaddress ex: ssh jdoe@149.23.1003.12000
 1. Make sure you are in the sudo group 
 1. Use "sudo su" to switch to root

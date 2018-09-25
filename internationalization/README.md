@@ -5,7 +5,7 @@
 1. Activate the virtual env using `source /usr/local/lib/python-virtualenv/<name of project>/bin/activate`
 1. Make sure there is at least one directory called `locale` in the root of the project and/or any of the apps.
 1. From the project's root directory, run `python manage.py makemessages -l <language code>` to load new site text into `django.po`.
-1. For each locale directory, edit `/locale/"language code"/LC_MESSAGES/django.po`
+1. For each locale directory, edit `/locale/<language code>/LC_MESSAGES/django.po`
     * `django.po` entries look like this:
     * ```
          #: path/to/template.html:18

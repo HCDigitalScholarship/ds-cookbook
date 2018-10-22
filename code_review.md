@@ -50,3 +50,25 @@ $ git push origin master
 5. Once you've read all the code and made comments as appropriate, you can click the "Review changes" button at the top right. If you didn't have anything for them to change, you can approve the pull request. Otherwise, you should select "Request changes." Don't be afraid to request changes! Most code reviews will go through at least one revision before they're approved.
 
 6. If you did request changes, then go back to step 1 once the changes have been made (it will be under the same pull request).
+
+
+## Guidelines for code review
+In addition to the guidelines below, please be kind when you are reviewing others' code. A code review should be a welcoming and collaborative environment, not a confrontational one.
+
+### Things you should definitely comment on
+A code review should not be approved if it contains any of these violations.
+
+- Code errors
+- Seriously flawed or unclear design (as long as you can articulate what is wrong with it and suggest some way to improve it--simply commenting "bad design" is not very helpful for the coder)
+
+
+### Things you can comment on, but don't need to
+A code review may be approved even if it contains some of these violations. It is up to the discretion of the reviewer.
+
+- Minor improvements (e.g., making a function a line or two shorter)
+- Missing tests
+- Questions about the code
+- Code style (for Python, follow [PEP8](https://www.python.org/dev/peps/pep-0008/) as much as possible)
+- Typos in code comments
+
+Feel free to leave a comment with positive feedback if you see something that you like!

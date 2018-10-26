@@ -1,3 +1,19 @@
+#TODO Add for Summer 2019
+
+progression from simple and static to dynamic 
+-inquiry-driven and community-engaged projects 
+-use cases and UX design
+-html 
+-css
+-javascript
+-simple app in flask/[responder](http://python-responder.org/en/latest/)
+-transition to Django 
+
+also:
+-iterm2 shortcuts
+-cut nginx/uWsgi section 
+
+
 ## Notes from the Summer 2018 workshop on Django 
 
 ***

@@ -8,33 +8,39 @@ The workflow for a code review is
 
 ## How to create a code review on GitHub
 
-1. Make a commit locally **on its own branch.** Name the branch after your username.
+1. Work on the code until you're ready to make a commit.
+
+2. Switch to your personal branch, if you haven't already. If the branch doesn't exist, create it with `git checkout -b <your-username>`.
 ```
-$ git checkout -b <your-username>
+$ git checkout <your-username>
+```
+
+3. Make a commit locally on your own branch.
+```
 $ git commit
 ```
 
-2. Push the branch to GitHub.
+4. Push the branch to GitHub. If the branch hasn't been pushed to GitHub before, you'll need to run `git push --set-upstream origin <branch-name>` instead.
 ```
-$ git push origin <branch-name-from-step-1>
+$ git push
 ```
 
-3. Go to your project's main page on GitHub. There will be a box labelled "Your recently pushed branches" with your branch name and a button labelled "Compare & pull request." Click the button, which will bring you to a new page.
+5. Go to your project's main page on GitHub. There will be a box labelled "Your recently pushed branches" with your branch name and a button labelled "Compare & pull request." Click the button, which will bring you to a new page.
 
-4. Click the cog next to "Reviewers" on the right and add whoever you'd like to review your pull request.
+6. Click the cog next to "Reviewers" on the right and add whoever you'd like to review your pull request.
 
-5. Make sure that the box at the top indicates that you are merging your branch into the master branch of the same repository. On some projects, like GAM, the default option is to merge into a forked version of the repository, which is not what you want.
+7. Make sure that the box at the top indicates that you are merging your branch into the master branch of the same repository. On some projects, like GAM, the default option is to merge into a forked version of the repository, which is not what you want.
 
-6. Click "Create pull request."
+8. Click "Create pull request."
 
-7. Now it's time for your reviewers to take a look at your code. Instructions for that are in the section below. If all your reviewers approve your pull request, then you can merge your branch into master (locally, not on GitHub) and push it:
+9. Now it's time for your reviewers to take a look at your code. Instructions for that are in the section below. If all your reviewers approve your pull request, then you can merge your branch into master (locally, not on GitHub) and push it:
 ```
 $ git checkout master
 $ git merge <branch-name-from-step-1>
 $ git push origin master
 ```
 
-8. If one or more of your reviewers requested changes, then go ahead and make the changes locally and go back to step 1. It's a good idea to give your next commit the same title as your first one, except with `(revision for PR #nnn)` at the end, where `nnn` stands for the number of your PR on GitHub. Your commit will automatically get added to your open pull request, so you won't have to repeat steps 4-6.
+10. If one or more of your reviewers requested changes, then go ahead and make the changes locally and go back to step 1. It's a good idea to give your next commit the same title as your first one, except with `(revision for PR #nnn)` at the end, where `nnn` stands for the number of your PR on GitHub. Your commit will automatically get added to your open pull request, so you won't have to repeat steps 4-6.
 
 
 ## How to approve a code review or request changes on GitHub

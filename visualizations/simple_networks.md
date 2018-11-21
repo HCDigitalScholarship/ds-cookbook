@@ -4,20 +4,7 @@
 The data for this example is a list of bestselling novels.  Each bestseller has an author, a title and a publisher. 
 First off, let's create a view.  We'll load all of the BestsellerList objects from the database and create a dictionary with the formatting expected by D3.
 
-```json
-{
-      "nodes":[
-            {"name":"node1","group":1},
-            {"name":"node2","group":2},
-            {"name":"node3","group":2},
-            {"name":"node4","group":3}
-        ],
-        "links":[
-            {"source":2,"target":1,"weight":1},
-            {"source":0,"target":2,"weight":3}
-        ]
-    }
-```
+
 The view creates a list of each distinct author, title and publisher.  We then add each author, title and publisher to the list of nodes.
 Finally, we iterate over all the bestsellers and create edges in the graph.  Currently, we're creating author to title edges, author to publisher,
 and publisher to title edges.  These can be changed based on your project.  The end result is a url that serves all of the json needed for the visualization. 
@@ -54,15 +41,15 @@ def network_json(request):
         graph['links'].append({"source": publisher, "target": title, "weight": 1},)
 
     response = JsonResponse(graph)
-    return response
-    ```
+    return response```
     
     In the template,  you'll need a couple of things: 
     1) The code for D3
     <script src="http://d3js.org/d3.v2.min.js?2.9.3"></script>
     
     2) Some CSS for the visualization:
-    ```html
+    
+```html
     <style>
 
 .link {

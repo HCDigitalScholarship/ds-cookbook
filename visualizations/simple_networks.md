@@ -1,3 +1,4 @@
+![network](https://raw.githubusercontent.com/HCDigitalScholarship/ds-cookbook/master/visualizations/Screen%20Shot%202018-11-21%20at%201.43.45%20PM.png)
 # This is an entry on how to generate a simple network visualization using Django and D3.  (based off of [this](http://bl.ocks.org/jose187/4733747))
 
 The data for this example is a list of bestselling novels.  Each bestseller has an author, a title and a publisher. 

@@ -1,5 +1,6 @@
 These instructions are for setting up a personal copy of a project in your home directory on the dev server.
 
+## Clone and configure git
 The first thing you need to do is copy the code.
 
 ```shell
@@ -14,11 +15,19 @@ $ cp /srv/<your-project-name>/<project-dir>/settings_secret.py ~/<your-project-n
 Next, configure git with your email and name.
 
 ```shell
-$ git config user.email "jdoe@haverford.edu"
-$ git config user.name "Jane Doe"
+$ git config --local user.email "jdoe@haverford.edu"
+$ git config --local user.name "Jane Doe"
 ```
 
 Replace the placeholders with your personal information. Make sure you use the email that is associated with your GitHub account.
+
+## Make a new virtualenv
+Execute the following commands in the root directory of the project (i.e., the directory that contains `manage.py`):
+```shell
+$ virtualenv .venv --python=python3
+$ source .venv/bin/activate
+$ pip3 install -r requirements.txt
+```
 
 You should now be able to run the server with:
 
@@ -32,7 +41,14 @@ The website will be available at the same URL, but with the port suffixed to the
 
 If multiple people are working on the same site at the same time, you'll each have to choose a different port number, i.e. `8001` instead of `8000`.
 
-Finally, the last step is to create a copy of the database. The exact commands depend on whether you're using MySQL or Postgres. For the database name, suffix the main database with your username. For example, if your username is `jdoe` and the main database is called `tichadb` (you can check in `settings_secret.py`), then your database should be named `tichadb_jdoe`. The database username should be the same as the main database (again, you can check in `settings_secret.py`).
+## Make a copy of the database
+Finally, the last step is to create a copy of the database. For the database name, suffix the main database with your username. For example, if your username is `jdoe` and the main database is called `tichadb` (you can check in `settings_secret.py`), then your database should be named `tichadb_jdoe`. The database username should be the same as the main database (again, you can check in `settings_secret.py`).
+
+### Option 1 (recommended)
+Ask a DS librarian to create a new copy of the database for you.
+
+### Option 2 (not recommended)
+Do it yourself. The exact commands depend on whether you're using MySQL or Postgres.
 
 MySQL:
 ```shell
@@ -66,7 +82,7 @@ $ sudo -u postgres pg_dump <main-database-name>  > dump.sql
 $ sudo -u postgres psql <your-database-name>  < dump.sql
 ```
 
-Finally, run the Django migrations:
+As a sanity check, run the Django migrations (it shouldn't do anything):
 ```shell
 $ ./manage.py migrate
 ```

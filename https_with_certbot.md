@@ -50,7 +50,7 @@ encrypting the web, EFF news, campaigns, and ways to support digital freedom.
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 (Y)es/(N)o: n
 ```
-Next you need to select which domain you could like to certify.  Note that you need to add the name of the domain in your nginx configuration.
+Next you need to select which domain you would like to certify.  Note that you need to add the name of the domain in your nginx configuration for it to appear as a menu option.  You can certify multiple domains and subdomains by entering their numbers. 
 This file can usually be found in `/etc/nginx/sites-available/`. For example: 
 ```
 server {

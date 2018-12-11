@@ -18,7 +18,7 @@ $ sudo add-apt-repository ppa:certbot/certbot
 $ sudo apt-get update
 $ sudo apt-get install python-certbot-nginx 
 ```
-Get Started
+## Get Started  
 Certbot has an Nginx plugin, which is supported on many platforms, and automates certificate installation.
 
 `$ sudo certbot --nginx`

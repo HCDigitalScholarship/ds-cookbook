@@ -14,3 +14,5 @@
     * You can add new translations where it has nothing after `msgstr`, or edit existing translations.
     * If the original text on the site changes, Django doesn't want to throw out old translations, but will use a `#, fuzzy` tag to warn you that the translation may not be correct.
 1. Run `python manage.py compilemessages` to load your new translations to the site.
+   
+1. If you would like to automatically generate translations using Google Translate, use [this file](https://raw.githubusercontent.com/HCDigitalScholarship/ds-cookbook/master/internationalization/django_google_translate_po_file.py).  Add it to your application's management/commands directory.  You'll need to change line 4 to point to your Google API key.  Then run, for example, '$ python manage.py google_translate_po_file es de /home/ajanco/GAM/gam_app/locale/de/LC_MESSAGES/django.po'  This will translate the django.po file in the gam_app's German locale directory from Spanish (es) to German (de).  Then run compilemessages and you have a fully translated site that can be customized with feedback from users. 

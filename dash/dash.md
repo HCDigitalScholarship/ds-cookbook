@@ -22,3 +22,18 @@ Dash is clearly divided between core components and html components.
 
 [HTML components](https://dash.plot.ly/dash-html-components) contains objects for standard html, such as div tags (html.Div), headlines (html.H1) and so on. You can also use dcc.Markdown to add content in markdown.  
 
+## The app 
+Dash uses Flask, so much of the syntax for [Flask](http://flask.pocoo.org/) can be used here.  The simplest app you'll want is:    
+`app = dash.Dash(__name__, external_stylesheets=external_stylesheets)`  
+
+If you're deploying your app on a server, you'll want to add server:
+`server = app.server`  
+you can then have this at the end of the script:
+```python
+if __name__ == '__main__':
+    app.run_server(debug=True, host='your_IP_or_domain', port=80)
+```    
+For deployment, you'll want to use uWsgi.  
+```
+## Layout 
+The documentation [layout section](https://dash.plot.ly/getting-started) 

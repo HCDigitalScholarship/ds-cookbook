@@ -29,15 +29,5 @@ app = dash.Dash(__name__) #with Flask
 app = DjangoDash('my_dashboard_name') #for Django
 ```
 
-If you're deploying your dash app on a server, you'll want to add server:
-`server = app.server`  
-you can then have this at the end of the script:
-```python
-if __name__ == '__main__':
-    app.run_server(debug=True, host='your_IP_or_domain', port=80)
-```    
-For deployment, you'll want to use uWsgi.  
-
-With DjangoDash
 ## Layout 
 The documentation [layout section](https://dash.plot.ly/getting-started) 

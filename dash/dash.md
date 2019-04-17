@@ -6,7 +6,7 @@ This will serve as a suppliment to the [Dash documentation](https://dash.plot.ly
 ---
 
 ## First, install dash 
-`pip install dash`
+`pip install dash`  
 Note: django-plotly-dash currently requires dash==0.39.0  Later versions will just show "Loading..." (April 17,2019)
 
 

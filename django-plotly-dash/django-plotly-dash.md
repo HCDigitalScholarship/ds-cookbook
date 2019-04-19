@@ -1,14 +1,15 @@
 # django-plotly-dash 
 
 Embed one or multiple plotly-dash app(s) into an existing Django app. This documentation is adapted from <https://buildmedia.readthedocs.org/media/pdf/django-plotly-dash/latest/django-plotly-dash.pdf>. 
-The orginal source code and exampe is in <https://github.com/GibbsConsulting/django-plotly-dash/tree/c50decc7028f0dc8825632e551da94212afb8027>  
+The orginal source code and example are on <https://github.com/GibbsConsulting/django-plotly-dash/tree/c50decc7028f0dc8825632e551da94212afb8027>  
 
-## 0 What you need before you preceed.
+## 0 What you need before you preceed
 
 
 *  A Django 2.0 or greater project
 *  A plotly-dash app using dash == 0.38.0 (** exactly 0.38.0 version, other versions(lower and higher) do not work currently)
 * put the folder for your plotly-dash app in the same directory of your Django `views.py`.
+
 ## 1 Installation
 1. First, install the django-plotly-dash package.
 ```

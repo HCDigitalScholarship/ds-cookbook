@@ -18,7 +18,7 @@ Spotlight needs the address of a dbpedia endpoint, which is defined here:
 ```pythin
 url = 'http://model.dbpedia-spotlight.org/en/annotate'
 ```
-Now we will iterate over each Author object and use spotlight to find a corresponding dbpedia entry and URI. We will then use requests to request the data as JSON from the URI.  Be careful, spotlight can return incorrect results.  You can add `confidence=0.8` to the spotlight.annotate function to select for only the most certain results. Also note that dbpedia entries are often missing data.  For example, if there is no birth date, I have chosen to just write an empty string to the database.  That may not be right for your project. 
+Now we will iterate over each Author object and use spotlight to find a corresponding dbpedia entry and URI. We will then use requests to get the data as JSON from the URI.  Be careful, spotlight can return incorrect results.  You can add `confidence=0.8` to the spotlight.annotate function to select for only the most certain results. Also note that dbpedia entries are often missing data.  For example, if there is no birth date, I have chosen to just write an empty string to the database.  That may not be right for your project. 
 
 ```python
 for author in authors:

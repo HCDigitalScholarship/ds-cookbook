@@ -169,7 +169,7 @@ Alternatively, if you're not using the Django plugin, you can change config.js. 
  2. Under **class FlatpageForm(FlatpageFormOld):**, make the following changes: 
  
     ```
-    content = forms.CharField(widget=CkeditorUploadingWidget())
+    content = forms.CharField(widget=CKEditorUploadingWidget())
     ```
  **_urls.py_**
  

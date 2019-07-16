@@ -61,7 +61,7 @@ class FlatpageForm(FlatpageFormOld):
   content = forms.CharField(widget=CKEditorWidget())
   class Meta:
     model = FlatPage # this is not automatically inherited from FlatpageFormOld
-    fields = '_ _ all_ _'
+    fields = '__all__'
     
 class FlatPageAdmin(FlatPageAdminOld):
   form = FlatpageForm

@@ -53,7 +53,7 @@ def index(request):
 This is the minimum you can do in the view. The ability to use apply user input or other variable data to query which objects you want is applied here. Just make sure you are only passing objects into the template that have spatial data.
 
 ## 4. Creating a map in the template
-Here we begin to use Leaflet and Marker Clustering. After registering your template and its view in urls.py, you can begin adding the JavaScript to integrate the map.
+Here we begin to use Leaflet and Marker Clustering. After registering your template and its view in urls.py, you can begin adding the JavaScript to integrate the map. Make sure all your JS goes between the <script></script> tags
 ### a. Create a map and a layer to put tiles on
 Along with the following code, make sure to set up properly with [leaflet](https://leafletjs.com/examples/quick-start/) and clustering as mentioned above. Then add a map and a tile layer:
 ```
@@ -84,6 +84,7 @@ This creates a classic violet popup icon which will later be filled in with data
   shadowSize: [41, 41]
 });
 ```
+
 ### c. Pass in data and add it to the map
 First, we create a new MarkerClusterGroup, making the following markers appear in a cluster (the circle with the numbers). As you zoom in, clusters will decrease in number or turn into single points. If there are multiple points at one location, the points will "spiderfy" out. For an example, look [here](https://leaflet.github.io/Leaflet.markercluster/example/marker-clustering-realworld.388.html). This behavior is incredibly useful to prevent points from stacking, and to neatly display what may be a massive amount of data.
 ```

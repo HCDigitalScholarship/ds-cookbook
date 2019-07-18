@@ -1,5 +1,5 @@
 # Using Leaflet and the Marker Cluster Plugin
-![ Google map point field widget ](https://github.com/fgould/ds-cookbook/blob/patch-1/Leaflet%20Marker%20Cluster/Screen%20Shot%202019-07-18%20at%203.17.56%20PM.png)
+![ Marker Cluster Example ](https://github.com/fgould/ds-cookbook/blob/patch-1/Leaflet%20Marker%20Cluster/Screen%20Shot%202019-07-18%20at%203.29.05%20PM.png)
 
 [Leaflet](https://leafletjs.com/) is a beautiful, lightweight javascript library that can be used to create interactive maps with any number of possible uses. Integrated with **GeoDjango** in our models/database, we have the tools to deal with large amount of spatial data and the easy ability to serve up that data on our templates for the user to interact with. If you don't know your way around GeoDjango and spatial database elements, I suggest getting aclimated with some reading first:
 

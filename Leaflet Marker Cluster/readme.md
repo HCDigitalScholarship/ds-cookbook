@@ -34,7 +34,7 @@ A common use for our spatial data is to display it with a popup that gives some 
 ```
         @property
         def popupcontent(self):
-                return '<p>{} is currently in {}</strong>'.format(self.name, self.city)
+                return '<p>{} is currently in {}</p>'.format(self.name, self.city)
 ```
 Now each marker on the map will display its corresponding person's name and location! This method has the capability to do much more, but is dependent on its model fields and the queries that you may want to run within the method.
 

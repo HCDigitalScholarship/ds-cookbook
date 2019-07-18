@@ -9,7 +9,7 @@
 Now that we've gotten started, we can begin to create leaflet maps and then apply clustering. But first:
 
 ## 1. Dependencies
-* Follow the installation instructions on the [documentation](https://github.com/Leaflet/Leaflet.markercluster) **or**
+* Follow the installation instructions on the [documentation](https://github.com/Leaflet/Leaflet.markercluster) **OR**
 * Include these lines at the start of each template where you use a cluster map for most of the functionality and style
 ```
 <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>

@@ -74,7 +74,35 @@ admin.site.register(FlatPage, FlatPageAdmin)
 ```
 content = forms.CharField(widget=CKEditorWidget())
 ```
+---
+## Flatpages links
 
+A good place to look for an implementation of flatpages, so that you can also link to them within your project is [here](https://github.com/HCDigitalScholarship/FriendsAsylum/tree/master/FriendsAsylum). In particular, look at the urls.py.
+```
+# You want the urls.py in your project folder to look something like this
+from django.urls import include
+from django.contrib import admin
+from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+from django.urls import include
+import newsite.views as views
+from django.contrib.flatpages import views as flat_views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('newsite.urls')),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
+]
+
+# This is the important part
+urlpatterns += [
+
+    path('bibliography/', flat_views.flatpage, {'url': '/bibliography/'}, name='bibliography'),
+    path('health/', flat_views.flatpage, {'url': '/health/'}, name='health'),
+]
+
+```
 ---
 ## Ckeditor
 

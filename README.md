@@ -12,7 +12,7 @@
 5. [XSLT](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/XSLT/xslt.md)
 
 Question: is a ToC useful?<br>
-Suggestion: create a folder for the tutorial and just put a README.md inside. That way the main repo functions as a ToC.
+Suggestion: create a folder for the tutorial and just put a README.md inside. That way the main repo functions as a ToC. The only pitfall is that the main directory of the repo will be crowded.
 
 
 ### Flask and flatpages in Django

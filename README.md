@@ -1,5 +1,19 @@
 # ds-cookbook
-A repository for documentation and tutorials (recipes) that help us cook up great projects
+**A repository for documentation and tutorials (recipes) that help us cook up great projects**
+## Table of Contents
+1. DSBasics
+- [Djangology101](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/DSBasics/Djangology101.md)
+- [CodeReview](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/DSBasics/code_review.md)
+2. [DjangoCaptcha](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/Django-Captcha)
+3. [MapsOrGeocoding]
+- [GeoDjango](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/MapsOrGeocoding/geodjango_and_geocoding)
+- [Mapbox](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/MapsOrGeocoding/mapbox/README.md)
+4. [StoryMapJS](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/StoryMapJS/StoryMapJS.md)
+5. [XSLT](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/XSLT/xslt.md)
+
+Question: is a ToC useful?
+Suggestion: create a folder for the tutorial and just put a README.md inside. That way the main repo functions as a ToC.
+
 
 ### Flask and flatpages in Django
 1. Django Flatpages and Ckeditor

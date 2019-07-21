@@ -11,7 +11,7 @@
 4. [StoryMapJS](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/StoryMapJS/StoryMapJS.md)
 5. [XSLT](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/XSLT/xslt.md)
 
-Question: is a ToC useful?
+Question: is a ToC useful?<br>
 Suggestion: create a folder for the tutorial and just put a README.md inside. That way the main repo functions as a ToC.
 
 

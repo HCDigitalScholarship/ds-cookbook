@@ -5,7 +5,7 @@
 - [Djangology101](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/DSBasics/Djangology101.md)
 - [CodeReview](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/DSBasics/code_review.md)
 2. [DjangoCaptcha](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/Django-Captcha)
-3. [MapsOrGeocoding]
+3. MapsOrGeocoding
 - [GeoDjango](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/MapsOrGeocoding/geodjango_and_geocoding)
 - [Mapbox](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/MapsOrGeocoding/mapbox/README.md)
 4. [StoryMapJS](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/StoryMapJS/StoryMapJS.md)

@@ -8,6 +8,7 @@
 3. MapsOrGeocoding *create map visualizations*
 - [GeoDjango](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/MapsOrGeocoding/geodjango_and_geocoding)
 - [Mapbox](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/MapsOrGeocoding/mapbox/README.md)
+- [LeafletMarkerCluster](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/MapsOrGeocoding/LeafletMarkerCluster)
 4. [StoryMapJS](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/StoryMapJS/StoryMapJS.md)
 5. [XSLT](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/XSLT/xslt.md)
 6. [bridge-update](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/bridge-update) *I'm not sure why this is in the cookbook, it's a little too specific to be considered a "recipe." There should be a better place for this.*

@@ -14,7 +14,10 @@
 7. dash
 - [installing dash](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/dash/dash.md)
 - [django-plotly-dash](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/dash/django-plotly-dash%20.md)
-
+8. [data tables server-side processing](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/datatables-server-side-processing)
+9. [django autocomplete light](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/django-autocomplete)
+10. [django email verification](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/django-autocomplete)
+11. 
 
 ### Flask and flatpages in Django
 1. Django Flatpages and Ckeditor

@@ -26,7 +26,7 @@
 - [dbpedia](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/linked_data/dbpedia/dbpedia.md)
 16. [pdf_building](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/pdf_building)
 17. [scattertext](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/scattertext)
-18. [django search](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/search_tools_
+18. [django search](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/search_tools)
 19. visualizations
 - [django-to-mapbox](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/visualizations/Django-to-Mapbox.md)
 - [django-to-d3](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/visualizations/Django-to-d3.md)

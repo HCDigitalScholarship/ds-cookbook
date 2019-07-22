@@ -16,7 +16,7 @@
 - [django-plotly-dash](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/dash/django-plotly-dash%20.md)
 8. [data tables server-side processing](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/datatables-server-side-processing)
 9. [django autocomplete light](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/django-autocomplete)
-10. [django email verification](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/django-autocomplete)
+10. [django email verification](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/django_email_verification)
 11. [django flatpages and ckeditor](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/django_flatpages) *flatpages lets you add static html pages from admin and stores them in the database for serving up. CKEditor gives you a nice way to edit those pages in admin*
 12. [django proxy model](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/django_proxy_model)
 13. [google vison](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/google_vision)

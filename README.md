@@ -1,5 +1,5 @@
 # ds-cookbook
-**A repository for documentation and tutorials (recipes) that help us cook up great projects**
+*A repository for documentation and tutorials (recipes) that help us cook up great projects*
 ## Table of Contents
 1. DSBasics
 - [Djangology101](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/DSBasics/Djangology101.md)
@@ -10,9 +10,10 @@
 - [Mapbox](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/MapsOrGeocoding/mapbox/README.md)
 4. [StoryMapJS](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/StoryMapJS/StoryMapJS.md)
 5. [XSLT](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/XSLT/xslt.md)
-
-Question: is a ToC useful?<br>
-Suggestion: create a folder for the tutorial and just put a README.md inside. That way the main repo functions as a ToC. The only pitfall is that the main directory of the repo will be crowded.
+6. [bridge-update](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/bridge-update) *I'm not sure why this is in the cookbook, it's a little too specific to be considered a "recipe." There should be a better place for this.*
+7. dash
+- [installing dash](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/dash/dash.md)
+- [django-plotly-dash](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/dash/django-plotly-dash%20.md)
 
 
 ### Flask and flatpages in Django

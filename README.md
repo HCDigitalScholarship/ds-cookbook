@@ -34,6 +34,8 @@
 - [bokeh](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/visualizations/bokeh.md)
 - [simple networks](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/visualizations/simple_networks.md)
 
+## More details about some of these technologies follow
+
 ### Flask and flatpages in Django
 1. Django Flatpages and Ckeditor
   - Flatpages are used to create a standard template that can be applied to all static pages in a project. The standard template can include headers, footers, sidebars, etc. Additionally, the user can edit each individual flatpage to include its unique content. This allows users without html, css, or java knowledge to add and edit pages for their site. Ckeditor offers tools for the user to make edits to the contents of each page. The following tutorial describes how the basic Ckeditor configuration is installed, as well as offers instructions for installing the 'file upload' Ckeditor feature. The user can make additional alterations to this configuration to access editing tools that they find beneficial to the creation of their site.

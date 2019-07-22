@@ -21,7 +21,7 @@
 12. [django proxy model](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/django_proxy_model)
 13. [google vison](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/google_vision)
 14. [internationalization](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/internationalization)
-15. [linked_data]
+15. linked_data
 - [mediawiki](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/linked_data/mediawiki.md)
 - [dbpedia](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/linked_data/dbpedia/dbpedia.md)
 16. [pdf_building](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/pdf_building)

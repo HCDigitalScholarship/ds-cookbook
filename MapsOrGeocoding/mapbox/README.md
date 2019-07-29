@@ -17,7 +17,7 @@ Mapbox is not the difficult part. The hard part is getting the data in the right
 
 ## Steps to create a map
 ### Account Creation
-You need an API access token to associate your requests to your account.
+You need an API access token to associate your requests to your account. Also, there's an upper limit of how many geocoding requests and how many times you can serve a map to a user. Mapbox is pretty generous with these.
 
 ### A [base map](https://docs.mapbox.com/mapbox-gl-js/example/simple-map/)
 ```

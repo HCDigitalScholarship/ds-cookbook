@@ -61,5 +61,8 @@ The code above renders a mapbox map centered at someplace in New Jersey whose co
 #### zoom
 You can use this to change how close up the map starts to the center.
 
+### Adding a legend
+I found [this](https://docs.mapbox.com/mapbox-gl-js/example/updating-choropleth/) very useful for adding a legend to my map.
+
 
 

@@ -141,7 +141,7 @@ I added the following styling to the legend
 ```
 
 ## My map code
-[JavaScript](https://github.com/HCDigitalScholarship/cope-evans/blob/master/newsite/static/js/letters.js)
+[JavaScript](https://github.com/HCDigitalScholarship/cope-evans/blob/master/newsite/static/js/letters.js)<br>
 [HTML](https://github.com/HCDigitalScholarship/cope-evans/blob/master/newsite/templates/letters.html)
 
 

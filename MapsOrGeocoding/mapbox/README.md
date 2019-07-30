@@ -76,6 +76,8 @@ const place_coordinates = place_points.map((point, index) => ({
             }
           }));
 ```
+**Description:** You can see that the description is HTML, so if you want breaks, pop in `<br>`'s.
+
 #### Adding the markers as a layer
 Here I add the markers as one layer. `place_coordinates` are the features to be plotted (the variable we created just now). `circle` specifies the markers will be circles. 
 

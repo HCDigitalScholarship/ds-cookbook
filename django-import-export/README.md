@@ -21,6 +21,7 @@ Features:
 
 django-import0export can be installed by standard python tools like pip. Type the following 
 in your command line:
+
 ` $ pip install django-import-export `
 
 If you want to use django-import-export from the admin as well, add it to your **[INSTALLED_APPS]**
@@ -45,7 +46,7 @@ To integrate django-import-export with your model, go to `app/admin.py` and add 
 
 Your admin section should now have the Import and Export sections:
 
-.. image:: https://django-import-export.readthedocs.io/en/stable/_images/django-import-export-change.png
+![ import-export example ](https://django-import-export.readthedocs.io/en/stable/_images/django-import-export-change.png)
 
 
 

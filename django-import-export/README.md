@@ -1,6 +1,4 @@
-====================
-Django-Import-Export
-====================
+# Django-import-export
 
 This tutorial explains how to use django-import-export application and library for importing
 and exporting data with included admin integration.

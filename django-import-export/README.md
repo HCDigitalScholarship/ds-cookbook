@@ -15,7 +15,6 @@ Features:
 
 * export data respecting admin filters
 
-.. image:: docs/_static/images/django-import-export-change.png
 
 ## Installation and configuration
 

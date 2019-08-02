@@ -223,6 +223,29 @@ Alternatively, if you're not using the Django plugin, you can change config.js. 
 ```
 
 ---
+## Creating a multilingual 'Flatpages' template
+
+1. Using the same process described above, create a second flatpages model, to be used for translations.
+
+2. Make the following edits to the 'Flatpages' template.
+
+```
+<!DOCTYPE html>
+<html>
+<head>
+<title>
+  {% if LANGUAGE_CODE == 'en' %} {{ flatpage.title }} {% endif %}
+  {% if LANGUAGE_CODE == 'es' %} {{ translation_flatpage.title }} {% endif %}
+</title>
+</head>
+<body>
+  {% if LANGUAGE_CODE == 'en' %} {{ flatpage.content }} {% endif %}
+  {% if LANGUAGE_CODE == 'es' %} {{ translation_flatpage.content }} {% endif %}
+</body>
+</html>
+```
+
+---
 ## Creating a 'Flatpages' page
 Changes made in admin:
 

@@ -5,3 +5,20 @@ Building on the principles of [minimal computing](https://go-dh.github.io/mincom
 At all levels of the stack, we are able to produce a distilled version of the project for publication that is consistent with minimal computing principles and the values of the College.     
 
 ![](https://haverfordds.netlify.app/stack.jpg)
+
+
+--- 
+
+Example build script for Django 
+
+1. Place the build.py file in your app's management/command directory to create a [custom django-admin command](https://docs.djangoproject.com/en/3.1/howto/custom-management-commands/)
+2.  Django has a loader than will render your templates without a request.  It returns a string of formatted HTML. You can load this string into Beautiful soup if you need to make changes, or simply make changes to the string with replace().
+```python
+from django.template.loader import render_to_string
+
+context = {}
+context['categories'] = Category.objects.all()
+context['items'] = Item.objects.all() 
+index = render_to_string('index.html', context)
+```
+3. Save the string to disk and you have a fully rendered static page.

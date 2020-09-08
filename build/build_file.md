@@ -24,6 +24,7 @@ index = render_to_string('index.html', context)
 3. Save the string to disk and you have a fully rendered static page.
 ```python 
 from pathlib import Path
+
 out_path = Path('/tmp/site')
 (out_path / 'index.html').write_text(index)
-(out_path / 'index.html').write_text(index)
+```

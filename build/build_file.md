@@ -9,7 +9,7 @@ At all levels of the stack, we are able to produce a distilled version of the pr
 
 --- 
 
-Example build script for Django 
+[Example build script for Django](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/build/build.py)
 
 1. Place the build.py file in your app's management/command directory to create a [custom django-admin command](https://docs.djangoproject.com/en/3.1/howto/custom-management-commands/)
 2.  Django has a loader than will render your templates without a request.  It returns a string of formatted HTML. You can load this string into Beautiful soup if you need to make changes, or simply make changes to the string with replace().

@@ -65,7 +65,7 @@ After this, **commit your changes!**
 
 The easiest way to use Docker is with [Docker Desktop](https://www.docker.com/products/docker-desktop/).
 
-Once installed, add your project folder to it and start it up. If it worked, your project will now be running at http://localhost:5000! If it didn't, don't be discouraged. Paste your error into an AI chat assistant and it will help you proceed.
+Once installed, add your project folder to it and start it up. If it worked, your project will now be running at http://localhost:5000! If it didn't, don't be discouraged. Scroll down to the "Troubleshooting" section below.
 
 If you are using a database, you will need changes to both the `Dockerfile` and `compose-dev.yaml`. Please review other DS projects on GitHub for inspiration.
 

@@ -21,7 +21,7 @@ This file tells Docker how to build the container for your app.
 
 Edit this file, and the delete all the `FIXME` comments when you are done.
 
-```docker
+```dockerfile
 # The Docker image our image will be based on.
 # Django projects should base off the python image.
 FROM python:3.11

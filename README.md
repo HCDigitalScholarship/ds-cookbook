@@ -4,6 +4,9 @@
 1. DSBasics - *Contains some of the basics used at Digital Scholarship*
 - [Djangology101](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/DSBasics/Djangology101.md)
 - [CodeReview](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/DSBasics/code_review.md)
+2. Docker
+- [Containerizing Projects With Docker](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/docker/containerizing.md)
+- [Dokku Administrator's Guide](https://github.com/HCDigitalScholarship/ds-cookbook/blob/master/docker/dokku-admin.md)
 2. [DjangoCaptcha](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/Django-Captcha)
 3. MapsOrGeocoding - *create map visualizations*
 - [GeoDjango](https://github.com/HCDigitalScholarship/ds-cookbook/tree/master/MapsOrGeocoding/geodjango_and_geocoding)

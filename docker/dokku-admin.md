@@ -16,10 +16,10 @@ Dokku should be installed on a dedicated machine or VM. Follow the steps on the 
 
 Finally, the following [plugins](https://dokku.com/docs/community/plugins/) may be added:
 
-- [`letsencrypt`] - https://github.com/dokku/dokku-letsencrypt
-- [`require`] - https://github.com/crisward/dokku-require
-- [`acl`] - https://github.com/dokku-community/dokku-acl
-- [`postgres`] - https://github.com/dokku/dokku-postgres
+- `letsencrypt` - https://github.com/dokku/dokku-letsencrypt
+- `require` - https://github.com/crisward/dokku-require
+- `acl` - https://github.com/dokku-community/dokku-acl
+- `postgres` - https://github.com/dokku/dokku-postgres
 
 ## 3. Setting up projects
 

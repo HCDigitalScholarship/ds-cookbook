@@ -53,6 +53,16 @@ The first time, it will throw an error. To fix:
 dokku letsencrypt:set <myapp> email pguardiola@haverford.edu
 ```
 
+#### Running letsencrypt automatically
+
+Dokku can configure a cron job on the host machine to automatically update letsencrypt certificates before they expire:
+
+```sh
+dokku letsencrypt:cron-job --add
+```
+
+This job is not specific to any particular app, and will update all apps on the machine when enabled. Typically it will renew the certificate several weeks before it would expire, so if you receive an email warning something is likely wrong.
+
 ### 3.4 Project configuration
 
 Different projects have different needs, but it won't be surprising if something like this is needed:
